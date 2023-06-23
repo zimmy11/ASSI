@@ -1,2 +1,0 @@
-# ASSI
-prova
