@@ -6,6 +6,7 @@ one:
   date: MyString
   distance: 1.5
   limit: 1
+  planner: MyString
 
 two:
   title: MyString
@@ -13,3 +14,4 @@ two:
   date: MyString
   distance: 1.5
   limit: 1
+  planner: MyString

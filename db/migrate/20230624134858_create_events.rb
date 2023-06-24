@@ -1,10 +1,11 @@
 class CreateEvents < ActiveRecord::Migration[7.0]
   def change
     create_table :events do |t|
-      t.integer :distanza
-      t.string :titolo
-      t.integer :prezzo
-      t.string :data
+      t.string :title
+      t.integer :price
+      t.string :date
+      t.float :distance
+      t.integer :limit
 
       t.timestamps
     end

@@ -1,0 +1,2 @@
+class OrgEvent < ApplicationRecord
+end
