@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_24_141640) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_24_145237) do
   create_table "bans", force: :cascade do |t|
     t.string "event"
     t.string "user"
@@ -41,7 +41,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_24_141640) do
     t.string "title"
     t.integer "price"
     t.string "date"
-    t.float "distance"
+    t.string "location"
     t.integer "limit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

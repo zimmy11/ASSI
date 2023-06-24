@@ -4,7 +4,7 @@ class CreateEvents < ActiveRecord::Migration[7.0]
       t.string :title
       t.integer :price
       t.string :date
-      t.float :distance
+      t.string :location
       t.integer :limit
 
       t.timestamps

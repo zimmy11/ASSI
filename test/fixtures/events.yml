@@ -4,12 +4,12 @@ one:
   title: MyString
   price: 1
   date: MyString
-  distance: 1.5
+  location: MyString
   limit: 1
 
 two:
   title: MyString
   price: 1
   date: MyString
-  distance: 1.5
+  location: MyString
   limit: 1
