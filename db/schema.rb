@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_24_145237) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_25_220203) do
   create_table "bans", force: :cascade do |t|
-    t.string "event"
-    t.string "user"
+    t.string "user_id"
+    t.string "admin_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -22,17 +22,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_24_145237) do
     t.string "title"
     t.integer "price"
     t.string "date"
-    t.float "distance"
     t.integer "limit"
-    t.string "planner"
+    t.string "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "users_id"
+    t.index ["users_id"], name: "index_drafts_on_users_id"
   end
 
   create_table "evaluations", force: :cascade do |t|
-    t.string "event"
-    t.string "user"
     t.integer "value"
+    t.string "user_id"
+    t.string "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -41,29 +42,29 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_24_145237) do
     t.string "title"
     t.integer "price"
     t.string "date"
-    t.string "location"
     t.integer "limit"
+    t.string "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "org_events", force: :cascade do |t|
-    t.string "event"
-    t.string "user"
+    t.string "user_id"
+    t.string "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "presales", force: :cascade do |t|
-    t.string "event"
-    t.string "user"
+    t.string "user_id"
+    t.string "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "saves", force: :cascade do |t|
-    t.string "event"
-    t.string "user"
+    t.string "user_id"
+    t.string "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -77,4 +78,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_24_145237) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "bans", "users"
+  add_foreign_key "bans", "users", column: "admin_id"
+  add_foreign_key "evaluations", "events"
+  add_foreign_key "evaluations", "users"
+  add_foreign_key "org_events", "events"
+  add_foreign_key "org_events", "users"
+  add_foreign_key "presales", "events"
+  add_foreign_key "presales", "users"
+  add_foreign_key "saves", "events"
+  add_foreign_key "saves", "users"
 end
