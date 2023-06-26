@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_25_220203) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_26_131645) do
   create_table "bans", force: :cascade do |t|
     t.string "user_id"
     t.string "admin_id"
@@ -46,6 +46,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_25_220203) do
     t.string "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "presales_left"
+    t.float "avgvalue"
   end
 
   create_table "org_events", force: :cascade do |t|

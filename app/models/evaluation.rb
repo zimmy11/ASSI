@@ -1,8 +1,9 @@
 class Evaluation < ApplicationRecord
-  has_many :events
-  has_many :users
-  validates :event_id,:user_id,presence:true
-  validates :event_id,uniqueness:{scope: :user_id}
-  validates :value, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 10 }
-
+ 
+  validates :event_id,:user_id,:value,presence:true
+  validates_uniqueness_of :event_id, scope: :user_id
+  validates :value, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 10 }, unless: -> { :value.nil? }
+  
 end
+
+

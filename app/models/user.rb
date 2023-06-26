@@ -1,11 +1,7 @@
 class User < ApplicationRecord
-  has_many :drafts
-  has_many :saves
-  has_many :org_events
-  has_many :presales
-  has_many :evaluations
-  has_many :bans
   belongs_to :ban, optional:true 
+  validates :role, inclusion: { in: ['admin', 'user', 'organizer'] }
+
   def admin?
     role == 'admin'
   end
