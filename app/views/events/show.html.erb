@@ -7,19 +7,28 @@
       <th>Price</th>
       <th>Date</th>
       <th>Location</th>
+      <th>Left Presales</th>
       <th colspan="8"></th>
     </tr>
   </thead>
   <tbody>
   
   <tr>
-    <td> <%= @events.title %></td> 
-    <td><%= @events.price %></td>
-    <td><%= @events.date %></td>
-    <td><%= @events.location %></td>
-    <td><%= link_to "Back",events_path %></td>
+    <td> <%= @event.title %></td> 
+    <td><%= @event.price %></td>
+    <td><%= @event.date %></td>
+    <td><%= @event.location %></td>
+    <td><%= @event.presales_left %></td>
     </tr>
    
   </tbody>
 </table>
 </div>
+<div>
+<%= link_to "Back",events_path %>
+<%= link_to "Elimina",@event,data: {turbo_method: :delete}%> <!-- metodo base per riferirsi alla destroy altrimenti si hanno problemi -->
+
+<%= link_to "Modifica",edit_event_path %>
+
+</div>
+

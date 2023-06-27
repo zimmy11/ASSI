@@ -6,10 +6,12 @@ Rails.application.routes.draw do
     resources :org_events
     resources :saves
   end
-  resources :events do
+  resources :events  do
       resources :evaluations
   end
   root :to =>redirect("/events")
+  post "/events", to: "events#create",as: "create_event"
+  get "/events", to: "events#index",as: "index_event"
 
 
   

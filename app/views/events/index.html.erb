@@ -34,6 +34,7 @@ header {
       <th>Location</th>
       <th colspan="8"></th>
     </tr>
+
   </thead>
   <tbody>
   <% @events.each do |event| %>
@@ -45,6 +46,11 @@ header {
     </tr>
    
   <% end %>
+
   </tbody>
+ 
 </table>
+</div>
+<div>
+    <button><%= link_to 'Aggiungi evento', new_event_path %></button>
 </div>

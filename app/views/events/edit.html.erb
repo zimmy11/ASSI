@@ -1,2 +1,58 @@
 <h1>Events#edit</h1>
-<p>Find me in app/views/events/edit.html.erb</p>
+<h1>Modifica evento</h1>
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    input[type="text"],
+    input[type="date"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+    }
+    .btn {
+      background-color: #333;
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 10px;
+    }
+  </style>
+<%= form_for @event,url: {action: "update"} do |form| %>
+  <label for="title">Titolo dell'evento:</label>
+  <%= form.text_field :title, id: "title",value:@event.title, required: true %>
+
+  <label for="date">Data:</label>
+  <%= form.date_field :date, id: "date", value:@event.date,required: true %>
+
+  <label for="price">Prezzo:</label>
+  <%= form.number_field :price, id: "price", min: 0, step: 0.01,value:@event.price, required: true %>
+
+  <label for="location">Luogo:</label>
+  <%= form.text_field :location, id: "location",value:@event.location, required: true %>
+<label for="limit">Limite partecipanti:</label>
+  <%= form.number_field :limit, id: "limit", min: 1 ,value:@event.limit,readonly: true %>
+  
+ 
+    <%= form.submit 'Salva' %>
+    <%=link_to "Back", event_path%> <!-- il button_to da problemi-->
+
+ 
+<% end %>

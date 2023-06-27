@@ -5,11 +5,12 @@ class Event < ApplicationRecord
     has_many :evaluations,dependent: :destroy
     validates :price,:title,:date,:location,presence:true
     validates :title,uniqueness:true
-    validates :org_events,presence:true
     validate :Presales_init
     before_save :AvgValue
+
     def Presales_init
         if self.limit.nil?
+            self.limit=100
             self.presales_left = 100  
         else
             self.presales_left = self.limit
