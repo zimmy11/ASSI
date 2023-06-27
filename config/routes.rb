@@ -1,74 +1,21 @@
 Rails.application.routes.draw do
-  get 'bans/index'
-  get 'bans/show'
-  get 'bans/new'
-  get 'bans/create'
-  get 'bans/edit'
-  get 'bans/update'
-  get 'bans/destroy'
-  get 'drafts/index'
-  get 'drafts/show'
-  get 'drafts/new'
-  get 'drafts/create'
-  get 'drafts/edit'
-  get 'drafts/update'
-  get 'drafts/destroy'
-  get 'saves/index'
-  get 'saves/show'
-  get 'saves/new'
-  get 'saves/create'
-  get 'saves/edit'
-  get 'saves/update'
-  get 'saves/destroy'
-  get 'org_events/index'
-  get 'org_events/show'
-  get 'org_events/new'
-  get 'org_events/create'
-  get 'org_events/edit'
-  get 'org_events/update'
-  get 'org_events/destroy'
-  get 'presales/index'
-  get 'presales/show'
-  get 'presales/new'
-  get 'presales/create'
-  get 'presales/edit'
-  get 'presales/update'
-  get 'presales/destroy'
-  get 'evaluations/index'
-  get 'evaluations/show'
-  get 'evaluations/new'
-  get 'evaluations/create'
-  get 'evaluations/edit'
-  get 'evaluations/update'
-  get 'evaluations/destroy'
-  get 'users/index'
-  get 'users/show'
-  get 'users/new'
-  get 'users/create'
-  get 'users/edit'
-  get 'users/update'
-  get 'users/destroy'
-  get 'events/index'
-  get 'events/show'
-  get 'events/new'
-  get 'events/create'
-  get 'events/edit'
-  get 'events/update'
-  get 'events/destroy'
-  get 'event/index'
-  get 'event/show'
-  get 'event/new'
-  get 'event/create'
-  get 'event/edit'
-  get 'event/update'
-  get 'event/destroy'
-  get 'user/index'
-  get 'user/show'
-  get 'user/new'
-  get 'user/create'
-  get 'user/edit'
-  get 'user/update'
-  get 'user/destroy'
+  resources :bans
+  resources :users do
+    resources :drafts
+    resources :presales
+    resources :org_events
+    resources :saves
+  end
+  resources :events do
+      resources :evaluations
+  end
+  root :to =>redirect("/events")
+
+
+  
+ 
+
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

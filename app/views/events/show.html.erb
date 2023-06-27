@@ -1,2 +1,25 @@
 <h1>Events#show</h1>
-<p>Find me in app/views/events/show.html.erb</p>
+<div class="events">
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Price</th>
+      <th>Date</th>
+      <th>Location</th>
+      <th colspan="8"></th>
+    </tr>
+  </thead>
+  <tbody>
+  
+  <tr>
+    <td> <%= @events.title %></td> 
+    <td><%= @events.price %></td>
+    <td><%= @events.date %></td>
+    <td><%= @events.location %></td>
+    <td><%= link_to "Back",events_path %></td>
+    </tr>
+   
+  </tbody>
+</table>
+</div>
