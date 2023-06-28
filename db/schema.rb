@@ -10,12 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_27_071924) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_28_083144) do
   create_table "bans", force: :cascade do |t|
-    t.string "user_id"
-    t.string "admin_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.integer "admin_id"
+    t.index ["admin_id"], name: "index_bans_on_admin_id"
+    t.index ["user_id"], name: "index_bans_on_user_id"
   end
 
   create_table "drafts", force: :cascade do |t|
@@ -26,14 +28,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_27_071924) do
     t.string "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_drafts_on_user_id"
   end
 
   create_table "evaluations", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "event_id"
     t.integer "value"
-    t.string "user_id"
-    t.string "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_evaluations_on_event_id"
+    t.index ["user_id"], name: "index_evaluations_on_user_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -49,24 +55,30 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_27_071924) do
   end
 
   create_table "org_events", force: :cascade do |t|
-    t.string "user_id"
-    t.string "event_id"
+    t.integer "user_id"
+    t.integer "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_org_events_on_event_id"
+    t.index ["user_id"], name: "index_org_events_on_user_id"
   end
 
   create_table "presales", force: :cascade do |t|
-    t.string "user_id"
-    t.string "event_id"
+    t.integer "user_id"
+    t.integer "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_presales_on_event_id"
+    t.index ["user_id"], name: "index_presales_on_user_id"
   end
 
   create_table "saves", force: :cascade do |t|
-    t.string "user_id"
-    t.string "event_id"
+    t.integer "user_id"
+    t.integer "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_saves_on_event_id"
+    t.index ["user_id"], name: "index_saves_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -78,6 +90,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_27_071924) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "bans", "users", column: "admin_id"
   add_foreign_key "evaluations", "events"
   add_foreign_key "org_events", "events"
   add_foreign_key "presales", "events"

@@ -13,13 +13,13 @@ class EventsController < ApplicationController
   end
 
   def create
-    
-    event=Event.new(event_params)
+    limit=params[:limit]
+    event = Event.new(event_params.merge(limit: limit))
     if event.save
-      flash[:success]="L'evento è stato aggiunto correttamente"
+      flash[:success] = 'L\'evento è stato creato con successo!'
       redirect_to index_event_path
     else 
-      flash[:error]="Si è verificato un errore nella creazione dell'evento"
+      event.print_errors    
     end
    end
 
@@ -29,24 +29,30 @@ class EventsController < ApplicationController
 
   def update
     @event = Event.find(params[:id])
-    if @event.update(event_params)
-      flash[:success] = "L'evento è stato aggiornato correttamente."
+    limit=params[:limit]
+    puts "Questo è il titolo", params[:id]
+    if @event.update(event_params.merge(limit:limit))
+      flash[:success] = 'L\'evento è stato aggiornato con successo!'
       redirect_to event_path
     else
       # Errore nell'aggiornamento
-      flash[:error] = "Si è verificato un errore nell'aggiornamento dell'evento."
+      @event.print_errors    
       render :edit
     end
   end
 
   def destroy
     @event=Event.find(params[:id])
-    @event.destroy
-    redirect_to events_path
+    if @event.destroy
+      flash[:success] = 'L\'evento è stato eliminato con successo!'
+      redirect_to events_path
+    else
+      @event.print_errors    
+    end
   end
-  private
+  def event_params
+    params.require(:event).permit(:title, :date, :price, :location)
+  end
 
-def event_params
-  params.require(:event).permit(:title, :date, :price, :location, :limit)
-end
+
 end

@@ -23,7 +23,11 @@ header {
                 <h3>EventMaster</h3>
             </div>
         </header>
-
+<% if flash[:success] %>
+  <div class="success-message">
+    <%= flash[:success] %>
+  </div>
+<% end %>
 <div class="events">
 <table>
   <thead>

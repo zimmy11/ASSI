@@ -3,6 +3,10 @@ class Event < ApplicationRecord
     has_many :org_events,dependent: :destroy
     has_many :presales,dependent: :destroy
     has_many :evaluations,dependent: :destroy
+    has_many :users, :through => :org_events
+    has_many :users, :through => :presales
+    has_many :users, :through => :saves
+    has_many :users, :through => :evaluations
     validates :price,:title,:date,:location,presence:true
     validates :title,uniqueness:true
     validate :Presales_init
@@ -23,6 +27,11 @@ class Event < ApplicationRecord
             self.avgvalue=0
         end
         
+    end
+    def print_errors
+        errors.full_messages.each do |message|
+          puts message
+        end
     end
     
 
