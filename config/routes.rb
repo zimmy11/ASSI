@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :bans
   resources :users do
     resources :drafts

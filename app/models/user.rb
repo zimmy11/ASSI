@@ -1,4 +1,8 @@
 class User < ApplicationRecord
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
   belongs_to :ban, optional:true ,dependent: :destroy
   has_many :saves,dependent: :destroy
   has_many :org_events,dependent: :destroy
@@ -11,23 +15,21 @@ class User < ApplicationRecord
   has_many :events, :through => :saves
   has_many :events, :through => :evaluations
   validates :role, inclusion: { in: ['admin', 'user', 'organizer'] }
-  
+  validate :check_admin     
   def admin?
     role == 'admin'
   end
-  validates :email,:password,:user_id,:role,presence:true
-  validates :user_id,uniqueness:true
-  validate :check_admin
+  
   def check_admin
     if  Ban.where(admin_id: :id).present? && !admin?
-      errors.add(:base, "Only admins can have bans")
+        errors.add(:base, "Only admins can have bans")
     end
   end
   def print_errors
-    errors.full_messages.each do |message|
-      puts message
+      errors.full_messages.each do |message|
+          puts message
     end
-
+       
 
 
 end
