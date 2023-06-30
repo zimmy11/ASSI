@@ -1,15 +1,18 @@
 class Event < ApplicationRecord
-    has_many :saves,class_name: "Save",dependent: :destroy
+    has_many :saves,dependent: :destroy
     has_many :org_events,dependent: :destroy
     has_many :presales,dependent: :destroy
     has_many :evaluations,dependent: :destroy
-    has_many :users, :through => :org_events
-    has_many :users, :through => :presales
-    has_many :users, :through => :saves
-    has_many :users, :through => :evaluations
-    validates :price,:title,:date,:location,presence:true
+
+    has_many :organizers, :through => :org_events,:source => :user #relazione has_many through per accedere più rapidamente a user
+    has_many :clients, :through => :presales,:source => :user
+    has_many :users, :through => :saves,:source => :user
+    has_many :evaluators, :through => :evaluations,:source => :user
+    validates :organizers,presence:true   #cardinalità (1,n) tra user e org_events
+    validates :price,:title,:date,:location,presence:true #prezzo,titolo,data,location attributi not null
     validates :title,uniqueness:true
     validate :Presales_init
+    validate :print_errors
     before_save :AvgValue
     def Presales_init
         if self.limit.nil?

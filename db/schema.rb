@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_29_131603) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_30_131825) do
   create_table "bans", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -95,9 +95,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_29_131603) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "bans", "users"
   add_foreign_key "bans", "users", column: "admin_id"
+  add_foreign_key "drafts", "users"
   add_foreign_key "evaluations", "events"
+  add_foreign_key "evaluations", "users"
   add_foreign_key "org_events", "events"
+  add_foreign_key "org_events", "users"
   add_foreign_key "presales", "events"
+  add_foreign_key "presales", "users"
   add_foreign_key "saves", "events"
+  add_foreign_key "saves", "users"
 end
