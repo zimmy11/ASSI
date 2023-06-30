@@ -9,17 +9,16 @@ class User < ApplicationRecord
   has_many :presales,dependent: :destroy
   has_many :evaluations,dependent: :destroy
   has_many :drafts,dependent: :destroy
-  has_many :bans,-> { where("role = ?", "admin") },dependent: :destroy
+  has_many :bans, -> {where("role = ?", "admin") },dependent: :destroy
   has_many :events, :through => :org_events
   has_many :events, :through => :presales
   has_many :events, :through => :saves
   has_many :events, :through => :evaluations
-  validates :role, inclusion: { in: ['admin', 'user', 'organizer'] }
+  #validates :role, inclusion: { in: ["admin", "user", "organizer"] }
   validate :check_admin     
-  def admin?
-    role == 'admin'
-  end
-  
+
+  validates :role, inclusion: { in: %w[user organizer] }
+   
   def check_admin
     if  Ban.where(admin_id: :id).present? && !admin?
         errors.add(:base, "Only admins can have bans")
@@ -31,6 +30,5 @@ class User < ApplicationRecord
     end
   end
        
-
 
 end
