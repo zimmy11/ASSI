@@ -77,10 +77,6 @@ header {
 <header>
             <div class="title-container">
                 <h3>EventMaster</h3>
-                <h1><% if user_signed_in? %>
-Logged in as <%= current_user.email%> [<%= link_to 'Logout',
-destroy_user_session_path, :method => :delete%>]
-<% end %> </h1>
             </div>
         </header>
 <% if flash[:success] %>
