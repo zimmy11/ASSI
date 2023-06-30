@@ -1,20 +1,76 @@
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
 <style>
 
-
 header {
-    margin: 0 auto;
-    width: 100%;
-    background-color: #333333;
-    color: white;
-    position: relative;
-    height: calc(62px+20* ((100vw - 500)/(500*7)));
-    overflow: hidden;
-    box-shadow: 0px 0px 3px 3px #333333;
-    z-index: 10;
-    padding-bottom: 15px;
-    text-align:center
+  background-color: #333;
+  color: #fff;
+  height:100px;
+  font-size: 20px;
+  display: flex;
+  align-items: center; /* Centra verticalmente */
+  justify-content: center;
 }
 
+#filter {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+
+#events-carousel {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.event-card {
+  width: 300px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.event-card .title {
+  font-weight: bold;
+}
+
+.event-card .location {
+  color: #888;
+}
+
+.event-card .price {
+  color: #f00;
+  font-weight: bold;
+}
+
+.event-card .tickets-left {
+  color: #00f;
+}
+
+.event-card .rating {
+  color: #ff0;
+}
+
+.event-card .save-button {
+  float: right;
+  color: #f0f;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+}
+
+.icon-button:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
 
 </style>
 
@@ -28,33 +84,43 @@ header {
     <%= flash[:success] %>
   </div>
 <% end %>
+<div id="filter">
+      <button id="price-filter">Filtro Prezzo</button>
+      <button id="rating-filter">Filtro Valutazione</button>
+      <button id="nearby-filter">Filtro Vicinanza</button>
+    </div>
 <div class="events">
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Price</th>
-      <th>Date</th>
-      <th>Location</th>
-      <th colspan="8"></th>
-    </tr>
 
-  </thead>
-  <tbody>
-  <% @events.each do |event| %>
-  <tr>
-  <td><%= link_to  event.title ,event_path(event,id: event.id)%></td>    
-    <td><%= event.price %></td>
-    <td><%= event.date %></td>
-    <td><%= event.location %></td>
-    </tr>
-   
-  <% end %>
-
-  </tbody>
  
-</table>
+ <% @events.each do |event| %>
+  <div class="card">
+    <h2><%= event.title %></h2>
+    <p>Pre-sales left: <%= event.presales_left %></p>
+    <p>Price: <%= event.price %></p>
+    <p>Date: <%= event.date %></p>
+  </div>
+<% end %>
+
+ 
+
 </div>
 <div>
     <button><%= link_to 'Aggiungi evento', new_event_path %></button>
 </div>
+<div id="footer">
+
+
+  <!-- Icona "Profilo" -->
+ 
+
+  <!-- Icona "Home" -->
+  <i class="fas fa-home"></i>
+
+   <i class="fas fa-search"></i> 
+     <i class="fas fa-plus"></i>
+
+<!-- Icona "Salva" -->
+  <i class="fas fa-save"></i> 
+  <i class="fas fa-user"></i>
+	
+	  </div>

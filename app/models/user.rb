@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_many :presales,dependent: :destroy
   has_many :evaluations,dependent: :destroy
   has_many :drafts,dependent: :destroy
-  has_many :bans,if: :admin?,dependent: :destroy
+  has_many :bans,-> { where("role = ?", "admin") },dependent: :destroy
   has_many :events, :through => :org_events
   has_many :events, :through => :presales
   has_many :events, :through => :saves
@@ -29,6 +29,7 @@ class User < ApplicationRecord
       errors.full_messages.each do |message|
           puts message
     end
+  end
        
 
 

@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  
   def index
     @events=Event.all
 
@@ -14,6 +15,7 @@ class EventsController < ApplicationController
   end
 
   def create
+    #alla creazione dell evento dovro anche creare un instanza di org_event con l'organizzatore/i e l'evento creato
     limit=params[:limit]
     event = Event.new(event_params.merge(limit: limit))
     if event.save

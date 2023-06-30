@@ -11,7 +11,6 @@ class Event < ApplicationRecord
     validates :title,uniqueness:true
     validate :Presales_init
     before_save :AvgValue
-
     def Presales_init
         if self.limit.nil?
             self.limit=100

@@ -13,6 +13,8 @@
       <th>Date</th>
       <th>Location</th>
       <th>Left Presales</th>
+      <th>Organizers</th>
+
       <th colspan="8"></th>
     </tr>
   </thead>
@@ -24,6 +26,9 @@
     <td><%= @event.date %></td>
     <td><%= @event.location %></td>
     <td><%= @event.presales_left %></td>
+    <% @event.users.each do |organizer| %>
+      <td><%= organizer.id %></td>
+      <% end %>
     </tr>
    
   </tbody>
@@ -32,8 +37,10 @@
 <div>
 <%= link_to "Back",events_path %>
 <%= link_to "Elimina",@event,data: {turbo_method: :delete}%> <!-- metodo base per riferirsi alla destroy altrimenti si hanno problemi -->
-
+<%= link_to "Salva",events_path%>
 <%= link_to "Modifica",edit_event_path %>
+<%= link_to "Acquista" ,events_path%>
+
 
 </div>
 
