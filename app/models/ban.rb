@@ -1,6 +1,5 @@
 class Ban < ApplicationRecord
     belongs_to :user
-    belongs_to :user,if: :admin_user
     validates :user_id,:admin_id,presence:true
     validates :user_id,uniqueness:{scope: :admin_id}
     validate :admin_user
