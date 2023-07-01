@@ -15,16 +15,18 @@ class EventsController < ApplicationController
   end
 
   def create
-    #alla creazione dell evento dovro anche creare un instanza di org_event con l'organizzatore/i e l'evento creato
     limit=params[:limit]
-    event = Event.new(event_params.merge(limit: limit))
+
+    event = Event.new(event_params.merge(limit: limit,organizer_id: current_user.id))
     if event.save
       flash[:success] = 'L\'evento è stato creato con successo!'
-      redirect_to index_event_path
+      redirect_to events_path
     else 
       event.print_errors    
     end
    end
+
+
 
   def edit
     @event=Event.find(params[:id])
@@ -56,6 +58,6 @@ class EventsController < ApplicationController
   def event_params
     params.require(:event).permit(:title, :date, :price, :location)
   end
-
+ 
 
 end

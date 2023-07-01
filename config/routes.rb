@@ -17,8 +17,7 @@ Rails.application.routes.draw do
   end
   root to: 'events#index'
   post "/events", to: "events#create",as: "create_event"
-  get "/events", to: "events#index",as: "index_event"
-
+  delete "/users/:user_id/:event_id/saves", to: "saves#destroy",as: "delete_saves"
 
   
  

@@ -1,16 +1,13 @@
 class Event < ApplicationRecord
-    has_many :saves,dependent: :destroy
-    has_many :org_events,dependent: :destroy
+    has_many :saves,dependent: :destroy,class_name: "Save"
     has_many :presales,dependent: :destroy
     has_many :evaluations,dependent: :destroy
-
-    has_many :organizers, :through => :org_events,:source => :user #relazione has_many through per accedere più rapidamente a user
+    #belongs_to :user
     has_many :clients, :through => :presales,:source => :user
-    has_many :users, :through => :saves,:source => :user
     has_many :evaluators, :through => :evaluations,:source => :user
-    validates :organizers,presence:true   #cardinalità (1,n) tra user e org_events
-    validates :price,:title,:date,:location,presence:true #prezzo,titolo,data,location attributi not null
+    validates :price,:title,:date,:location,:organizer_id,presence:true #prezzo,titolo,data,location attributi not null
     validates :title,uniqueness:true
+    validate :organizer
     validate :Presales_init
     validate :print_errors
     before_save :AvgValue
@@ -35,6 +32,19 @@ class Event < ApplicationRecord
           puts message
         end
     end
+    
+    def saved_by?(user)
+        Save.exists?(user_id: user.id,event_id: id)
+    end
+
+    def organizer
+        organizer = User.find_by(id: organizer_id, role: "admin") || User.find_by(id: organizer_id, role: "organizer")
+        if organizer.nil?
+            errors.add(:base, "deve corrispondere a un utente con ruolo 'organizer' o 'admin'") 
+            puts errors.full_messages
+        end
+      end
+
     
 
 end

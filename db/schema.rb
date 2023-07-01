@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_30_131825) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_01_205641) do
   create_table "bans", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -52,15 +52,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_30_131825) do
     t.datetime "updated_at", null: false
     t.integer "presales_left"
     t.float "avgvalue"
-  end
-
-  create_table "org_events", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "event_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["event_id"], name: "index_org_events_on_event_id"
-    t.index ["user_id"], name: "index_org_events_on_user_id"
+    t.integer "organizer_id"
+    t.index ["organizer_id"], name: "index_events_on_organizer_id"
   end
 
   create_table "presales", force: :cascade do |t|
@@ -82,7 +75,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_30_131825) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "user_id"
+    t.string "username"
     t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -100,8 +93,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_30_131825) do
   add_foreign_key "drafts", "users"
   add_foreign_key "evaluations", "events"
   add_foreign_key "evaluations", "users"
-  add_foreign_key "org_events", "events"
-  add_foreign_key "org_events", "users"
+  add_foreign_key "events", "users", column: "organizer_id"
   add_foreign_key "presales", "events"
   add_foreign_key "presales", "users"
   add_foreign_key "saves", "events"
