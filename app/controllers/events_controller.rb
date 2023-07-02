@@ -45,6 +45,7 @@ class EventsController < ApplicationController
 
   def edit
     @event=Event.find(params[:id])
+    authorize! :edit, @movie, :message => "BEWARE: you are not authorized to edit movies."
   end
 
   def update

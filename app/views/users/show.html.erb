@@ -1,0 +1,11 @@
+<h1>Dettagli utente</h1>
+
+<p><strong>Username:</strong> <%= @user.username %></p>
+<p><strong>Ruolo:</strong> <%= @user.role %></p>
+<p><strong>Email:</strong> <%= @user.email %></p>
+
+<p><%= link_to "Modifica o Elimina account", edit_user_registration_path %> </p>
+<p> <%= link_to 'Logout', destroy_user_session_path, method: :delete %> </p>
+
+<p> <%= link_to "Back", root_path %> </p>
+

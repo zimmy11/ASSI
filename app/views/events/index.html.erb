@@ -48,35 +48,20 @@
 
   <!-- Icona "Home" -->
   <%= link_to events_path do %>
-  <a href="<%= events_path%>">
     <i class="fas fa-home fa-2x"></i>
-  </a>
 <% end %>
-<% if  current_user.role=="organizer" || current_user.role=="admin" %>
 <%= link_to new_event_path do %>
   <!-- Icona "Home" -->
   <a href="<%= new_event_path %>">
     <i class="fas fa-plus fa-2x"></i>
-  </a>
+  <% end %>
 <% end %>
-<% else %>
-<%= link_to new_event_path do %>
-  <!-- Icona "Home" -->
-  <a href="">
-    <i class="fas fa-plus fa-2x disabled"  ></i>
-  </a>
-<% end %>
-<% end%>
-
 <!-- Icona "Salva" -->
 <%= link_to user_saves_path(user_id: current_user.id) do %>
-  <!-- Icona "Home" -->
-  <a href="<%= user_saves_path(user_id: current_user.id) %>">
     <i class="fas fa-save fa-2x"></i>
   </a>
-
+ <!-- Icona "Utente" -->
+<%= link_to user_path(current_user) do %>
+    <i class="fas fa-user fa-2x"></i>
 <% end %> 
-<!-- Icona "Profilo" -->
- <i class="fas fa-user fa-2x"></i>
-	
 	  </div>

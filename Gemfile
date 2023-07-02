@@ -27,6 +27,11 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
+#Use Faker to generate random models
+gem "faker"
+
+#Use CanCanCan to manage different abilities in the app
+gem "cancancan"
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
