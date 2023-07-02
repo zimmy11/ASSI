@@ -9,3 +9,47 @@
 
 <p> <%= link_to "Back", root_path %> </p>
 
+<p><%= link_to "Eventi Salvati", user_saves_path(current_user) %></p>
+<p><%= link_to "Bozze", user_drafts_path(user_id: current_user.id)%></p>
+<%= link_to "Eventi Acquistati", user_presales_path(current_user) %>
+
+<div class="events">
+ <% events=Event.where(organizer_id: current_user.id)%>
+ <% events.each do |event| %>
+    <%= link_to event_path(event) do %>
+      <div class="card">
+        <h2><%= event.title %></h2>
+        <p>Location: <%= event.location %></p>
+        <p>Price: <%= event.price %></p>
+        <p>Date: <%= event.date %></p>
+        
+        </div>
+        <% end %>
+        <% end %>
+
+</div>
+
+<div id="footer" >
+
+  <!-- Icona "Home" -->
+  <%= link_to events_path do %>
+    <i class="fas fa-home fa-2x"></i>
+<% end %>
+
+  <!-- Icona "Aggiungi" -->
+  <% if can?(:create, Event)%>
+  <%= link_to new_event_path do %>
+  <a href="<%= new_event_path %>">
+    <i class="fas fa-plus fa-2x"></i>
+  <% end %>
+<% end %>
+<!-- Icona "Salva" -->
+<%= link_to user_saves_path(user_id: current_user.id) do %>
+    <i class="fas fa-save fa-2x"></i>
+  </a>
+  <%end%>
+ <!-- Icona "Utente" -->
+<%= link_to user_path(current_user) do %>
+    <i class="fas fa-user fa-2x"></i>
+<% end %> 
+	  </div>

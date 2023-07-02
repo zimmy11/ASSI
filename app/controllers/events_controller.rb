@@ -20,25 +20,18 @@ class EventsController < ApplicationController
   def create
     limit=params[:limit]
     #voglio che quando clicco su bozza la verifica di presenza sia solo su date e title
-    event = Event.new(event_params.merge(limit: limit,organizer_id: current_user.id))
+    @event = Event.new(event_params.merge(limit: limit,organizer_id: current_user.id))
 
-    if params[:commit]=="Salva"
-      if event.save
-        flash[:success] = 'L\'evento è stato creato con successo!'
-        redirect_to events_path
-      else 
-      event.print_errors    
-      end
+    
+    if @event.save
+      flash[:success] = 'L\'evento è stato creato con successo!'
+      redirect_to events_path
+    else 
+      flash[:error]= @event.errors.full_messages.join(', ')
+      render :new
     end
-    if params[:commit]=="Bozza"
-      draft = Draft.new(event_params.merge(user_id: current_user.id))
-      if draft.save
-        flash[:success]="La bozza è stata salvata"
-        redirect_to events_path
-      else
-        draft.print_errors
-      end
-    end
+    
+    
   end
 
 

@@ -57,7 +57,7 @@
     <td><%= @event.date %></td>
     <td><%= @event.location %></td>
     <td><%= @event.presales_left %></td>
-    <td><%= User.find(@event.organizer_id).username %></td>
+<td><%= link_to User.find(@event.organizer_id).username, user_path(User.find(@event.organizer_id)) %></td>
     </tr>
    
   </tbody>
@@ -67,46 +67,38 @@
 <%= link_to "Back",events_path %>
 <% if @event.organizer_id==current_user.id%>
 <%= link_to "Elimina",@event,data: {turbo_method: :delete}%> <!-- metodo base per riferirsi alla destroy altrimenti si hanno problemi -->
-
 <%= link_to "Modifica",edit_event_path %>
 <% end%>
+<% if !Evaluation.exists?(event_id: @event.id, user_id: current_user.id)%>
+<%= link_to "Valuta",new_event_evaluation_path(event_id: @event.id) %>
+<% end%>
+
 <%= link_to "Acquista" ,events_path%>
 
 
 </div>
 
 <div id="footer" >
+
   <!-- Icona "Home" -->
   <%= link_to events_path do %>
-  <a href="<%= events_path%>">
     <i class="fas fa-home fa-2x"></i>
-  </a>
 <% end %>
-<% if  current_user.role=="organizer" || current_user.role=="admin" %>
-<%= link_to new_event_path do %>
-  <!-- Icona "Home" -->
+
+  <!-- Icona "Aggiungi" -->
+  <% if can?(:create, Event)%>
+  <%= link_to new_event_path do %>
   <a href="<%= new_event_path %>">
     <i class="fas fa-plus fa-2x"></i>
-  </a>
+  <% end %>
 <% end %>
-<% else %>
-<%= link_to new_event_path do %>
-  <!-- Icona "Home" -->
-  <a href="">
-    <i class="fas fa-plus fa-2x disabled"  ></i>
-  </a>
-<% end %>
-<% end%>
-
 <!-- Icona "Salva" -->
 <%= link_to user_saves_path(user_id: current_user.id) do %>
-  <!-- Icona "Home" -->
-  <a href="<%= user_saves_path(user_id: current_user.id) %>">
     <i class="fas fa-save fa-2x"></i>
   </a>
-
+  <%end%>
+ <!-- Icona "Utente" -->
+<%= link_to user_path(current_user) do %>
+    <i class="fas fa-user fa-2x"></i>
 <% end %> 
-<!-- Icona "Profilo" -->
- <i class="fas fa-user fa-2x"></i>
-	
-</div>
+	  </div>

@@ -13,11 +13,12 @@ Rails.application.routes.draw do
   end
   resources :events  do
       resources :evaluations
+      
   end
   root to: 'events#index'
   post "/events", to: "events#create",as: "create_event"
   delete "/users/:user_id/:event_id/saves", to: "saves#destroy",as: "delete_saves"
-  
+  post "/events/:event" ,to: "events#create",as: "draft_event"
  
 
 

@@ -33,6 +33,9 @@ gem "faker"
 #Use CanCanCan to manage different abilities in the app
 gem "cancancan"
 
+#use Jquery
+gem 'jquery-rails'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
@@ -76,4 +79,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem "bootstrap"
+  gem 'sweetalert2'
+
 end

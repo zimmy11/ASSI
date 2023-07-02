@@ -1,2 +1,9 @@
 <h1>Evaluations#new</h1>
-<p>Find me in app/views/evaluations/new.html.erb</p>
+<%= form_for @evaluation,url: event_evaluations_path(event_id: params[:event_id]),method: :post do |form| %>
+  <div class="form-group">
+    <%= form.label :value, 'Valutazione (da 1 a 10)' %>
+    <%= form.number_field :value, in: 1..10, class: 'form-control', required: true %>
+  </div>
+  <%= form.submit 'Invia', class: 'btn btn-primary' %>
+<%= link_to "Annulla", event_path(id: params[:event_id]) %>
+<% end %>

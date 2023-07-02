@@ -39,6 +39,7 @@
 </head>
 <body>
   <h1>Pubblica il tuo evento</h1>
+  <div class="error-message" style="display: none;"><%= flash[:error] %></div>
   <%= form_with model: @event, url: create_event_path(@event), method: :post do |form| %>
   <label for="title">Titolo dell'evento:</label>
 <%= form.text_field :title, id: "title", required: true, title: "Title",placeholder: "Enter the event title" %>
@@ -56,9 +57,7 @@
 <%= form.number_field :limit, id: "limit", min: 1, title: "Participant Limit", placeholder: "Enter the participant limit" %>
 
   <%= form.submit "Salva",class: "save success" %> 
-  
-  <%= form.submit "Bozza",class: "save draft success" %>
-  <%= link_to "Annulla",events_path , class: "save error"%>
+    <%= link_to "Annulla",events_path , class: "save error"%>
 <% end %>
 
 </body>
@@ -99,6 +98,7 @@
 
 <% end %> 
 <!-- Icona "Profilo" -->
- <i class="fas fa-user fa-2x"></i>
-	
+ <%= link_to user_path(current_user) do %>
+    <i class="fas fa-user fa-2x"></i>
+<% end %> 
 	  </div>

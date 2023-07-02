@@ -1,19 +1,22 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import "@hotwired/turbo-rails"
 import "controllers"
-
-window.addEventListener("beforeunload", function(event) {
-    var form = document.getElementById("event_form");
+//= require jquery
+ import "jquery"
+ import Swal from 'sweetalert2'
+window.Swal=Swal
+ document.addEventListener('DOMContentLoaded', () => {
+   // Gestisci il flash message di errore (se presente)
+   const errorMessage = document.querySelector('.error-message');
+   if (errorMessage) {
+     Swal.fire({
+       title: 'Errore',
+       text: errorMessage.textContent,
+       icon: 'error',
+     });
+   }
+ });
   
-    // Verifica se il form ha valori nulli per i campi obbligatori
-    var title = form.querySelector("#title").value;
-    var date = form.querySelector("#date").value;
-    
-    if (title.trim() === "" || date.trim() === "") {
-   
-      event.returnValue = "Compila i campi obbligatori: Titolo e Data.";
-    }
-  });
   
 
 

@@ -27,6 +27,7 @@
         <p>Price: <%= event.price %></p>
         <p>Date: <%= event.date %></p>
         <p>Presales left: <%= event.presales_left %></p>
+         <p>Organizer: <%= User.find(event.organizer_id).username %></p>
         <div class="save-button" , style= "position: absolute; top: 10px; right: 10px;">
         <% if event.saved_by?(current_user) %>
         <%= link_to delete_saves_path(user_id: current_user.id,event_id: event.id),method: :delete, class: 'save-button saved' do %>
@@ -38,6 +39,9 @@
         <% end %>
         <% end %>
         </div>
+        <div class="avgvalue" style="position: absolute; bottom: 10px; right: 10px;">
+        Average Value: <%= event.evaluations.average(:value) %>/10
+      </div>
         </div>
         <% end %>
         <% end %>
@@ -50,8 +54,10 @@
   <%= link_to events_path do %>
     <i class="fas fa-home fa-2x"></i>
 <% end %>
-<%= link_to new_event_path do %>
-  <!-- Icona "Home" -->
+
+  <!-- Icona "Aggiungi" -->
+  <% if can?(:create, Event)%>
+  <%= link_to new_event_path do %>
   <a href="<%= new_event_path %>">
     <i class="fas fa-plus fa-2x"></i>
   <% end %>
@@ -60,6 +66,7 @@
 <%= link_to user_saves_path(user_id: current_user.id) do %>
     <i class="fas fa-save fa-2x"></i>
   </a>
+  <%end%>
  <!-- Icona "Utente" -->
 <%= link_to user_path(current_user) do %>
     <i class="fas fa-user fa-2x"></i>
