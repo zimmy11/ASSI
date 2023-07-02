@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   resources :users do
     resources :drafts
     resources :presales
-    resources :org_events
     resources :saves
   end
   resources :events  do
@@ -18,7 +17,6 @@ Rails.application.routes.draw do
   root to: 'events#index'
   post "/events", to: "events#create",as: "create_event"
   delete "/users/:user_id/:event_id/saves", to: "saves#destroy",as: "delete_saves"
-
   
  
 

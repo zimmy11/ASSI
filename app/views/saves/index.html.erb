@@ -1,4 +1,21 @@
+<style>
+.back-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #2196f3;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.back-button:hover {
+  background-color: #1976d2;
+}
+</style>
 <h1>Saves#index</h1>
+<% if @saves.empty? %>
+<%= link_to "Nessun Evento Salvato", :back, class: "back-button" %>
+<% else %>
 <% @saves.each do |save| %>
   <div class="save">
     <h2><%= save.event.title %></h2>
@@ -6,9 +23,49 @@
     <p>Price: <%= save.event.price %></p>
     <p>Date: <%= save.event.date %></p>
     <p>Location: <%= save.event.location %></p>
-    <p>Organizer: <% organizer=Save.find(save.event.id).user_id %>
+    <p>Organizer: <% organizer=Save.find_by(event_id: save.event.id).user_id %>
     <%= User.find(organizer).username %></p>
   </div>
 <% end %>
     <%= link_to "Back",events_path, class: 'back-button' %>
+<% end%>
+<div id="footer" >
 
+
+  
+ 
+
+  <!-- Icona "Home" -->
+  <%= link_to events_path do %>
+  <a href="<%= events_path%>">
+    <i class="fas fa-home fa-2x"></i>
+  </a>
+<% end %>
+<% if  current_user.role=="organizer" || current_user.role=="admin" %>
+<%= link_to new_event_path do %>
+  <!-- Icona "Home" -->
+  <a href="<%= new_event_path %>">
+    <i class="fas fa-plus fa-2x"></i>
+  </a>
+<% end %>
+<% else %>
+<%= link_to new_event_path do %>
+  <!-- Icona "Home" -->
+  <a href="">
+    <i class="fas fa-plus fa-2x disabled"  ></i>
+  </a>
+<% end %>
+<% end%>
+
+<!-- Icona "Salva" -->
+<%= link_to user_saves_path(user_id: current_user.id) do %>
+  <!-- Icona "Home" -->
+  <a href="<%= user_saves_path(user_id: current_user.id) %>">
+    <i class="fas fa-save fa-2x"></i>
+  </a>
+
+<% end %> 
+<!-- Icona "Profilo" -->
+ <i class="fas fa-user fa-2x"></i>
+	
+	  </div>

@@ -44,6 +44,8 @@ class Event < ApplicationRecord
             puts errors.full_messages
         end
       end
+    
+      
 
     
 

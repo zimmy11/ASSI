@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_01_205641) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_02_105615) do
   create_table "bans", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -23,7 +23,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_01_205641) do
   create_table "drafts", force: :cascade do |t|
     t.string "title"
     t.integer "price"
-    t.string "date"
+    t.date "date"
     t.integer "limit"
     t.string "location"
     t.datetime "created_at", null: false
@@ -45,7 +45,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_01_205641) do
   create_table "events", force: :cascade do |t|
     t.string "title"
     t.integer "price"
-    t.string "date"
+    t.date "date"
     t.integer "limit"
     t.string "location"
     t.datetime "created_at", null: false

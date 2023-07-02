@@ -13,8 +13,7 @@ class User < ApplicationRecord
   has_many :saved_events, through: :saves, :source => :event
   has_many :evaluated_events, through: :evaluations, :source => :event
   validate :print_errors
-  # deve essere risolto validates :username,presence:true,uniqueness:true #non voglio avere utenti con lo stesso nome
-  
+  validates :username,presence:true,uniqueness:true #non voglio avere utenti con lo stesso nome 
 
   validates :role, inclusion: { in: %w[user organizer admin] }
    

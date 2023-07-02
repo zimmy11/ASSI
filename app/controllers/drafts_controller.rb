@@ -10,6 +10,7 @@ class DraftsController < ApplicationController
   end
 
   def create
+    
   end
 
   def edit
@@ -20,4 +21,5 @@ class DraftsController < ApplicationController
 
   def destroy
   end
+  
 end
