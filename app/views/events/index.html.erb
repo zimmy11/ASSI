@@ -131,8 +131,6 @@ header {
 <div id="footer" >
 
 
-  <!-- Icona "Profilo" -->
- 
 
   <!-- Icona "Home" -->
   <%= link_to events_path do %>
@@ -154,6 +152,10 @@ header {
     <i class="fas fa-save fa-2x"></i>
   </a>
 
-<% end %>  <i class="fas fa-user fa-2x"></i>
+<% end %>  
+
+ <a href="<%= user_path(current_user) %>">
+    <i class="fas fa-user fa-2x"></i>
+  </a>
 	
 	  </div>
