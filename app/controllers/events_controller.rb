@@ -24,12 +24,14 @@ class EventsController < ApplicationController
     else 
       event.print_errors    
     end
-   end
+    authorize! :create, @movie, :message => "BEWARE: you are not authorized to create new movies."
+  end
 
 
 
   def edit
     @event=Event.find(params[:id])
+    authorize! :edit, @movie, :message => "BEWARE: you are not authorized to edit movies."
   end
 
   def update
