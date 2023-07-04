@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!
   def index
-    @events=Event.all
+    @events = Event.where(status: "published")
 
   end
 
@@ -12,27 +12,36 @@ class EventsController < ApplicationController
   def new
     
     @event=Event.new
-    
-    
-    
   end
 
   def create
-    limit=params[:limit]
-    #voglio che quando clicco su bozza la verifica di presenza sia solo su date e title
-    @event = Event.new(event_params.merge(limit: limit,organizer_id: current_user.id))
-
-    
-    if @event.save
-      flash[:success] = 'L\'evento è stato creato con successo!'
-      redirect_to events_path
-    else 
-      flash[:error]= @event.errors.full_messages.join(', ')
-      render :new
+    limit = params[:limit]
+    # Voglio che quando clicco su "Salva bozza" la verifica di presenza sia solo su "date" e "title"
+    @event = Event.new(event_params.merge(limit: limit, organizer_id: current_user.id))
+  
+    if params[:commit] == 'Salva bozza'
+      @event.status = 'draft'
+      if @event.save
+        redirect_to @event, notice: 'Bozza salvata con successo.'
+      else
+        render :new
+      end
+    elsif params[:commit] == 'Pubblica'
+      @event.status = 'published'
+      if @event.valid?
+        if @event.save
+          flash[:success] = 'L\'evento è stato creato con successo!'
+          redirect_to events_path
+        else
+          flash[:error] = @event.errors.full_messages.join(', ')
+          render :new
+        end
+      else
+        render :new
+      end
     end
-    
-    
   end
+  
 
 
 
