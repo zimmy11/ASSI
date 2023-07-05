@@ -1,6 +1,6 @@
 class Event < ApplicationRecord
     has_many :saves,dependent: :destroy,class_name: "Save"
-    has_many :presales,dependent: :destroy
+    has_many :presales
     has_many :evaluations,dependent: :destroy
     #belongs_to :user
     has_many :clients, :through => :presales,:source => :user

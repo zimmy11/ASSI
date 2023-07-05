@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_02_105615) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_05_093347) do
   create_table "bans", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -53,6 +53,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_02_105615) do
     t.integer "presales_left"
     t.float "avgvalue"
     t.integer "organizer_id"
+    t.string "paypal_plan_name"
     t.index ["organizer_id"], name: "index_events_on_organizer_id"
   end
 

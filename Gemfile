@@ -81,5 +81,5 @@ group :test do
   gem "webdrivers"
   gem "bootstrap"
   gem 'sweetalert2'
-
+  gem 'base64'
 end

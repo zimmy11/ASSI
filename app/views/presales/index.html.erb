@@ -1,2 +1,62 @@
+
+
+   
+
+    <!-- Include the PayPal JavaScript SDK -->
+    <script>
+    
+     paypal.Buttons.render('#paypal-button-container');
+    
+    </script>
+
+
+
+
 <h1>Presales#index</h1>
-<p>Find me in app/views/presales/index.html.erb</p>
+<div>
+  <h1> List of events</h1>
+<%= form_tag(create_order_path(event_id: params[:event_id]),method: :post) do %>
+    <%= hidden_field_tag 'presales[payment_gateway]', 'paypal', id: 'order-type' %>
+    <div class="form_row">
+      <h4> Payments</h4>
+      <% @presales.each do |product| %>
+        <div data-charges-and-payments-section="true">
+          <%= radio_button_tag 'presales[event_id]', product.id, @presales.first == product %>
+          <span id="<%= "radioButtonName#{product.id}" %>"><%= product.title %></span>
+          <span id="<%= "radioButtonPrice#{product.id}" %>"><%= product.price %><!--%= humanized_money_with_symbol product.price %--></span>
+        </div>
+        <br>
+      <% end %>
+      
+    <h1>Payment Method</h1>
+    <div class="form_row">
+      <div>
+        <%= radio_button_tag 'payment-selection', 'paypal', false, onclick: "changeTab();" %>
+        <span>Paypal</span>
+      </div>
+    </div>
+    <br>
+    <br>
+     <!-- Set up a container element for the button -->
+    <div id="paypal-button-container"></div>
+    <%= submit_tag "Buy it!", id: "submit-paypal" %>
+    <div id="tab-paypal" class="paymentSelectionTab">
+      <div id="submit-paypal"></div>
+    </div>
+    <br>
+    <br>
+    <hr>
+  <% end %>
+</div>
+
+<style>
+  #card-element {
+    width:500px;
+  }
+  .paymentSelectionTab {
+    display: none;
+  }
+  .paymentSelectionTab.active {
+    display: block !important;
+  }
+</style>
