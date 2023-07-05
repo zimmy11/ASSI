@@ -40,32 +40,64 @@
 <body>
   <h1>Pubblica il tuo evento</h1>
   <div class="error-message" style="display: none;"><%= flash[:error] %></div>
-  <%= form_with model: @event, url: create_event_path(@event), method: :post do |form| %>
-  <label for="title">Titolo dell'evento:</label>
-<%= form.text_field :title, id: "title", required: true, title: "Title",placeholder: "Enter the event title" %>
+  <%= form_with model: @event, url: create_event_path(@event), method: :post, id: "event-form" do |form| %>
+    <label for="title">Titolo dell'evento:</label>
+    <%= form.text_field :title, id: "title", name: "event[title]", title: "Title", placeholder: "Enter the event title" %>
 
-  <label for="date">Data:</label>
-<%= form.date_field :date, id: "date", required: true, title: "Date",placeholder: "Select the event date" %>
+    <label for="date">Data:</label>
+    <%= form.date_field :date, id: "date", name: "event[date]", title: "Date", placeholder: "Select the event date" %>
 
-  <label for="price">Prezzo:</label>
-<%= form.number_field :price, id: "price", min: 0, step: 0.01, required: true, title: "Price", placeholder: "Enter the event price" %>
+    <label for="price">Prezzo:</label>
+    <%= form.number_field :price, id: "price", min: 0, step: 0.01, name: "event[price]", title: "Price", placeholder: "Enter the event price" %>
 
-  <label for="location">Luogo:</label>
-<%= form.text_field :location, id: "location", required: true, title: "Location", placeholder: "Enter the event location" %>
+    <label for="location">Luogo:</label>
+    <%= form.text_field :location, id: "location", name: "event[location]", title: "Location", placeholder: "Enter the event location" %>
 
-  <label for="limit">Limite partecipanti:</label>
-<%= form.number_field :limit, id: "limit", min: 1, title: "Participant Limit", placeholder: "Enter the participant limit" %>
+    <label for="limit">Limite partecipanti:</label>
+    <%= form.number_field :limit, id: "limit", min: 1, name: "event[limit]", title: "Participant Limit", placeholder: "Enter the participant limit" %>
 
-  <%= form.submit "Salva",class: "save success" %> 
-    <%= link_to "Annulla",events_path , class: "save error"%>
-<% end %>
+    <%= form.submit "Salva bozza", class: "save draft" %>
+    <%= form.submit "Pubblica", class: "save success", id: "publish-button", disabled: true %>
+    <%= link_to "Annulla", events_path, class: "save error" %>
+  <% end %>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var publishButton = document.getElementById('publish-button');
+      var formFields = document.querySelectorAll('#event-form input, #event-form textarea');
+
+      // Funzione per controllare lo stato dei campi del modulo
+      function checkFields() {
+        var allFieldsFilled = true;
+
+        formFields.forEach(function(field) {
+          if (!field.value) {
+            allFieldsFilled = false;
+          }
+        });
+
+        // Abilita o disabilita il pulsante "Pubblica" in base allo stato dei campi
+        if (allFieldsFilled) {
+          publishButton.disabled = false;
+        } else {
+          publishButton.disabled = true;
+        }
+      }
+
+      // Controlla lo stato dei campi ogni volta che un campo viene modificato
+      formFields.forEach(function(field) {
+        field.addEventListener('input', checkFields);
+      });
+
+      // Controlla lo stato dei campi al caricamento della pagina
+      checkFields();
+    });
+  </script>
 </body>
+
+
+
 <div id="footer" >
-
-
-  
- 
 
   <!-- Icona "Home" -->
   <%= link_to events_path do %>
@@ -73,21 +105,13 @@
     <i class="fas fa-home fa-2x"></i>
   </a>
 <% end %>
-<% if  current_user.role=="organizer" || current_user.role=="admin" %>
-<%= link_to new_event_path do %>
-  <!-- Icona "Home" -->
-  <a href="<%= new_event_path %>">
-    <i class="fas fa-plus fa-2x"></i>
-  </a>
-<% end %>
-<% else %>
+
 <%= link_to new_event_path do %>
   <!-- Icona "Home" -->
   <a href="">
     <i class="fas fa-plus fa-2x disabled"  ></i>
   </a>
 <% end %>
-<% end%>
 
 <!-- Icona "Salva" -->
 <%= link_to user_saves_path(user_id: current_user.id) do %>

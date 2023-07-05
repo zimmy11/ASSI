@@ -5,12 +5,19 @@ class Event < ApplicationRecord
     #belongs_to :user
     has_many :clients, :through => :presales,:source => :user
     has_many :evaluators, :through => :evaluations,:source => :user
-    validates :price,:title,:date,:location,:organizer_id,presence:true #prezzo,titolo,data,location attributi not null
+    validates :price,:title,:date,:location,:organizer_id,presence:true, if: :published? #prezzo,titolo,data,location attributi not null
     validates :title,uniqueness:true
     validate :organizer
     validate :Presales_init
     validate :print_errors
     before_save :AvgValue
+
+    enum status: { draft: 'draft', published: 'published' }
+
+    def published?
+        status == 'published'
+      end
+
     def Presales_init
         if self.limit.nil?
             self.limit=100
