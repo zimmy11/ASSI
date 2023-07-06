@@ -1,7 +1,7 @@
 class SavesController < ApplicationController
   before_action :authenticate_user!
   def index
-    @saves=Save.where(user_id: current_user)
+    @saves=Save.where(user_id: current_user.id)
   end
 
   def show

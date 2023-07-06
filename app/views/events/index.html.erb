@@ -12,6 +12,22 @@
     <%= flash[:success] %>
   </div>
 <% end %>
+<%if params[:status]!=nil%>
+<% @events.each do |draft| %>
+    <%= link_to event_path(id: draft.id) do %>
+      <div class="card">
+        <h2><%= draft.title %></h2>
+        <p>Location:<% if !draft.location.nil?%>  DA INSERIRE
+        <%else%> <%= draft.location %></p><%end%>
+        <p>Price:<% if !draft.price.nil?%>  DA INSERIRE
+        <%else%> <%= draft.price %></p><%end%>
+        <p>Date:<% if !draft.date.nil?%>   DA INSERIRE
+        <%else%> <%= draft.date %></p><%end%>
+         <%end%>
+    <%end%>
+    <%= link_to 'Torna indietro', :back, class: 'btn btn-primary' %>
+
+<%else%>
 <div id="filter">
       <button id="price-filter">Filtro Prezzo</button>
       <button id="rating-filter">Filtro Valutazione</button>
@@ -47,6 +63,7 @@
         <% end %>
 
 </div>
+<%end%>
 
 <div id="footer" >
 
@@ -57,11 +74,13 @@
 
   <!-- Icona "Aggiungi" -->
   <% if can?(:create, Event)%>
+  <% if !Ban.where(user_id: current_user.id).exists?%>
   <%= link_to new_event_path do %>
   <a href="<%= new_event_path %>">
     <i class="fas fa-plus fa-2x"></i>
   <% end %>
 <% end %>
+<%end%>
 <!-- Icona "Salva" -->
 <%= link_to user_saves_path(user_id: current_user.id) do %>
     <i class="fas fa-save fa-2x"></i>

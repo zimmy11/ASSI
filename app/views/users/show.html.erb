@@ -8,13 +8,33 @@
 <p> <%= link_to 'Logout', destroy_user_session_path, method: :delete %> </p>
 
 <p> <%= link_to "Back", root_path %> </p>
-
+<% if params[:id].to_i == current_user.id%>
 <p><%= link_to "Eventi Salvati", user_saves_path(current_user) %></p>
-<p><%= link_to "Bozze", user_drafts_path(user_id: current_user.id)%></p>
-<%= link_to "Eventi Acquistati", user_presales_path(current_user) %>
+<%end%>
+<%= link_to "Eventi Acquistati", user_presales_path(user_id: current_user.id) %><br><br><br>
+<% if !Ban.where(user_id: current_user.id).exists?%>
+<% if params[:id].to_i == current_user.id%>
+<p><%= link_to "Bozze", events_path(status: "draft")%></p>
+<%end%>
+<% if can?(:create_order,User)%>
+<%= link_to "Acquista versione premium", premium_path(user_id: current_user.id)%>
+<%end%>
+<%end%>
+<br>
+<% if can?(:ban,User) %>
+ <% if  params[:id].to_i!= current_user.id%>
+    <% if Ban.where(user_id: params[:id]).exists?%>
+    <%= link_to "Sbanna Utente",user_ban_path(user_id: params[:id],id: Ban.find_by(user_id: params[:id]).id),method: :delete %>
+    <%else%>
+    <%= link_to "Banna Utente",new_user_ban_path(user_id: params[:id]),method: :get %>
+    <%end%>
 
-<div class="events">
- <% events=Event.where(organizer_id: current_user.id)%>
+  <%end%>
+<%end%>
+<br>
+<label for="events">Eventi Organizzati</label>
+<div id="events">
+ <% events=Event.where(organizer_id: current_user.id, status:"published")%>
  <% events.each do |event| %>
     <%= link_to event_path(event) do %>
       <div class="card">
@@ -38,11 +58,13 @@
 
   <!-- Icona "Aggiungi" -->
   <% if can?(:create, Event)%>
+  <% if !Ban.where(user_id: current_user.id).exists?%>
   <%= link_to new_event_path do %>
   <a href="<%= new_event_path %>">
     <i class="fas fa-plus fa-2x"></i>
   <% end %>
 <% end %>
+<%end%>
 <!-- Icona "Salva" -->
 <%= link_to user_saves_path(user_id: current_user.id) do %>
     <i class="fas fa-save fa-2x"></i>

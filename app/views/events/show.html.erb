@@ -45,7 +45,9 @@
       <th>Location</th>
       <th>Left Presales</th>
       <th>Organizer</th>
-
+      <% if can?(:manage,:all)%>
+      <th>Lista Acquirenti</th>
+      <%end%>
       <th colspan="8"></th>
     </tr>
   </thead>
@@ -57,24 +59,40 @@
     <td><%= @event.date %></td>
     <td><%= @event.location %></td>
     <td><%= @event.presales_left %></td>
-<td><%= link_to User.find(@event.organizer_id).username, user_path(User.find(@event.organizer_id)) %></td>
+<td><%if User.find(@event.organizer_id).username!=nil %>
+    <%= link_to User.find(@event.organizer_id).username, user_path(User.find(@event.organizer_id)) %>
+    <%end%></td>
+    <% if can?(:manage,:all)%>
+    <td><% presales=Presale.where(event_id: params[:id])%>
+    <% usernames = presales.map { |presale| presale.user.username }.uniq%>
+    <% usernames.each do |key, value|%>
+    <%= value %>
+    <%end%>
+
+    </td>
+    <%end%>
     </tr>
    
   </tbody>
 </table>
 </div>
 <div>
-<%= link_to "Back",events_path %>
+<%= link_to "Back",:back %>
 <% if @event.organizer_id==current_user.id%>
-<%= link_to "Elimina",@event,data: {turbo_method: :delete}%> <!-- metodo base per riferirsi alla destroy altrimenti si hanno problemi -->
+<%= link_to "Elimina",event_path(id: @event.id),method: :delete%> <!-- metodo base per riferirsi alla destroy altrimenti si hanno problemi -->
+<% if !Ban.where(user_id: current_user.id).exists?%>
 <%= link_to "Modifica",edit_event_path %>
+<%end%>
 <% end%>
+<% if @event.status=="published"%>
 <% if !Evaluation.exists?(event_id: @event.id, user_id: current_user.id)%>
+<% if !Ban.where(user_id: current_user.id).exists?%>
 <%= link_to "Valuta",new_event_evaluation_path(event_id: @event.id) %>
 <% end%>
+<%end%>
 
-<%= link_to "Acquista" ,events_path%>
-
+<%= link_to "Acquista" ,all_presales_path(event_id: @event.id)%>
+<%end%>
 
 </div>
 
@@ -87,10 +105,12 @@
 
   <!-- Icona "Aggiungi" -->
   <% if can?(:create, Event)%>
+    <% if !Ban.where(user_id: current_user.id).exists?%>
   <%= link_to new_event_path do %>
   <a href="<%= new_event_path %>">
     <i class="fas fa-plus fa-2x"></i>
   <% end %>
+  <%end%>
 <% end %>
 <!-- Icona "Salva" -->
 <%= link_to user_saves_path(user_id: current_user.id) do %>

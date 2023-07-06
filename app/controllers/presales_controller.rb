@@ -3,8 +3,7 @@ require 'net/http'
 class PresalesController < ApplicationController
   before_action :authenticate_user!
   def index
-    events = Event.all
-    @presales = events.where( paypal_plan_name:nil)
+    @event = Event.where(id: params[:event_id])
   end
 
   def show

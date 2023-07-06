@@ -16,12 +16,11 @@
 <div>
   <h1> List of events</h1>
 <%= form_tag(create_order_path(event_id: params[:event_id]),method: :post) do %>
-    <%= hidden_field_tag 'presales[payment_gateway]', 'paypal', id: 'order-type' %>
     <div class="form_row">
       <h4> Payments</h4>
-      <% @presales.each do |product| %>
+      <% @event.each do |product| %>
         <div data-charges-and-payments-section="true">
-          <%= radio_button_tag 'presales[event_id]', product.id, @presales.first == product %>
+          <%= radio_button_tag 'presales[event_id]', product.id, @event.first == product %>
           <span id="<%= "radioButtonName#{product.id}" %>"><%= product.title %></span>
           <span id="<%= "radioButtonPrice#{product.id}" %>"><%= product.price %><!--%= humanized_money_with_symbol product.price %--></span>
         </div>

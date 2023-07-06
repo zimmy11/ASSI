@@ -58,7 +58,7 @@
 
     <%= form.submit "Salva bozza", class: "save draft" %>
     <%= form.submit "Pubblica", class: "save success", id: "publish-button", disabled: true %>
-    <%= link_to "Annulla", events_path, class: "save error" %>
+    <%= link_to "Annulla", :back, class: "save error" %>
   <% end %>
 
   <script>

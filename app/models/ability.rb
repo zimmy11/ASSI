@@ -36,6 +36,7 @@ class Ability
       can :manage, Event, organizer_id: user.id
     elsif user.role == 'user'
       can :read, Event
+      can :create_order,User
       # Altre autorizzazioni specifiche per gli utenti
     end
   end

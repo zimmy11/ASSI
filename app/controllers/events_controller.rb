@@ -1,7 +1,11 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!
   def index
-    @events = Event.where(status: "published")
+    if params[:status]!=nil
+      @events=Event.where(status:"draft")
+    else
+      @events = Event.where(status: "published")
+    end
 
   end
 
@@ -15,15 +19,16 @@ class EventsController < ApplicationController
   end
 
   def create
-    limit = params[:limit]
+    
     # Voglio che quando clicco su "Salva bozza" la verifica di presenza sia solo su "date" e "title"
-    @event = Event.new(event_params.merge(limit: limit, organizer_id: current_user.id))
+    @event = Event.new(event_params.merge(organizer_id: current_user.id))
   
     if params[:commit] == 'Salva bozza'
       @event.status = 'draft'
       if @event.save
         redirect_to @event, notice: 'Bozza salvata con successo.'
       else
+        flash[:error]=@event.errors.full_messages.join(",")
         render :new
       end
     elsif params[:commit] == 'Pubblica'
@@ -47,13 +52,12 @@ class EventsController < ApplicationController
 
   def edit
     @event=Event.find(params[:id])
-    authorize! :edit, @movie, :message => "BEWARE: you are not authorized to edit movies."
+    authorize! :edit, @event, :message => "BEWARE: you are not authorized to edit movies."
   end
 
   def update
     @event = Event.find(params[:id])
-    limit=params[:limit]
-    if @event.update(event_params.merge(limit:limit))
+    if @event.update(event_params)
       flash[:success] = 'L\'evento è stato aggiornato con successo!'
       redirect_to event_path
     else
@@ -73,7 +77,7 @@ class EventsController < ApplicationController
     end
   end
   def event_params
-    params.require(:event).permit(:title, :date, :price, :location)
+    params.require(:event).permit(:title, :date, :price, :location,:limit)
   end
   
 end

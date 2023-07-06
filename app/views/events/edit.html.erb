@@ -48,7 +48,7 @@
   <label for="location">Luogo:</label>
   <%= form.text_field :location, id: "location",value:@event.location, required: true %>
 <label for="limit">Limite partecipanti:</label>
-  <%= form.number_field :limit, id: "limit", min: 1 ,value:@event.limit,readonly: true %>
+  <%= form.number_field :limit, id: "limit", min: 1 ,value:@event.limit %>
   
  
     <%= form.submit 'Salva' %>
