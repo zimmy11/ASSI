@@ -70,7 +70,6 @@ GEM
       public_suffix (>= 2.0.2, < 6.0)
     autoprefixer-rails (10.4.13.0)
       execjs (~> 2)
-    base64 (0.1.1)
     bcrypt (3.1.19)
     bindex (0.8.1)
     bootsnap (1.16.0)
@@ -220,8 +219,6 @@ GEM
     sqlite3 (1.6.3-x64-mingw-ucrt)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
-    sweetalert2 (7.25.6)
-      railties (>= 3.1.0)
     thor (1.2.2)
     tilt (2.2.0)
     timeout (0.3.2)
@@ -257,9 +254,8 @@ PLATFORMS
   x64-mingw-ucrt
 
 DEPENDENCIES
-  base64
   bootsnap
-  bootstrap
+  bootstrap (~> 5.2.0)
   cancancan
   capybara
   debug
@@ -274,7 +270,6 @@ DEPENDENCIES
   sprockets-rails
   sqlite3 (~> 1.4)
   stimulus-rails
-  sweetalert2
   turbo-rails
   tzinfo-data
   web-console

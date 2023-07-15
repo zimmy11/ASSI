@@ -1,7 +1,4 @@
 
-
-
-
 <header>
             <div class="title-container">
                 <h3>EventMaster</h3>
@@ -28,48 +25,56 @@
     <%= link_to 'Torna indietro', :back, class: 'btn btn-primary' %>
 
 <%else%>
-<div id="filter">
-      <button id="price-filter">Filtro Prezzo</button>
-      <button id="rating-filter">Filtro Valutazione</button>
-      <button id="nearby-filter">Filtro Vicinanza</button>
+
+ <div class="dropdown">
+  <button type="button" class="btn dropdown-toggle" href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: rgb(156, 131, 185);color: white;">
+    Filtra
+  </button>
+
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <li><a class="dropdown-item" href="#">Prezzo</a></li>
+    <li><a class="dropdown-item" href="#">Valutazione</a></li>
+    <li><a class="dropdown-item" href="#">Distanza</a></li>
+  </ul>
+</div>  
+
+<div class="events" style="display: flex; flex-direction: column; align-items: center; height: 550px; overflow-y: auto;">
+   <% @events.each do |event| %>
+    <%= link_to event_path(event), class: "event-link" do %>
+   <div class="myCard" >
+          <div class="top-text"><div class="title"><%= event.title %></div>
+          <div class="location"> <%= event.location %>,Italia</div>
+          <div class="price">Prezzo: <%=event.price %>&euro;</div>
+          <div class="date"> <%= event.date %></div></div>
+          <div class="circle"><%= image_tag("event.jpg")%></div>
+          <div class="star" style="position:absolute;top:5%;right:5%">
+          <% if event.saved_by?(current_user) %>
+            <%= link_to delete_saves_path(user_id: current_user.id, event_id: event.id), method: :delete do %>
+          <i class="fa-solid fa-heart" style="color: #9c83b9;"></i> 
+              <% end %>
+          <% else %>
+            <%= link_to user_saves_path(user_id: current_user.id, event_id: event.id), method: :post do %>
+              <i class="fa-regular fa-heart" style="color: #9c83b9;"></i>
+            <% end %>
+            <% end %>
+           </div>
+    <div class="card-body"><%= image_tag("event.jpg",class: "card-img custom-image")%></div>   
+    <div class="card-footer">
+    <%= event.avgvalue %>/10
+    <i class="fa-solid fa-star" style="color: rgb(255,215,0);"></i></div> 
+            
     </div>
-    
-<div class="events">
- <% @events.each do |event| %>
-    <%= link_to event_path(event) do %>
-      <div class="card">
-        <h2><%= event.title %></h2>
-        <p>Location: <%= event.location %></p>
-        <p>Price: <%= event.price %></p>
-        <p>Date: <%= event.date %></p>
-        <p>Presales left: <%= event.presales_left %></p>
-         <p>Organizer: <%= User.find(event.organizer_id).username %></p>
-        <div class="save-button" , style= "position: absolute; top: 10px; right: 10px;">
-        <% if event.saved_by?(current_user) %>
-        <%= link_to delete_saves_path(user_id: current_user.id,event_id: event.id),method: :delete, class: 'save-button saved' do %>
-        <i class="fas fa-star"></i>        
-        <% end %>
-        <% else %>
-        <%= link_to user_saves_path(user_id: current_user.id,event_id: event.id),method: :post, class: 'save-button' do %>
-        <i class="fas fa-star"></i>        
-        <% end %>
-        <% end %>
-        </div>
-        <div class="avgvalue" style="position: absolute; bottom: 10px; right: 10px;">
-        Average Value: <%= event.evaluations.average(:value) %>/10
-      </div>
-        </div>
-        <% end %>
-        <% end %>
-
+       
+      <% end %>
+    <% end %>
+  <%end %>
 </div>
-<%end%>
 
-<div id="footer" >
+<nav class="navbar fixed-bottom navbar-light d-flex justify-content-center align-items-center" style="border-top:solid 1px rgb(156, 131, 185)">
 
   <!-- Icona "Home" -->
   <%= link_to events_path do %>
-    <i class="fas fa-home fa-2x"></i>
+    <i class="fas fa-home fa-2x" ></i>
 <% end %>
 
   <!-- Icona "Aggiungi" -->
@@ -83,11 +88,12 @@
 <%end%>
 <!-- Icona "Salva" -->
 <%= link_to user_saves_path(user_id: current_user.id) do %>
-    <i class="fas fa-save fa-2x"></i>
+    <i class="fas fa-heart fa-2x"></i>
   </a>
   <%end%>
  <!-- Icona "Utente" -->
 <%= link_to user_path(current_user) do %>
-    <i class="fas fa-user fa-2x"></i>
+    <i class="fas fa-user fa-2x" ></i>
 <% end %> 
-	  </div>
+
+</nav>

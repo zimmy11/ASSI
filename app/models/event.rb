@@ -6,11 +6,11 @@ class Event < ApplicationRecord
     has_many :clients, :through => :presales,:source => :user
     has_many :evaluators, :through => :evaluations,:source => :user
     validates :price,:title,:date,:location,:organizer_id,presence:true, if: :published? #prezzo,titolo,data,location attributi not null
-    validates :title,uniqueness:true
+    validates :title,uniqueness:{scope: :status} #non voglio due bozze con lo stesso titolo o due eventi con lo stesso titolo
     validate :organizer
     validate :Presales_init
     validate :print_errors
-    before_save :AvgValue
+    before_validation :AvgValue
 
     enum status: { draft: 'draft', published: 'published' }
 
@@ -27,13 +27,11 @@ class Event < ApplicationRecord
 
         end
     end
+    
     def AvgValue
-        self.avgvalue = Evaluation.where(user_id: :id).average(:value)
-        if(self.avgvalue.nil?)
-            self.avgvalue=0
-        end
-        
+        self.avgvalue ||= 0.0
     end
+
     def print_errors
         errors.full_messages.each do |message|
           puts message

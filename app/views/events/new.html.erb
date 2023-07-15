@@ -96,33 +96,3 @@
 </body>
 
 
-
-<div id="footer" >
-
-  <!-- Icona "Home" -->
-  <%= link_to events_path do %>
-  <a href="<%= events_path%>">
-    <i class="fas fa-home fa-2x"></i>
-  </a>
-<% end %>
-
-<%= link_to new_event_path do %>
-  <!-- Icona "Home" -->
-  <a href="">
-    <i class="fas fa-plus fa-2x disabled"  ></i>
-  </a>
-<% end %>
-
-<!-- Icona "Salva" -->
-<%= link_to user_saves_path(user_id: current_user.id) do %>
-  <!-- Icona "Home" -->
-  <a href="<%= user_saves_path(user_id: current_user.id) %>">
-    <i class="fas fa-save fa-2x"></i>
-  </a>
-
-<% end %> 
-<!-- Icona "Profilo" -->
- <%= link_to user_path(current_user) do %>
-    <i class="fas fa-user fa-2x"></i>
-<% end %> 
-	  </div>

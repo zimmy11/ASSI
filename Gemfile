@@ -79,7 +79,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
-  gem "bootstrap"
-  gem 'sweetalert2'
-  gem 'base64'
+  
 end
+gem "bootstrap", "~> 5.2.0"
+

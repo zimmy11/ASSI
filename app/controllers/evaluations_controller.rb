@@ -12,7 +12,11 @@ class EvaluationsController < ApplicationController
   def create
     value=params[:evaluation][:value]
     @evaluation=Evaluation.new(event_id: params[:event_id],user_id: current_user.id,value: value)
+
     if @evaluation.save
+      event=Event.find(params[:event_id])
+      event.update_attribute(:avgvalue,Evaluation.where(event_id: event.id).average(:value))
+      puts event.avgvalue
       flash[:success]="Evento valutato correttamente"
       redirect_to events_path
     else

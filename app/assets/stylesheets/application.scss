@@ -1,0 +1,323 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+@import "bootstrap";
+@import url("https://fonts.googleapis.com/css?family=Geologica:300");
+@import url("https://fonts.googleapis.com/css?family=Cormorant+Garamond:600");
+@import url("https://fonts.googleapis.com/css?family=Lobster:400");
+
+header {
+    background-color: white;
+    color: rgb(156, 131, 185);
+    height:100px;
+    font-size: 20px;
+    display: flex;
+    align-items: center; /* Centra verticalmente */
+    justify-content: center;
+  }
+  //per togliere la sottolineatura dai link
+  .events a:link{  
+    text-decoration: none;
+  }
+  .events-show{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+     width:100%; 
+     height:100%;
+     
+  }
+ 
+  
+
+  .fas{
+    margin-right: 25px;
+    color:black
+  
+  }
+  .fas:hover{
+    transform: scale(1.3);
+    color: rgb(156, 131, 185);
+    cursor:pointer
+  
+  }
+  .saved .fas{
+    color:red;
+  }
+  .disabled{
+    opacity: 0.5; 
+    pointer-events: none; 
+    cursor: not-allowed
+  }
+  .save {
+    padding: 7px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+    margin-top: 10px;
+  }
+  .error{
+    background-color: rgb(232, 43, 5);
+
+  }
+  .error:hover {
+    background-color: rgb(149, 28, 3);
+
+  }
+  .success{
+    background-color: rgb(13, 190, 13);
+
+  }
+  .success:hover {
+    background-color: #0f7812;
+  }
+
+
+  .myCard {
+    width: 300px;
+    height: 275px;
+    perspective: 1000px;
+    background-color: rgba(255, 255, 255, 0.3); /* Colore di sfondo con opacità */
+    backdrop-filter: blur(10px);
+    border-bottom:solid 1px rgb(156, 131, 185); 
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    z-index: 10;
+  }
+  .top-text{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .top-text p{
+    margin-bottom: 0;
+  }
+  .top-text div {
+    line-height: 1.1;
+  }
+  .title {
+    font-size: 30px;
+    text-align: center;
+    font-family: "Geologica", sans-serif;
+    font-weight: 300;   
+    color: rgb(0,0,0); 
+  }
+  .location, .price {
+    font-family:"Cormorant Garamond",sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    font-weight:bold;
+    text-align: center;
+    padding-right: 35px;
+    color: rgb(0,0,0); 
+  }
+  .card-footer{
+    color: rgb(0,0,0);
+    font-family: "Lobster",sans-serif;
+    
+  }
+  .date{
+    text-align: right;
+    font-family: "Lobster",sans-serif;
+    color:#e60813;
+  }
+  .circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid black;
+    overflow: hidden;
+    position: absolute;
+    top:15px;
+    left: 15px;
+  }
+  
+  .circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  
+  }
+  .myCard .card-body{
+    height:20%;
+    border-radius: 10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    }
+  .card-body img{
+    width: 100%;
+    height: 90%;
+    object-fit: cover;
+  }
+  .custom-image{
+    border-radius: 10px;
+    height:100px;
+  }
+  .innerCard {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+  }
+  
+  .myCard:hover .innerCard {
+    transform: rotateY(180deg);
+  }
+  
+  .frontSide,
+  .backSide {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 1rem;
+    color: white;
+    box-shadow: 0 0 0.3em rgba(255, 255, 255, 0.5);
+    font-weight: 700;
+  }
+  
+  .frontSide,
+  .frontSide::before {
+    background: linear-gradient(160deg, rgb(192, 192, 192) 0%, rgb(224, 224, 224) 100%);  }
+  
+  .backSide,
+  .backSide::before {
+background: linear-gradient(160deg, rgb(128, 128, 128) 0%, rgb(192, 192, 192) 100%);  }
+  .backSide {
+    transform: rotateY(180deg);
+  }
+  
+  .frontSide::before,
+  .backSide::before {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    content: '';
+    width: 110%;
+    height: 110%;
+    position: absolute;
+    z-index: -1;
+    border-radius: 1em;
+    filter: blur(20px);
+    animation: animate 5s linear infinite;
+  }
+  
+  @keyframes animate {
+    0% {
+      opacity: 0.3;
+    }
+  
+    80% {
+      opacity: 1;
+    }
+  
+    100% {
+      opacity: 0.3;
+    }
+  }
+// css bottone premium
+
+  .premium-button {
+    width: fit-content;
+    
+    display: flex;
+    padding: 0.5em 1rem;
+    cursor: pointer;
+    gap: 0.3rem;
+    font-weight: bold;
+    border-radius: 30px;
+    text-shadow: 2px 2px 3px rgb(136, 0, 136);
+    background: linear-gradient(15deg, #880088, #aa2068, #cc3f47, #de6f3d, #f09f33, #de6f3d, #cc3f47, #aa2068, #880088) no-repeat;
+    background-size: 300%;
+    color: #fff;
+    border: none;
+    background-position: left center;
+    box-shadow: 0 30px 10px -20px rgba(0,0,0,.2);
+    transition: background .3s ease;
+  }
+  
+  .premium-button:hover {
+    background-size: 320%;
+    background-position: right center;
+  }
+  
+  .premium-button:hover svg {
+    fill: #fff;
+  }
+  
+  .premium-button svg {
+    width: 21px;
+    fill: #f09f33;
+    transition: .3s ease;
+    position: relative;
+    top: 15%;
+    left:5%;
+  }
+  .buttons-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .buttons-group a, .buttons-group button {
+    margin: 5px;
+  }
+
+  //pulsante back events.show.htlm
+  .back {
+    display: flex;
+    height: 3em;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    background-color: #eeeeee4b;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    border: none;
+    background: #fff;
+   }
+   //per rimuovere le sottolineature dei link_to
+   .buttons-group .a{
+    text-decoration: none !important;
+
+   }
+   
+   .back > svg {
+    margin-right: 5px;
+    margin-left: 5px;
+    font-size: 20px;
+    transition: all 0.4s ease-in;
+   }
+   
+   .back:hover > svg {
+    font-size: 1.2em;
+    transform: translateX(-5px);
+   }
