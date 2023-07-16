@@ -1,44 +1,95 @@
+<style>
+body{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  height:100%;
+  width:100%;
+  gap:20%;
+  background-image: linear-gradient(to bottom, rgb(156, 131, 185),  rgb(220, 188, 255));
+}
 
-<h1>Events#show</h1>
+header{
+  width:100%;
+}
+.myCard:hover{
+  transform:scale(1);
+}
+.myCard{
+  width:350px;
+  height:320px;
+   background-color: transparent
+}
+.card-body{
+  width:100%;
+}
+.card-footer{
+  width:100%;
+  padding-left:5px;
+}
+
+.top-text{
+  width:100%;
+}
+
+</style>
+<header>
+    <div class="title-container">
+    <h3>EventMaster</h3>
+    </div>
+</header>
+    
 <% if flash[:success] %>
   <div class="success-message">
     <%= flash[:success] %>
   </div>
 <% end %>
-<div class="events-show" >
-<div class="myCard">
-        <div class="innerCard">
-            <div class="frontSide">
-               <p class="title"><%= @event.title %></p>
-                <p>Location: <%= @event.location %></p>
-                <p>Price: <%= @event.price %></p>
-                <p>Date: <%= @event.date %></p>
-                <div class="card-footer text-right " style="border-top: 1px solid rgba(0,0,0,0);">
-          Average Value: <%= @event.evaluations.average(:value) %> / 10
-        </div>
-            </div>
-            <div class="backSide">
-                <%= link_to "",:back ,class:"btn-close", style:"position:absolute; top:5%;right:5%;"%>
-
-                <p class="title">DESCRIZIONE</p>
-                <p>Presales left: <%= @event.presales_left %></p>
-                <p>Organizer: <%if User.find(@event.organizer_id).username!=nil %>
+  <div class="container">
+   <div class="events-show" >
+      <div class="myCard"> 
+        <div class="card-inner">
+            <div class="card-front">
+                  <div class="top-text"><div class="title"><%= @event.title %></div>
+                  <div class="location"> <%= @event.location %>,Italia</div>
+                  <div class="price">Prezzo: <%=@event.price %>&euro;</div>
+                  <div class="date"> <%= @event.date %></div></div>
+                  <div class="circle"><%= image_tag("event.jpg")%></div>
+                  <div class="star" style="position:absolute;top:5%;right:5%">
+                  <% if @event.saved_by?(current_user) %>
+                  <%= link_to delete_saves_path(user_id: current_user.id, event_id: @event.id), method: :delete do %>
+                  <i class="fa-solid fa-heart fa-xl" style="color: #9c83b9;"></i> 
+                  <% end %>
+                  <% else %>
+                  <%= link_to user_saves_path(user_id: current_user.id, event_id: @event.id), method: :post do %>
+                  <i class="fa-regular fa-heart fa-xl" style="color: #9c83b9;"></i>
+                  <% end %>
+                  <% end %>
+                  </div>
+                  <div class="card-body"><%= image_tag("event.jpg",class: "card-img custom-image")%></div>   
+                  <div class="card-footer">
+                  <%= @event.avgvalue %>/10
+                  <i class="fa-solid fa-star" style="color: rgb(255,215,0);"></i></div> 
+                </div>
+            <div class="card-back">
+                <%= link_to "",events_path ,class:"btn-close", style:"position:absolute; top:5%;right:5%;"%>
+                <p class="organizer"> <%if User.find(@event.organizer_id).username!=nil %>
                 <%= link_to User.find(@event.organizer_id).username, user_path(User.find(@event.organizer_id)) %>
-                 <%end%></p>
-                 <% if can?(:manage,:all)%>
-    <p>Lista Acquirenti<% presales=Presale.where(event_id: params[:id])%>
-    <% usernames = presales.map { |presale| presale.user.username }.uniq%>
-    <% usernames.each do |key, value|%>
-    <%= value %>
-    <%end%>
-<%end%>
-   
+                <%end%>presenta</p>
+                <p class="description">DESCRIZIONE</p>
+                
+                <% if can?(:manage,:all)%>
+                <p class="buyers">Lista Acquirenti<% presales=Presale.where(event_id: params[:id])%>
+                <% usernames = presales.map { |presale| presale.user.username }.uniq%>
+                <% usernames.each do |key, value|%>
+                <%= value %>
+                <%end%>
+                <%end%>
+                <p class="presales">Prevendite Rimaste: <%= @event.presales_left %></p>
+
+             </div>
+         </div>
       </div>
-     </div>
-    </div>
-
-
-</div>
+  </div>
 <div class="buttons-group mt-3" style="width:100%">
   <%= link_to events_path  do%>
 <button class="back">
@@ -73,6 +124,8 @@
     </svg>
 <%= link_to "Acquista" ,all_presales_path(event_id: @event.id)%></button>
 </div>
+</div>
+
 <nav class="navbar fixed-bottom navbar-light d-flex justify-content-center align-items-center" style="border-top:solid 1px grey">
 
   <!-- Icona "Home" -->
@@ -91,7 +144,7 @@
 <%end%>
 <!-- Icona "Salva" -->
 <%= link_to user_saves_path(user_id: current_user.id) do %>
-    <i class="fas fa-star fa-2x"></i>
+    <i class="fas fa-heart fa-2x"></i>
   </a>
   <%end%>
  <!-- Icona "Utente" -->

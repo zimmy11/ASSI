@@ -26,17 +26,38 @@ header {
     display: flex;
     align-items: center; /* Centra verticalmente */
     justify-content: center;
+
   }
+html{
+  height:100%;
+}
+.events{
+    padding-top:20px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    height: 640px;
+    overflow:scroll;
+    }  
+.events::-webkit-scrollbar {
+    width: 0px;
+    background-color: transparent;
+  }
+  
+  .events::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+  
+  
   //per togliere la sottolineatura dai link
-  .events a:link{  
+  body a:link{  
     text-decoration: none;
   }
   .events-show{
     display:flex;
     align-items: center;
     justify-content: center;
-     width:100%; 
-     height:100%;
+   
      
   }
  
@@ -86,20 +107,40 @@ header {
   .success:hover {
     background-color: #0f7812;
   }
+  .dropdown{
+    display:flex;
+    justify-content: right;
+    padding-right:20px;
+  }
+  #dropdownMenuLink{
+    background-color: rgb(156, 131, 185);
+    color: white;
+    border: 1px solid black;
+    
 
+  }
+  .navbar{
+    background-color:white;
+    border-top:solid 1px rgb(156, 131, 185)
+    }
 
   .myCard {
     width: 300px;
     height: 275px;
     perspective: 1000px;
     background-color: rgba(255, 255, 255, 0.3); /* Colore di sfondo con opacità */
-    backdrop-filter: blur(10px);
-    border-bottom:solid 1px rgb(156, 131, 185); 
+    border-radius:20px;
     display: flex;
     flex-direction: column;
     padding: 10px;
     z-index: 10;
+    transition: transform 0.3s ease;
+    margin-bottom: 20px;
   }
+  .myCard:hover{
+    transform: scale(1.1);
+  }
+ 
   .top-text{
     display: flex;
     justify-content: center;
@@ -122,7 +163,6 @@ header {
     font-family:"Cormorant Garamond",sans-serif;
     font-size: 14px;
     font-weight: 600;
-    font-weight:bold;
     text-align: center;
     padding-right: 35px;
     color: rgb(0,0,0); 
@@ -169,76 +209,84 @@ header {
     border-radius: 10px;
     height:100px;
   }
-  .innerCard {
+  //css  event.show.htlm.erb
+ 
+  
+  .card-inner {
+    width: 100%;
+    height: 100%;
     position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.8s;
     transform-style: preserve-3d;
-    cursor: pointer;
+    transition: transform 0.999s;
   }
   
-  .myCard:hover .innerCard {
+  .myCard:hover .card-inner {
     transform: rotateY(180deg);
   }
   
-  .frontSide,
-  .backSide {
+  .card-front,
+  .card-back {
     position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
     width: 100%;
     height: 100%;
-    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    border-radius: 1rem;
-    color: white;
-    box-shadow: 0 0 0.3em rgba(255, 255, 255, 0.5);
-    font-weight: 700;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding-top:20px;
+    border-radius: 20px;
+   
+    padding:10px;
+  }
+  .card-front{
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
   }
   
-  .frontSide,
-  .frontSide::before {
-    background: linear-gradient(160deg, rgb(192, 192, 192) 0%, rgb(224, 224, 224) 100%);  }
+  .card-front {
+    transform: rotateY(0deg);
+  }
   
-  .backSide,
-  .backSide::before {
-background: linear-gradient(160deg, rgb(128, 128, 128) 0%, rgb(192, 192, 192) 100%);  }
-  .backSide {
+  .card-back {
     transform: rotateY(180deg);
   }
-  
-  .frontSide::before,
-  .backSide::before {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    content: '';
-    width: 110%;
-    height: 110%;
-    position: absolute;
-    z-index: -1;
-    border-radius: 1em;
-    filter: blur(20px);
-    animation: animate 5s linear infinite;
+  .description{
+    font-family:"Cormorant Garamond",sans-serif;
+    font-size: 14px;
+    font-weight: 600;
   }
-  
-  @keyframes animate {
-    0% {
-      opacity: 0.3;
-    }
-  
-    80% {
-      opacity: 1;
-    }
-  
-    100% {
-      opacity: 0.3;
-    }
+
+  .organizer{
+    font-size: 13px;
+    font-family: "Geologica", sans-serif;
+    font-weight: 300;   
+    color: rgb(0,0,0);
+    padding-top:10px;
+    text-align:center;
+
+  }
+  .organizer a{
+    color:black;
+  }
+  .presales{
+    font-size: 10px;
+    font-family: "Geologica", sans-serif;
+    font-weight: 300;   
+    color: rgb(0,0,0);
+    position:absolute;
+    bottom:10px;
+    right:15px;
+    
+  }
+  .buyers{
+    font-size: 10px;
+    font-family: "Geologica", sans-serif;
+    font-weight: 300;   
+    color: rgb(0,0,0);
+    position:absolute;
+    bottom:10px;
+    left:15px;
+
   }
 // css bottone premium
 

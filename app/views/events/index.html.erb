@@ -1,9 +1,14 @@
+<style>
 
+body{
+  background-image: linear-gradient(to bottom, rgb(156, 131, 185),  rgb(220, 188, 255));
+}
+</style>
 <header>
-            <div class="title-container">
-                <h3>EventMaster</h3>
-            </div>
-        </header>
+    <div class="title-container">
+        <h3>EventMaster</h3>
+    </div>
+</header>
 <% if flash[:success] %>
   <div class="success-message">
     <%= flash[:success] %>
@@ -27,7 +32,7 @@
 <%else%>
 
  <div class="dropdown">
-  <button type="button" class="btn dropdown-toggle" href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: rgb(156, 131, 185);color: white;">
+  <button type="button" class="btn dropdown-toggle" href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" >
     Filtra
   </button>
 
@@ -38,7 +43,7 @@
   </ul>
 </div>  
 
-<div class="events" style="display: flex; flex-direction: column; align-items: center; height: 550px; overflow-y: auto;">
+<div class="events"> 
    <% @events.each do |event| %>
     <%= link_to event_path(event), class: "event-link" do %>
    <div class="myCard" >
@@ -70,7 +75,7 @@
   <%end %>
 </div>
 
-<nav class="navbar fixed-bottom navbar-light d-flex justify-content-center align-items-center" style="border-top:solid 1px rgb(156, 131, 185)">
+<nav class="navbar fixed-bottom navbar-light d-flex justify-content-center align-items-center">
 
   <!-- Icona "Home" -->
   <%= link_to events_path do %>
