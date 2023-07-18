@@ -1,3 +1,9 @@
+<script>
+ function goBack() {
+        history.back();
+      } 
+</script>
+
 <h1>Dettagli utente</h1>
 
 <p><strong>Username:</strong> <%= @user.username %></p>
@@ -7,7 +13,7 @@
 <p><%= link_to "Modifica o Elimina account", edit_user_registration_path %> </p>
 <p> <%= link_to 'Logout', destroy_user_session_path, method: :delete %> </p>
 
-<p> <%= link_to "Back", root_path %> </p>
+ <a  href="#" onclick="goBack()">Back </a>
 <% if params[:id].to_i == current_user.id%>
 <p><%= link_to "Eventi Salvati", user_saves_path(current_user) %></p>
 <%end%>
@@ -17,14 +23,10 @@
 <p><%= link_to "Bozze", events_path(status: "draft")%></p>
 <%end%>
 <% if can?(:create_order,User)%>
-<button class="premium-button">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24">
-        <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z"></path>
-    </svg>
-    <%= link_to "Acquista versione premium", premium_path(user_id: current_user.id)%>
-</button>
-
+<%= link_to "Acquista versione premium", premium_path(user_id: current_user.id)%>
 <%end%>
+
+
 <%end%>
 <br>
 <% if can?(:ban,User) %>
@@ -54,3 +56,30 @@
         <% end %>
 
 </div>
+<nav class="navbar fixed-bottom navbar-light d-flex justify-content-center align-items-center">
+
+  <!-- Icona "Home" -->
+  <%= link_to events_path do %>
+    <i class="fas fa-home fa-2x" ></i>
+<% end %>
+
+  <!-- Icona "Aggiungi" -->
+  <% if can?(:create, Event)%>
+  <% if !Ban.where(user_id: current_user.id).exists?%>
+  <%= link_to new_event_path do %>
+  <a href="<%= new_event_path %>">
+    <i class="fas fa-plus fa-2x"></i>
+  <% end %>
+<% end %>
+<%end%>
+<!-- Icona "Salva" -->
+<%= link_to user_saves_path(user_id: current_user.id) do %>
+    <i class="fas fa-heart fa-2x"></i>
+  </a>
+  <%end%>
+ <!-- Icona "Utente" -->
+<%= link_to user_path(current_user) do %>
+    <i class="fas fa-user fa-2x" ></i>
+<% end %> 
+
+</nav>

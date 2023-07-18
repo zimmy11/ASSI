@@ -1,3 +1,6 @@
+
+<!-- Voglio che ogni bozza abbia un titolo quindi bisogna fare un check nella new.htlm.erb per controllare se il titolo è stato inserito quando viene salvata la bozza-->
+
 <h1>Events#new</h1>
 <head>
   <title>Pubblica il tuo evento</title>
@@ -58,10 +61,13 @@
 
     <%= form.submit "Salva bozza", class: "save draft" %>
     <%= form.submit "Pubblica", class: "save success", id: "publish-button", disabled: true %>
-    <%= link_to "Annulla", :back, class: "save error" %>
+    <a  href="#"  class="save error" onclick="goBack()">Annulla</a>
   <% end %>
 
   <script>
+   function goBack() {
+        history.back();
+      }
     document.addEventListener('DOMContentLoaded', function() {
       var publishButton = document.getElementById('publish-button');
       var formFields = document.querySelectorAll('#event-form input, #event-form textarea');

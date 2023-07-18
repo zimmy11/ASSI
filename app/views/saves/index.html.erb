@@ -1,33 +1,81 @@
 <style>
-.back-button {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #2196f3;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 5px;
-}
 
-.back-button:hover {
-  background-color: #1976d2;
+body{
+  background-color: rgb(156, 131, 185);
 }
 </style>
 <h1>Saves#index</h1>
+ <a href="#" class="back" onclick="goBack()">
+
+  <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024">
+  <path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0
+   188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 
+   5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021
+    28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 
+    874.690416 484.217237 874.690416 495.52477z"></path></svg>
+  Back</a>
 <% if @saves.empty? %>
-<%= link_to "Nessun Evento Salvato", :back, class: "back-button" %>
+<p>Nessun Event Salvato</p>
 <% else %>
-<% @saves.each do |save| %>
-  <div class="card">
-    <h2><%= save.event.title %></h2>
-    <p>Price: <%= save.event.price %></p>
-    <p>Date: <%= save.event.date %></p>
-    <p>Location: <%= save.event.location %></p>
-    <p>Organizer: <% organizer=Save.find_by(event_id: save.event.id).user_id %>
-    <p>Presales left: <%= save.event.presales_left %></p>
-    <p>Organizer: <%=User.find(organizer).username %></p>
+<div class="events"> 
+   <% @saves.each do |save| %>
+    <%= link_to event_path(id: save.event_id), class: "event-link" do %>
+   <div class="myCard" >
+          <div class="top-text"><div class="title"><%= save.event.title %></div>
+          <div class="location"> <%= save.event.location %>,Italia</div>
+          <div class="price">Prezzo: <%=save.event.price %>&euro;</div>
+          <div class="date"> <%= save.event.date %></div></div>
+          <div class="circle"><%= image_tag("event.jpg")%></div>
+          <div class="star" style="position:absolute;top:5%;right:5%">
+          <% if save.event.saved_by?(current_user) %>
+            <%= link_to delete_saves_path(user_id: current_user.id, event_id: save.event_id), method: :delete do %>
+          <i class="fa-solid fa-heart" style="color: #9c83b9;"></i> 
+              <% end %>
+          <% else %>
+            <%= link_to user_saves_path(user_id: current_user.id, event_id: save.event_id), method: :post do %>
+              <i class="fa-regular fa-heart" style="color: #9c83b9;"></i>
+            <% end %>
+            <% end %>
+           </div>
+    <div class="card-body"><%= image_tag("event.jpg",class: "card-img custom-image")%></div>   
+    <div class="card-footer">
+    <%= save.event.avgvalue %>/5
+    <i class="fa-solid fa-star" style="color: rgb(255,215,0);"></i></div> 
+    </div>
+       
+      <% end %>
+    <% end %>
   </div>
-<% end %>
-    <%= link_to "Back",events_path, class: 'back-button' %>
+
+
+
+
 <% end%>
 
+<nav class="navbar fixed-bottom navbar-light d-flex justify-content-center align-items-center">
 
+  <!-- Icona "Home" -->
+  <%= link_to events_path do %>
+    <i class="fas fa-home fa-2x" ></i>
+<% end %>
+
+  <!-- Icona "Aggiungi" -->
+  <% if can?(:create, Event)%>
+  <% if !Ban.where(user_id: current_user.id).exists?%>
+  <%= link_to new_event_path do %>
+  <a href="<%= new_event_path %>">
+    <i class="fas fa-plus fa-2x"></i>
+  <% end %>
+<% end %>
+<%end%>
+<!-- Icona "Salva" -->
+<%= link_to user_saves_path(user_id: current_user.id) do %>
+    <i class="fas fa-heart fa-2x"></i>
+  </a>
+  <%end%>
+ <!-- Icona "Utente" -->
+<%= link_to user_path(current_user) do %>
+    <i class="fas fa-user fa-2x" ></i>
+<% end %> 
+
+</nav>

@@ -35,6 +35,11 @@
       margin-top: 10px;
     }
   </style>
+  <script>
+ function goBack() {
+        history.back();
+      } 
+</script>
 <%= form_for @event,url: {action: "update"} do |form| %>
   <label for="title">Titolo dell'evento:</label>
   <%= form.text_field :title, id: "title",value:@event.title, required: true %>
@@ -52,7 +57,7 @@
   
  
     <%= form.submit 'Salva' %>
-    <%=link_to "Back", event_path%> <!-- il button_to da problemi-->
+    <a  href="#"  class="save error" onclick="goBack()">Annulla</a><!-- il button_to da problemi-->
 
  
 <% end %>

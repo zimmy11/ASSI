@@ -1,9 +1,14 @@
 <style>
 
 body{
-  background-image: linear-gradient(to bottom, rgb(156, 131, 185),  rgb(220, 188, 255));
+  background-color: rgb(156, 131, 185);
 }
 </style>
+<script>
+ function goBack() {
+        history.back();
+      } 
+</script>
 <header>
     <div class="title-container">
         <h3>EventMaster</h3>
@@ -14,23 +19,7 @@ body{
     <%= flash[:success] %>
   </div>
 <% end %>
-<%if params[:status]!=nil%>
-<% @events.each do |draft| %>
-    <%= link_to event_path(id: draft.id) do %>
-      <div class="card">
-        <h2><%= draft.title %></h2>
-        <p>Location:<% if !draft.location.nil?%>  DA INSERIRE
-        <%else%> <%= draft.location %></p><%end%>
-        <p>Price:<% if !draft.price.nil?%>  DA INSERIRE
-        <%else%> <%= draft.price %></p><%end%>
-        <p>Date:<% if !draft.date.nil?%>   DA INSERIRE
-        <%else%> <%= draft.date %></p><%end%>
-         <%end%>
-    <%end%>
-    <%= link_to 'Torna indietro', :back, class: 'btn btn-primary' %>
-
-<%else%>
-
+<%if params[:status]==nil%>
  <div class="dropdown">
   <button type="button" class="btn dropdown-toggle" href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" >
     Filtra
@@ -42,16 +31,27 @@ body{
     <li><a class="dropdown-item" href="#">Distanza</a></li>
   </ul>
 </div>  
-
+<%end%>
 <div class="events"> 
    <% @events.each do |event| %>
     <%= link_to event_path(event), class: "event-link" do %>
    <div class="myCard" >
-          <div class="top-text"><div class="title"><%= event.title %></div>
-          <div class="location"> <%= event.location %>,Italia</div>
-          <div class="price">Prezzo: <%=event.price %>&euro;</div>
-          <div class="date"> <%= event.date %></div></div>
+          <div class="top-text">
+          <div class="title">
+          <% if params[:status]=="draft"%>
+          Bettina
+          <% else %><%= event.title %><%end%>
+          </div>
+          <div class="location">
+           <%= event.location %>,Italia</div>
+          <div class="price">Prezzo: <%=event.price %>&euro;</div>  
+          <div class="date">
+          <% if event.status =="draft"%>
+          Da Inserire
+          <%else%> <%= event.date %>
+          <%end%></div></div>
           <div class="circle"><%= image_tag("event.jpg")%></div>
+          <%if event.status == "published"%>
           <div class="star" style="position:absolute;top:5%;right:5%">
           <% if event.saved_by?(current_user) %>
             <%= link_to delete_saves_path(user_id: current_user.id, event_id: event.id), method: :delete do %>
@@ -63,18 +63,28 @@ body{
             <% end %>
             <% end %>
            </div>
+           <%end%>
     <div class="card-body"><%= image_tag("event.jpg",class: "card-img custom-image")%></div>   
     <div class="card-footer">
-    <%= event.avgvalue %>/10
+    <%= event.avgvalue %>/5
     <i class="fa-solid fa-star" style="color: rgb(255,215,0);"></i></div> 
             
     </div>
        
       <% end %>
     <% end %>
-  <%end %>
-</div>
+  </div>
+  <% if params[:status]== "draft"%>
+ <a href="#" class="back" onclick="goBack()">
 
+  <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024">
+  <path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0
+   188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 
+   5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021
+    28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 
+    874.690416 484.217237 874.690416 495.52477z"></path></svg>
+  Back</a>
+<%end%>
 <nav class="navbar fixed-bottom navbar-light d-flex justify-content-center align-items-center">
 
   <!-- Icona "Home" -->
@@ -102,3 +112,4 @@ body{
 <% end %> 
 
 </nav>
+

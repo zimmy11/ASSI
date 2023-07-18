@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   get "events/:event_id/presales",to: "presales#index",as: "all_presales"
   get "events/:role",to: "events#index",as: "index_events"
   get "users/:user_id/create_order",to: "users#create_order",as: "premium"
+  post "/events/:event_id/evaluations/:value", to: "evaluations#create"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

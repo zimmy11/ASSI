@@ -1,3 +1,5 @@
+
+
 <style>
 body{
   display:flex;
@@ -5,7 +7,7 @@ body{
   align-items:center;
   height:100%;
   width:100%;
-  gap:20%;
+  gap:10%;
   background-image: linear-gradient(to bottom, rgb(156, 131, 185),  rgb(220, 188, 255));
 }
 
@@ -33,27 +35,39 @@ header{
 }
 
 </style>
+<script>
+ function goBack() {
+        history.back();
+      } 
+  
+  
+</script>
+
 <header>
     <div class="title-container">
     <h3>EventMaster</h3>
     </div>
 </header>
     
-<% if flash[:success] %>
-  <div class="success-message">
-    <%= flash[:success] %>
-  </div>
-<% end %>
+
   <div class="container">
    <div class="events-show" >
       <div class="myCard"> 
         <div class="card-inner">
-            <div class="card-front">
+            <div class="card-front" id="<%= @event.id %>">
                   <div class="top-text"><div class="title"><%= @event.title %></div>
                   <div class="location"> <%= @event.location %>,Italia</div>
                   <div class="price">Prezzo: <%=@event.price %>&euro;</div>
-                  <div class="date"> <%= @event.date %></div></div>
+                  <div class="date">
+                  <% if @event.status =="draft"%>
+                   Da Inserire
+                  <%else%> 
+                  <%= @event.date %>
+                  <%end%></div>
+              </div>
+
                   <div class="circle"><%= image_tag("event.jpg")%></div>
+                  <%if @event.status== "published"%>
                   <div class="star" style="position:absolute;top:5%;right:5%">
                   <% if @event.saved_by?(current_user) %>
                   <%= link_to delete_saves_path(user_id: current_user.id, event_id: @event.id), method: :delete do %>
@@ -65,10 +79,13 @@ header{
                   <% end %>
                   <% end %>
                   </div>
+                  <%end%>
                   <div class="card-body"><%= image_tag("event.jpg",class: "card-img custom-image")%></div>   
+
                   <div class="card-footer">
-                  <%= @event.avgvalue %>/10
-                  <i class="fa-solid fa-star" style="color: rgb(255,215,0);"></i></div> 
+                <%= @event.avgvalue %>/5
+                <i class="fa-solid fa-star" style="color: rgb(255,215,0);"></i></div> 
+                  
                 </div>
             <div class="card-back">
                 <%= link_to "",events_path ,class:"btn-close", style:"position:absolute; top:5%;right:5%;"%>
@@ -78,21 +95,22 @@ header{
                 <p class="description">DESCRIZIONE</p>
                 
                 <% if can?(:manage,:all)%>
+                 <% if @event.status == "published"%>
                 <p class="buyers">Lista Acquirenti<% presales=Presale.where(event_id: params[:id])%>
                 <% usernames = presales.map { |presale| presale.user.username }.uniq%>
                 <% usernames.each do |key, value|%>
                 <%= value %>
                 <%end%>
                 <%end%>
+                <%end%>
+                <% if @event.status=="published"%>
                 <p class="presales">Prevendite Rimaste: <%= @event.presales_left %></p>
-
+                <%end%>
              </div>
          </div>
       </div>
   </div>
-<div class="buttons-group mt-3" style="width:100%">
-  <%= link_to events_path  do%>
-<button class="back">
+  <a href="#" class="back" onclick="goBack()">
 
   <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024">
   <path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0
@@ -100,9 +118,9 @@ header{
    5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021
     28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 
     874.690416 484.217237 874.690416 495.52477z"></path></svg>
-  Back
-</button>
-<%end%>
+  Back</a>
+<div class="buttons-group mt-3" style="width:100%">
+
 <% if @event.organizer_id==current_user.id%>
 <%= link_to "Elimina",event_path(id: @event.id),method: :delete, class: "btn btn-danger"%> <!-- metodo base per riferirsi alla destroy altrimenti si hanno problemi -->
 <% if !Ban.where(user_id: current_user.id).exists?%>
@@ -110,20 +128,21 @@ header{
 <%end%>
 <% end%>
 <% if @event.status=="published"%>
+
 <% if !Evaluation.exists?(event_id: @event.id, user_id: current_user.id)%>
 <% if !Ban.where(user_id: current_user.id).exists?%>
-<%= link_to "Valuta",new_event_evaluation_path(event_id: @event.id),class: "btn btn-warning"  %>
+<%= link_to "Valuta",new_event_evaluation_path(@event.id),class: "btn btn-warning valuta",data: { bs_toggle: 'modal', bs_target: '#staticBackdrop' }  %>
 <% end%>
-<%end%>
 
 <%end%>
-
-<button class="premium-button">
+<%= link_to all_presales_path(event_id: @event.id), class: "premium-button" do%>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24">
         <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z"></path>
     </svg>
-<%= link_to "Acquista" ,all_presales_path(event_id: @event.id)%></button>
-</div>
+    Acquista
+<%end%>
+<%end%>
+
 </div>
 
 <nav class="navbar fixed-bottom navbar-light d-flex justify-content-center align-items-center" style="border-top:solid 1px grey">
@@ -153,3 +172,45 @@ header{
 <% end %> 
 
 </nav>
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Valuta l'evento con un voto da 1 a 5</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="display:flex; justify-content:center">
+       <div class="rating">
+          <input value="star-1" name="star-radio" id="star-1" type="radio">
+          <label for="star-1">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path></svg>
+          </label>
+          <input value="star-1" name="star-radio" id="star-2" type="radio">
+          <label for="star-2">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path></svg>
+          </label>
+          <input value="star-1" name="star-radio" id="star-3" type="radio">
+          <label for="star-3">
+           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path></svg>
+           </label>
+          <input value="star-1" name="star-radio" id="star-4" type="radio">
+          <label for="star-4">
+           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path></svg>
+          </label>
+          <input value="star-1" name="star-radio" id="star-5" type="radio">
+          <label for="star-5">
+          <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path></svg>
+          </label>
+       </div>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+        <button type="button" class="btn btn-primary">Invia</button>
+      </div>
+    </div>
+  </div>
+</div>

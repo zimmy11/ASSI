@@ -69,9 +69,15 @@ class EventsController < ApplicationController
 
   def destroy
     @event=Event.find(params[:id])
+    status=@event.status
     if @event.destroy
+      if status == "published"
       flash[:success] = 'L\'evento è stato eliminato con successo!'
       redirect_to events_path
+      else
+        flash[:success] = 'La bozza è stata eliminata con successo!'
+        redirect_to events_path(status: "draft")
+      end
     else
       @event.print_errors    
     end
