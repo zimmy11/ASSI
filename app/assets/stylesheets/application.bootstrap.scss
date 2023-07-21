@@ -1,5 +1,477 @@
-@import '../../../node_modules/bootstrap/scss/bootstrap';
-@import '../../../node_modules/bootstrap-icons/font/bootstrap-icons';
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons';
 @import url("https://fonts.googleapis.com/css?family=Geologica:300");
 @import url("https://fonts.googleapis.com/css?family=Cormorant+Garamond:600");
 @import url("https://fonts.googleapis.com/css?family=Lobster:400");
+header {
+    background-color: white;
+    color: rgb(156, 131, 185);
+    height:100px;
+    font-size: 20px;
+    display: flex;
+    align-items: center; /* Centra verticalmente */
+    justify-content: center;
+
+  }
+html{
+  height:100%;
+}
+.events{
+    padding-top:20px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    height: 640px;
+    overflow:scroll;
+    padding-bottom: 30px;
+    }  
+
+.events::-webkit-scrollbar {
+    width: 0px;
+    background-color: transparent;
+  }
+  
+  .events::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+  
+  
+  //per togliere la sottolineatura dai link
+  body a:link{  
+    text-decoration: none;
+  }
+  .events-show{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    position:relative;
+   
+     
+  }
+ 
+  
+
+  .fas{
+    margin-right: 25px;
+    color:black
+  
+  }
+  .fas:hover{
+    transform: scale(1.3);
+    color: rgb(156, 131, 185);
+    cursor:pointer
+  
+  }
+  .saved .fas{
+    color:red;
+  }
+  .disabled{
+    opacity: 0.5; 
+    pointer-events: none; 
+    cursor: not-allowed
+  }
+  .save {
+    padding: 7px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+    margin-top: 10px;
+  }
+  .error{
+    background-color: rgb(232, 43, 5);
+
+  }
+  .error:hover {
+    background-color: rgb(149, 28, 3);
+    color:white;
+
+  }
+  .success{
+    background-color: rgb(13, 190, 13);
+
+  }
+  .success:hover {
+    background-color: #0f7812;
+    color:white;
+  }
+  .dropdown{
+    display:flex;
+    justify-content: right;
+    padding-right:20px;
+  }
+  #dropdownMenuLink{
+    background-color: rgb(156, 131, 185);
+    color: white;
+    border: 1px solid black;
+    
+
+  }
+  .navbar{
+    background-color:white;
+    border-top:solid 1px rgb(156, 131, 185)
+    }
+
+  .myCard {
+    width: 300px;
+    height: 275px;
+    perspective: 1000px;
+    background-color: rgba(255, 255, 255, 0.3); /* Colore di sfondo con opacità */
+    border-radius:20px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    z-index: 10;
+    transition: transform 0.3s ease;
+    margin-bottom: 20px;
+  }
+  .myCard:hover{
+    transform: scale(1.1);
+  }
+ 
+  .top-text{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .top-text p{
+    margin-bottom: 0;
+  }
+  .top-text div {
+    line-height: 1.1;
+  }
+  .title {
+    font-size: 30px;
+    text-align: center;
+    font-family: "Geologica", sans-serif;
+    font-weight: 300;   
+    color: rgb(0,0,0); 
+  }
+  .location, .price {
+    font-family:"Cormorant Garamond",sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    padding-right: 35px;
+    color: rgb(0,0,0); 
+  }
+  .card-footer{
+    color: rgb(0,0,0);
+    font-family: "Lobster",sans-serif;
+    
+  }
+  .date{
+    text-align: right;
+    font-family: "Lobster",sans-serif;
+    color:#e60813;
+  }
+  .circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid black;
+    overflow: hidden;
+    position: absolute;
+    top:15px;
+    left: 15px;
+  }
+  
+  .circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  
+  }
+  .myCard .card-body{
+    height:20%;
+    border-radius: 10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    }
+  .card-body img{
+    width: 100%;
+    height: 90%;
+    object-fit: cover;
+  }
+  .custom-image{
+    border-radius: 10px;
+    height:100px;
+  }
+
+   //alert successo
+   .alert{
+    position:fixed;
+    z-index:100;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    height:15%;
+
+   }
+
+
+  //css  event.show.htlm.erb
+ 
+   
+  .card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.999s;
+  }
+  
+  .myCard:hover .card-inner {
+    transform: rotateY(180deg);
+  }
+  
+  .card-front,
+  .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding-top:20px;
+    border-radius: 20px;
+   
+    padding:10px;
+  }
+  .card-front{
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .card-front {
+    transform: rotateY(0deg);
+  }
+  
+  .card-back {
+    transform: rotateY(180deg);
+  }
+  .description{
+    font-family:"Cormorant Garamond",sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .organizer{
+    font-size: 13px;
+    font-family: "Geologica", sans-serif;
+    font-weight: 300;   
+    color: rgb(0,0,0);
+    padding-top:10px;
+    text-align:center;
+
+  }
+  .organizer a{
+    color:black;
+  }
+  .presales{
+    font-size: 10px;
+    font-family: "Geologica", sans-serif;
+    font-weight: 300;   
+    color: rgb(0,0,0);
+    position:absolute;
+    bottom:10px;
+    right:15px;
+    
+  }
+  .buyers{
+    font-size: 10px;
+    font-family: "Geologica", sans-serif;
+    font-weight: 300;   
+    color: rgb(0,0,0);
+    position:absolute;
+    bottom:10px;
+    left:15px;
+
+  }
+  //css buttons-group event.show.htlm.erb
+  // css bottone premium (acquista)
+
+  .premium-button {
+    width: fit-content;
+    justify-content: center;
+    background: linear-gradient(15deg, #880088, #aa2068, #cc3f47, #de6f3d, #f09f33, #de6f3d, #cc3f47, #aa2068, #880088) no-repeat;
+    background-size: 300%;
+    color: #fff;
+    border: none;
+    background-position: left center;
+    box-shadow: 0 30px 10px -20px rgba(0,0,0,.2);
+    transition: background .3s ease;
+    position:relative;
+  }
+  
+  .premium-button:hover {
+    background-size: 320%;
+    background-position: right center;
+    color:white;
+  }
+  
+  .premium-button:hover svg {
+    fill: #fff;
+  }
+  
+  .premium-button svg {
+    width: 15px;
+    fill: #f09f33;
+    transition: .3s ease;
+    position: absolute;
+    top: 5%;
+    left:5%;
+  }
+
+  //css per tutti i bottoni
+  .buttons-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .buttons-group a {
+    margin: 5px;
+    height:3em;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    border-radius:10px;
+    cursor:pointer;
+    width:86px;
+    text-shadow: 2px 2px 3px rgb(19, 17, 19);
+
+  }
+  .valuta{
+    text-shadow: none!important;
+
+  }
+  
+
+  //pulsante back events.show.htlm
+  .back {
+    width: 100px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    border: none;
+    background: #fff;
+    color:black;
+    text-shadow: none!important;
+    height:3em;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    border-radius:10px;
+    cursor:pointer;
+    width:86px;
+    position:absolute;
+    top:101px;
+    left:0;
+
+
+   }
+   .back:hover{
+    color:black;
+   }
+    
+   
+   .back  > svg {
+    margin-right: 5px;
+    margin-left: 5px;
+    font-size: 20px;
+    transition: all 0.4s ease-in;
+   }
+   
+   .back:hover > svg {
+    font-size: 1.2em;
+    transform: translateX(-5px);
+   }
+
+   //contenuto modale valutazioni
+   .rating {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 0.3rem;
+    --stroke: #666;
+    --fill: #ffc73a;
+  }
+  
+  .rating input {
+    appearance: unset;
+  }
+  
+  .rating label {
+    cursor: pointer;
+  }
+  
+  .rating svg {
+    width: 3rem;
+    height: 3rem;
+    overflow: visible;
+    fill: transparent;
+    stroke: var(--stroke);
+    stroke-linejoin: bevel;
+    stroke-dasharray: 12;
+    animation: idle 4s linear infinite;
+    transition: stroke 0.2s, fill 0.5s;
+  }
+  
+  @keyframes idle {
+    from {
+      stroke-dashoffset: 24;
+    }
+  }
+  
+  .rating label:hover svg {
+    stroke: var(--fill);
+  }
+
+  .rating input:checked ~ label svg{
+    transition: 0s;
+    animation: idle 4s linear infinite , yippee 0.75s backwards;
+    fill: var(--fill);
+    stroke: var(--fill);
+    stroke-opacity: 0;
+    stroke-dasharray: 0;
+    stroke-linejoin: miter;
+    stroke-width: 8px;
+
+  }
+  @keyframes yippee{
+    0%{
+      transform: scale(1);
+      fill: var(--fill);
+      fill-opacity:0;
+      stroke-opacity: 1;
+      stroke: var(--stroke);
+      stroke-dasharray: 10;
+      stroke-width: 1px;
+      stroke-linejoin: bevel;
+    }
+    30%{
+      transform: scale(0);
+      fill: var(--fill);
+      fill-opacity:0;
+      stroke-opacity: 1;
+      stroke: var(--stroke);
+      stroke-dasharray: 10;
+      stroke-width: 1px;
+      stroke-linejoin: bevel;
+    }
+    30.1%{
+      
+      stroke: var(--fill);
+      stroke-dasharray: 0;
+      stroke-linejoin: miter;
+      stroke-width: 8px;
+
+    }
+    60%{
+      transform: scale(1.2);
+      fill: var(--fill);
+    }
+  }

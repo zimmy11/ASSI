@@ -13,9 +13,11 @@ class SavesController < ApplicationController
   def create
     @save=Save.new(user_id: params[:user_id], event_id: params[:event_id])
     if @save.save
+      flash[:success]="L\'evento è stato salvato correttamente"
       redirect_to events_path # Reindirizza a events#index
 
     else
+      flash[:error] = @save.errors.full_messages.join(', ')
       redirect_back(fallback_location: root_path)
     end
 
@@ -34,6 +36,8 @@ class SavesController < ApplicationController
       redirect_to events_path
 
     else
+      flash[:error] = @save.errors.full_messages.join(', ')
+     
       redirect_back(fallback_location: root_path)
     end
   end

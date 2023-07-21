@@ -10,21 +10,24 @@ class EvaluationsController < ApplicationController
   end
 
   def create
-    value=params[:value]
+    value=params[:star_radio]
+    puts value
     @evaluation=Evaluation.new(event_id: params[:event_id],user_id: current_user.id,value: value)
-    respond_to do |format|
+       
+    
     if @evaluation.save
       event=Event.find(params[:event_id])
       event.update_attribute(:avgvalue,Evaluation.where(event_id: event.id).average(:value))
-      puts event.avgvalue
-      puts "Evento valutato correttamente"
-       format.html { redirect_to events_path}
-      format.json { render :show, status: :created, location: @event }
+      flash[:success]="L\'evento è stato valutato correttamente"
+      respond_to do |format|
+        format.html { redirect_to events_path }
+        format.json { render json: { message: "Evento valutato correttamente", event: event }, status: :created, location: events_path }
+      end
     else
-      puts "Errore nella valutazione dell'evento"
-      render  event_path(event_id: params[:event_id])
+      flash[:error] = @event.errors.full_messages.join(', ')
+      render json: { error: "Errore nella valutazione dell'evento" }, status: :unprocessable_entity
+       
     end
-  end
   end
 
   def edit
@@ -34,12 +37,5 @@ class EvaluationsController < ApplicationController
   end
 
   def destroy
-    @evaluation=Evaluation.find(params[:id])
-    event=@evaluation.event
-    if @evaluation.destroy
-      event.update_attribute(:avgvalue,Evaluation.where(event_id: event.id).average(:value))
-    else 
-      puts "Errore nella cancellazione della valutazione"
-    end
   end
 end

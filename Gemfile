@@ -83,5 +83,9 @@ group :test do
 end
 gem "bootstrap", "~> 5.2.0"
 
+#per mantenere i listener tra le view
 
 gem "cssbundling-rails", "~> 1.2"
+
+gem "jsbundling-rails", "~> 1.1"
+

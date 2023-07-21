@@ -11,6 +11,10 @@ class EventsController < ApplicationController
 
   def show
     @event=Event.find(params[:id])
+    respond_to do |format|
+      format.html { render :show}
+      format.json { render :show, status: :created, location: @event }
+    end
   end
 
   def new
@@ -62,8 +66,8 @@ class EventsController < ApplicationController
       redirect_to event_path
     else
       # Errore nell'aggiornamento
-      @event.print_errors    
-      render :edit
+      flash[:error]=@event.errors.full_messages.join(', ')
+      redirect_to edit_event_path(@event)
     end
   end
 
@@ -79,7 +83,7 @@ class EventsController < ApplicationController
         redirect_to events_path(status: "draft")
       end
     else
-      @event.print_errors    
+      flash[:error]=@event.errors.full_messages.join(', ')  
     end
   end
   def event_params

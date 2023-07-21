@@ -35,13 +35,6 @@ header{
 }
 
 </style>
-<script>
- function goBack() {
-        history.back();
-      } 
-  
-  
-</script>
 
 <header>
     <div class="title-container">
@@ -110,7 +103,7 @@ header{
          </div>
       </div>
   </div>
-  <a href="#" class="back" onclick="goBack()">
+  <%= link_to events_path,class:"back" do%>
 
   <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024">
   <path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0
@@ -118,7 +111,8 @@ header{
    5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021
     28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 
     874.690416 484.217237 874.690416 495.52477z"></path></svg>
-  Back</a>
+Back
+<%end%>
 <div class="buttons-group mt-3" style="width:100%">
 
 <% if @event.organizer_id==current_user.id%>
@@ -131,7 +125,7 @@ header{
 
 <% if !Evaluation.exists?(event_id: @event.id, user_id: current_user.id)%>
 <% if !Ban.where(user_id: current_user.id).exists?%>
-<%= link_to "Valuta",new_event_evaluation_path(@event.id),class: "btn btn-warning valuta",data: { bs_toggle: 'modal', bs_target: '#staticBackdrop' }  %>
+<a class= "btn btn-warning valuta" data-bs-toggle="modal" data-bs-target='#staticBackdrop'>Valuta</a>
 <% end%>
 
 <%end%>
@@ -181,36 +175,54 @@ header{
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" style="display:flex; justify-content:center">
-       <div class="rating">
-          <input value="star-1" name="star-radio" id="star-1" type="radio">
-          <label for="star-1">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path></svg>
-          </label>
-          <input value="star-1" name="star-radio" id="star-2" type="radio">
-          <label for="star-2">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path></svg>
-          </label>
-          <input value="star-1" name="star-radio" id="star-3" type="radio">
-          <label for="star-3">
-           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path></svg>
-           </label>
-          <input value="star-1" name="star-radio" id="star-4" type="radio">
-          <label for="star-4">
-           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path></svg>
-          </label>
-          <input value="star-1" name="star-radio" id="star-5" type="radio">
-          <label for="star-5">
-          <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path></svg>
-          </label>
-       </div>
+    
+<%= form_tag(event_evaluation_path(event_id: @event.id), method: 'post') do %>
+  <div class="rating">
+<%= radio_button_tag 'star_radio',5,false,id: "star-5"%>
+    <%= label_tag 'star-5' do %>
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path>
+      </svg>
+    <% end %>
+<%= radio_button_tag 'star_radio',4,false,id: "star-4"%>
+    <%= label_tag 'star-4' do %>
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path>
+      </svg>
+    <% end %>
 
+    <%= radio_button_tag 'star_radio',3,  false, id: 'star-3' %>
+    <%= label_tag 'star-3' do %>
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path>
+      </svg>
+    <% end %>
 
+    <%= radio_button_tag 'star_radio',2,  false, id: 'star-2'%>
+    <%= label_tag 'star-2' do %>
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path>
+      </svg>
+    <% end %>
 
-      </div>
+    <%= radio_button_tag 'star_radio',1, false, id: 'star-1' %>
+    <%= label_tag 'star-1' do %>
+      <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360"></path>
+      </svg>
+    <% end %>
+
+  </div>
+
+  </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-        <button type="button" class="btn btn-primary">Invia</button>
+         <%= submit_tag 'Invia' , class: "btn btn-primary",id: @event.id  %>
+
       </div>
+      <% end %>
+
     </div>
   </div>
 </div>
+

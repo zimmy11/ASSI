@@ -4,7 +4,6 @@
 <html>
   <head>
 
-   <%= javascript_include_tag 'application',"data-turbo-track" => "reload" %>
    <%= javascript_include_tag 'rails-ujs' %>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -12,8 +11,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
   <%= csrf_meta_tags %>
     <%= csp_meta_tag %>    
-        <%= javascript_importmap_tags %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbolinks-track": "reload", defer: true %>
 
 
 
@@ -24,6 +23,30 @@
   </head>
 
   <body>
+ <%if flash[:success]%>
+<div class="alert alert-success alert-dismissible d-flex align-items-center" role="alert">
+<i class="fa-sharp fa-solid fa-circle-check fa-xl" style="color: #20d813;margin-right: 10px;"></i>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+  <div>
+    <%= flash[:success]%>
+  </div>
+</div>
+<%end%>
+ <%if flash[:error]%>
+<div class="alert alert-danger alert-dismissible d-flex align-items-center" role="alert">
+<i class="fa-solid fa-circle-exclamation fa-xl" style="color: #e10e0e;margin-right: 10px;"></i>  
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <div>
+    <%= flash[:error]%>
+  </div>
+</div>
+<%end%>
+  <script>
+  function goBack() {
+        history.back();
+      } 
+  </script>
     <%= yield %>
   </body>
 </html>
