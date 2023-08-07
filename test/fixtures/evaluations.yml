@@ -1,11 +1,14 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  event: MyString
-  user: MyString
-  value: 1
-
+  user_id: 1
+  event_id: 2
+  value: 4
+  created_at: "2023-08-01 14:29:23"
+  updated_at: "2023-08-01 14:29:23"
 two:
-  event: MyString
-  user: MyString
-  value: 1
+  user_id: 1
+  event_id: 1
+  value:  5
+  created_at: "2023-08-01 14:29:23"
+  updated_at: "2023-08-01 14:29:23"

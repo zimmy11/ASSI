@@ -10,11 +10,12 @@
     "bootstrap-icons": "^1.10.5",
     "esbuild": "^0.18.14",
     "jquery": "^3.7.0",
+    "localtunnel": "^2.0.2",
     "nodemon": "^3.0.1",
     "postcss": "^8.4.26",
     "postcss-cli": "^10.1.0",
     "sass": "^1.64.0"
-   },
+  },
   "scripts": {
     "build:css:compile": "sass ./app/assets/stylesheets/application.bootstrap.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules",
     "build:css:prefix": "postcss ./app/assets/builds/application.css --use=autoprefixer --output=./app/assets/builds/application.css",

@@ -5,7 +5,6 @@ import "@hotwired/turbo-rails"
 import "./controllers"
 import * as bootstrap from "bootstrap" // da inserire per aggiungere il js di bootstrap
 import $ from "jquery"
-
      
       function Ripristina(){
         console.log("Sono in ripristina");

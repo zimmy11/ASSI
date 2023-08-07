@@ -60,7 +60,7 @@
     <%= form.number_field :limit, id: "limit", min: 1, name: "event[limit]", title: "Participant Limit", placeholder: "Enter the participant limit" %>
 
     <%= form.submit "Salva bozza", class: "save draft" %>
-    <%= form.submit "Pubblica", class: "save success", id: "publish-button", disabled: true %>
+    <%= form.submit "Pubblica", class: "save success", id: "publish-button" %>
     <a  href="#"  class="save error" onclick="goBack()">Annulla</a>
   <% end %>
 
@@ -68,36 +68,7 @@
    function goBack() {
         history.back();
       }
-    document.addEventListener('DOMContentLoaded', function() {
-      var publishButton = document.getElementById('publish-button');
-      var formFields = document.querySelectorAll('#event-form input, #event-form textarea');
-
-      // Funzione per controllare lo stato dei campi del modulo
-      function checkFields() {
-        var allFieldsFilled = true;
-
-        formFields.forEach(function(field) {
-          if (!field.value) {
-            allFieldsFilled = false;
-          }
-        });
-
-        // Abilita o disabilita il pulsante "Pubblica" in base allo stato dei campi
-        if (allFieldsFilled) {
-          publishButton.disabled = false;
-        } else {
-          publishButton.disabled = true;
-        }
-      }
-
-      // Controlla lo stato dei campi ogni volta che un campo viene modificato
-      formFields.forEach(function(field) {
-        field.addEventListener('input', checkFields);
-      });
-
-      // Controlla lo stato dei campi al caricamento della pagina
-      checkFields();
-    });
+    
   </script>
 </body>
 

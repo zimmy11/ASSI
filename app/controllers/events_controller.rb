@@ -33,7 +33,7 @@ class EventsController < ApplicationController
         redirect_to @event, notice: 'Bozza salvata con successo.'
       else
         flash[:error]=@event.errors.full_messages.join(",")
-        render :new
+        redirect_to new_event_path
       end
     elsif params[:commit] == 'Pubblica'
       @event.status = 'published'
@@ -42,11 +42,12 @@ class EventsController < ApplicationController
           flash[:success] = 'L\'evento è stato creato con successo!'
           redirect_to events_path
         else
-          flash[:error] = @event.errors.full_messages.join(', ')
-          render :new
+          flash[:error] = @event.errors.full_messages.join(", ")
+          redirect_to new_event_path
         end
       else
-        render :new
+        flash[:error] = @event.errors.full_messages.join(", ")
+        redirect_to new_event_path
       end
     end
   end

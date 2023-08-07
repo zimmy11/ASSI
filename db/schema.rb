@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_05_093347) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_26_161525) do
   create_table "bans", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -18,18 +18,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_05_093347) do
     t.integer "admin_id"
     t.index ["admin_id"], name: "index_bans_on_admin_id"
     t.index ["user_id"], name: "index_bans_on_user_id"
-  end
-
-  create_table "drafts", force: :cascade do |t|
-    t.string "title"
-    t.integer "price"
-    t.date "date"
-    t.integer "limit"
-    t.string "location"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "user_id"
-    t.index ["user_id"], name: "index_drafts_on_user_id"
   end
 
   create_table "evaluations", force: :cascade do |t|
@@ -91,7 +79,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_05_093347) do
 
   add_foreign_key "bans", "users"
   add_foreign_key "bans", "users", column: "admin_id"
-  add_foreign_key "drafts", "users"
   add_foreign_key "evaluations", "events"
   add_foreign_key "evaluations", "users"
   add_foreign_key "events", "users", column: "organizer_id"

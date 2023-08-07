@@ -1,61 +1,42 @@
-
-
-   
-
-    <!-- Include the PayPal JavaScript SDK -->
-    <script>
-    
-     paypal.Buttons.render('#paypal-button-container');
-    
-    </script>
-
-
-
-
+<% if session[:approve_url].present? %>
+  <p>Sto reindirizzando a <%= session[:approve_url] %>...</p>
+  <script>
+    window.location.href = '<%= session[:approve_url] %>'; // Reindirizza l'utente all'URL di approvazione
+  </script>
+<% else %>   
+<p><%= session[:approve_url]%></p>
 <h1>Presales#index</h1>
 <div>
   <h1> List of events</h1>
 <%= form_tag(create_order_path(event_id: params[:event_id]),method: :post) do %>
     <div class="form_row">
       <h4> Payments</h4>
-      <% @event.each do |product| %>
+      
         <div data-charges-and-payments-section="true">
-          <%= radio_button_tag 'presales[event_id]', product.id, @event.first == product %>
-          <span id="<%= "radioButtonName#{product.id}" %>"><%= product.title %></span>
-          <span id="<%= "radioButtonPrice#{product.id}" %>"><%= product.price %><!--%= humanized_money_with_symbol product.price %--></span>
+          <%= radio_button_tag 'presales[event_id]', @event.id,true %>
+          <span id="<%= "radioButtonName#{@event.id}" %>"><%= @event.title %></span>
+          <span id="<%= "radioButtonPrice#{@event.id}" %>"><%= @event.price %><!--%= humanized_money_with_symbol product.price %--></span>
         </div>
         <br>
-      <% end %>
+      
       
     <h1>Payment Method</h1>
-    <div class="form_row">
+    <div class="form_row" id=>
       <div>
-        <%= radio_button_tag 'payment-selection', 'paypal', false, onclick: "changeTab();" %>
+        <%= radio_button_tag 'payment-selection', 'paypal', false %>
         <span>Paypal</span>
       </div>
     </div>
     <br>
     <br>
      <!-- Set up a container element for the button -->
-    <div id="paypal-button-container"></div>
     <%= submit_tag "Buy it!", id: "submit-paypal" %>
     <div id="tab-paypal" class="paymentSelectionTab">
-      <div id="submit-paypal"></div>
     </div>
     <br>
     <br>
     <hr>
   <% end %>
 </div>
+<%end%>
 
-<style>
-  #card-element {
-    width:500px;
-  }
-  .paymentSelectionTab {
-    display: none;
-  }
-  .paymentSelectionTab.active {
-    display: block !important;
-  }
-</style>

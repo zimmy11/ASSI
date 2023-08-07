@@ -35,7 +35,17 @@ header{
 }
 
 </style>
-
+<% if session[:approve_url].present? %>
+  <p>Sto reindirizzando a <%= session[:approve_url] %>...</p>
+  <script>
+    window.location.href = '<%= session[:approve_url] %>'; // Reindirizza l'utente all'URL di approvazione
+  </script>
+  <style>
+  body{
+    background-color:white!important;
+  }
+  </style>
+<% else %>  
 <header>
     <div class="title-container">
     <h3>EventMaster</h3>
@@ -129,7 +139,7 @@ Back
 <% end%>
 
 <%end%>
-<%= link_to all_presales_path(event_id: @event.id), class: "premium-button" do%>
+<%= link_to create_order_path(event_id: params[:id]),method: :post, class: "premium-button" do%>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24">
         <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z"></path>
     </svg>
@@ -225,4 +235,4 @@ Back
     </div>
   </div>
 </div>
-
+<%end%>

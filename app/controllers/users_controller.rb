@@ -43,6 +43,7 @@ response = http.request(request)
 if response.code == '200'
   
   access_token = JSON.parse(response.body)['access_token']
+  session[:access_token]=access_token
   puts JSON.parse(response.body)
   # Usa l'access token per le tue richieste successive
 else
@@ -57,7 +58,7 @@ request = Net::HTTP::Post.new(uri.path)
 request['Content-Type'] = 'application/json'
 
 request['Authorization'] = "Bearer #{access_token}"
-event_price = 20
+price = 10
 
 payload = {
   intent: 'CAPTURE',
@@ -66,7 +67,7 @@ payload = {
       
       amount: {
         currency_code: 'EUR',
-        value: event_price
+        value: price
       }
     }
   ],
@@ -77,8 +78,8 @@ payload = {
         payment_method_selected: 'PAYPAL',
         landing_page: 'LOGIN',
         user_action: 'PAY_NOW',
-        return_url:  "https://localhost/users/:user_id",
-        cancel_url: 'https://localhost/users/:user_id'
+        return_url:  "https://long-hornets-attend.loca.lt/users/"+(current_user.id).to_s+"/capture_order",
+        cancel_url: "https://long-hornets-attend.loca.lt/users/"+(current_user.id).to_s+"/cancel_order"
 
       }
     }
@@ -98,30 +99,59 @@ links.each do |link|
 end
 puts approve_url
 if JSON.parse(response.body)["status"]=="PAYER_ACTION_REQUIRED"
-  redirect_to  approve_url,allow_other_host: true
+  session[:approve_url] = approve_url
+  redirect_to user_path(id: current_user.id)
 else
   flash[:error]="Errore nel pagamento"
+  session[:approve_url] = nil
+  redirect_to  user_path(id: current_user.id)
 end
 end
-  def capture_order
+
+def capture_order
     token=params[:token]
     id=params[:PayerID]
     puts id 
     puts token
-    capture_url = "https://api-m.sandbox.paypal.com/v2/checkout/orders/#{id}/capture"
+    capture_url = "https://api-m.sandbox.paypal.com/v2/checkout/orders/#{token}/capture"
     capture_uri = URI.parse(capture_url)
     capture_http = Net::HTTP.new(capture_uri.host, capture_uri.port)
     capture_http.use_ssl = true
 
     capture_request = Net::HTTP::Post.new(capture_uri.path)
     capture_request['Content-Type'] = 'application/json'
-    capture_request['Authorization'] = "Bearer #{token}"
+    capture_request['Authorization'] = "Bearer #{session[:access_token]}"
     capture_response = capture_http.request(capture_request)
     puts "Questo è #{capture_response.body}"
-    flash[:error]="Hai rifiutato il pagamento"
-    render :show
+    data = JSON.parse(capture_response.body)
+    status = data["status"]
 
+if status == "COMPLETED"
+  @user=User.find(current_user.id)
+  @user.update(role: "organizer")
+  if @user.valid?
+  flash[:success]="Il pagamento è stato completato con successo!"
+  session[:approve_url] = nil
+  redirect_to user_path(id: current_user.id)
+  
+  else
+  flash[:error]="Errore nel pagamento"
+  session[:approve_url] = nil
+  redirect_to user_path(id: current_user.id)
   end
+else
+  flash[:error]="Errore nel pagamento"
+  session[:approve_url] = nil
+  redirect_to user_path(id: current_user.id)
+end
+    
+end
+
+def cancel_order
+  flash[:error]="Hai rifiutato il pagamento"
+  session[:approve_url] = nil
+  redirect_to user_path(id: current_user.id)
+end  
 
   def destroy
   end

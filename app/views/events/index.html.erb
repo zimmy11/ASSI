@@ -4,11 +4,7 @@ body{
   background-color: rgb(156, 131, 185);
 }
 </style>
-<script>
- function goBack() {
-        history.back();
-      } 
-</script>
+
 <header>
     <div class="title-container">
         <h3>EventMaster</h3>
@@ -92,7 +88,6 @@ body{
   <% if can?(:create, Event)%>
   <% if !Ban.where(user_id: current_user.id).exists?%>
   <%= link_to new_event_path do %>
-  <a href="<%= new_event_path %>">
     <i class="fas fa-plus fa-2x"></i>
   <% end %>
 <% end %>

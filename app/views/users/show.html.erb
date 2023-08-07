@@ -3,7 +3,12 @@
         history.back();
       } 
 </script>
-
+<% if session[:approve_url].present? %>
+  <p>Sto reindirizzando a <%= session[:approve_url] %>...</p>
+  <script>
+    window.location.href = '<%= session[:approve_url] %>'; // Reindirizza l'utente all'URL di approvazione
+  </script>
+<%else%>
 <h1>Dettagli utente</h1>
 
 <p><strong>Username:</strong> <%= @user.username %></p>
@@ -83,3 +88,4 @@
 <% end %> 
 
 </nav>
+<%end%>
