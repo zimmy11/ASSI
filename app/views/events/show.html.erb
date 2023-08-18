@@ -99,11 +99,7 @@ header{
                 
                 <% if can?(:manage,:all)%>
                  <% if @event.status == "published"%>
-                <p class="buyers">Lista Acquirenti<% presales=Presale.where(event_id: params[:id])%>
-                <% usernames = presales.map { |presale| presale.user.username }.uniq%>
-                <% usernames.each do |key, value|%>
-                <%= value %>
-                <%end%>
+                <p class="buyers"><%= link_to "Lista Acquirenti", users_path(id: @event.id)%></p>
                 <%end%>
                 <%end%>
                 <% if @event.status=="published"%>
@@ -127,18 +123,16 @@ Back
 
 <% if @event.organizer_id==current_user.id%>
 <%= link_to "Elimina",event_path(id: @event.id),method: :delete, class: "btn btn-danger"%> <!-- metodo base per riferirsi alla destroy altrimenti si hanno problemi -->
-<% if !Ban.where(user_id: current_user.id).exists?%>
 <%= link_to "Modifica",edit_event_path, class: "btn btn-success" %>
 <%end%>
-<% end%>
+
 <% if @event.status=="published"%>
-
 <% if !Evaluation.exists?(event_id: @event.id, user_id: current_user.id)%>
-<% if !Ban.where(user_id: current_user.id).exists?%>
+<%if params[:commit]!=nil && Date.today>@event.date%>
 <a class= "btn btn-warning valuta" data-bs-toggle="modal" data-bs-target='#staticBackdrop'>Valuta</a>
-<% end%>
-
 <%end%>
+<%end%>
+<%if params[:commit]!="organised" && Date.today < @event.date%>
 <%= link_to create_order_path(event_id: params[:id]),method: :post, class: "premium-button" do%>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24">
         <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z"></path>
@@ -146,7 +140,7 @@ Back
     Acquista
 <%end%>
 <%end%>
-
+<%end%>
 </div>
 
 <nav class="navbar fixed-bottom navbar-light d-flex justify-content-center align-items-center" style="border-top:solid 1px grey">

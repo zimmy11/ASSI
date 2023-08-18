@@ -6,7 +6,6 @@ Rails.application.routes.draw do
   
   
   resources :users do
-    resources :drafts
     resources :saves
     resources :presales
     resources :bans

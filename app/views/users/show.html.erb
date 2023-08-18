@@ -17,50 +17,45 @@
 
 <p><%= link_to "Modifica o Elimina account", edit_user_registration_path %> </p>
 <p> <%= link_to 'Logout', destroy_user_session_path, method: :delete %> </p>
-
- <a  href="#" onclick="goBack()">Back </a>
+<br>
+ <a  href="#" onclick="goBack()">Back </a><br>
 <% if params[:id].to_i == current_user.id%>
 <p><%= link_to "Eventi Salvati", user_saves_path(current_user) %></p>
+<%end%><br>
+<% if Presale.where(user_id: params[:id]).any?%>
+<%= link_to "Eventi Acquistati", events_path(user_id: current_user.id,commit: "presale") %><br>
 <%end%>
-<%= link_to "Eventi Acquistati", user_presales_path(user_id: current_user.id) %><br><br><br>
-<% if !Ban.where(user_id: current_user.id).exists?%>
+  <% if can?(:create, Event)%>
 <% if params[:id].to_i == current_user.id%>
+<% if Event.where(organizer_id: params[:id], status: "draft").any?%>
 <p><%= link_to "Bozze", events_path(status: "draft")%></p>
 <%end%>
-<% if can?(:create_order,User)%>
+<%end%>
+<%end%>
+<%if params[:id].to_i == current_user.id%>
+<% if can?(:create_order,User) && !can?(:manage,:all)%>  <!-- possono vedere il bottone per acquistare la versione premium solo gli utenti semplici che possiedono il profilo -->
 <%= link_to "Acquista versione premium", premium_path(user_id: current_user.id)%>
 <%end%>
-
-
 <%end%>
 <br>
 <% if can?(:ban,User) %>
  <% if  params[:id].to_i!= current_user.id%>
+ <% if User.find(params[:id]).role == "organizer"%>
+   <%= link_to "Revoca privilegi",edit_user_path(commit: "Revoca",id: params[:id].to_i)%>
+   <%end%>
     <% if Ban.where(user_id: params[:id]).exists?%>
     <%= link_to "Sbanna Utente",user_ban_path(user_id: params[:id],id: Ban.find_by(user_id: params[:id]).id),method: :delete %>
     <%else%>
     <%= link_to "Banna Utente",new_user_ban_path(user_id: params[:id]),method: :get %>
     <%end%>
-
   <%end%>
 <%end%>
 <br>
-<label for="events">Eventi Organizzati</label>
-<div id="events">
- <% events=Event.where(organizer_id: current_user.id, status:"published")%>
- <% events.each do |event| %>
-    <%= link_to event_path(event) do %>
-      <div class="card">
-        <h2><%= event.title %></h2>
-        <p>Location: <%= event.location %></p>
-        <p>Price: <%= event.price %></p>
-        <p>Date: <%= event.date %></p>
-        
-        </div>
-        <% end %>
-        <% end %>
-
-</div>
+<% if can?(:manage,Event)%>
+<% if Event.where(organizer_id: params[:id]).any?%>
+<%= link_to "Eventi Organizzati", events_path(commit: "organized",organizer_id: params[:id] )%>
+<%end%>
+<%end%>
 <nav class="navbar fixed-bottom navbar-light d-flex justify-content-center align-items-center">
 
   <!-- Icona "Home" -->
@@ -70,11 +65,9 @@
 
   <!-- Icona "Aggiungi" -->
   <% if can?(:create, Event)%>
-  <% if !Ban.where(user_id: current_user.id).exists?%>
   <%= link_to new_event_path do %>
   <a href="<%= new_event_path %>">
     <i class="fas fa-plus fa-2x"></i>
-  <% end %>
 <% end %>
 <%end%>
 <!-- Icona "Salva" -->

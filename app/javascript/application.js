@@ -5,8 +5,10 @@ import "@hotwired/turbo-rails"
 import "./controllers"
 import * as bootstrap from "bootstrap" // da inserire per aggiungere il js di bootstrap
 import $ from "jquery"
-     
-      function Ripristina(){
+
+
+
+function Ripristina(){
         console.log("Sono in ripristina");
         const stars = document.querySelectorAll('.rating input[type="radio"]');
         for(var i=0; i<stars.length;i++){
@@ -88,7 +90,10 @@ import $ from "jquery"
       $(document).on("click",".valuta",Ripristina);
       
       $(document).on("click",".modal-footer .btn-primary",checkForm);
-    
+     
+                
+        
+
 
 
 

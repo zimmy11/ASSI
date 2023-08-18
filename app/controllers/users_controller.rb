@@ -2,6 +2,10 @@ require 'net/http'
 class UsersController < ApplicationController
   before_action :authenticate_user!
   def index
+    @event = Event.find(params[:id])
+    @users = User.joins(:presales).where(presales: { event_id: @event.id }).uniq
+    @buyers_count = User.joins(:presales).where(presales: { event_id: @event.id }).count
+
   end
 
   def show
@@ -16,6 +20,17 @@ class UsersController < ApplicationController
   end
 
   def edit
+    if params[:commit]=="Revoca"
+      @user=User.find(params[:id])
+      if @user.update(role: "user" )
+        flash[:success]="L\'organizzatore ora è un utente"
+      else
+        flash[:error]="Non è possibile effettuare questa operazione."
+      end
+      redirect_to user_path(id: params[:id])
+    end
+
+      
   end
 
   def update
@@ -78,8 +93,8 @@ payload = {
         payment_method_selected: 'PAYPAL',
         landing_page: 'LOGIN',
         user_action: 'PAY_NOW',
-        return_url:  "https://long-hornets-attend.loca.lt/users/"+(current_user.id).to_s+"/capture_order",
-        cancel_url: "https://long-hornets-attend.loca.lt/users/"+(current_user.id).to_s+"/cancel_order"
+        return_url:  "https://tasty-queens-help.loca.lt/users/"+(current_user.id).to_s+"/capture_order",
+        cancel_url: "https://tasty-queens-help.loca.lt/users/"+(current_user.id).to_s+"/cancel_order"
 
       }
     }

@@ -8,7 +8,6 @@ class User < ApplicationRecord
   has_many :presales,dependent: :destroy
   has_many :evaluations,dependent: :destroy
   has_many :events,dependent: :destroy,foreign_key: 'organizer_id'
-  has_many :drafts,dependent: :destroy
   has_many :bans,dependent: :destroy
   has_many :presale_events, through: :presales, :source => :event
   has_many :saved_events, through: :saves, :source => :event

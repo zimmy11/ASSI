@@ -12,7 +12,8 @@ class Event < ApplicationRecord
     validate :organizer
     validate :Presales_init
     validate :print_errors
-    before_validation :AvgValue
+    validate :AvgValue
+    validate :date_cannot_be_in_the_past
     enum status: { draft: 'draft', published: 'published' }
 
     def published?
@@ -28,7 +29,13 @@ class Event < ApplicationRecord
 
         end
     end
-    
+
+    def date_cannot_be_in_the_past
+        if date.present? && date <= Date.today
+          errors.add(:date, "deve essere maggiore della data odierna")
+        end
+    end
+
     def AvgValue
         self.avgvalue ||= 0.0
     end

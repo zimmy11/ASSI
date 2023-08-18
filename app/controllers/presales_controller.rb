@@ -3,7 +3,7 @@ require 'net/http'
 class PresalesController < ApplicationController
   before_action :authenticate_user!
   def index
-    @event = Event.find( params[:event_id])
+    @event = Event.all
   end
 
   def show
@@ -16,8 +16,11 @@ class PresalesController < ApplicationController
 
   def create_order
     event_id = params[:event_id]
-    
-    
+    event=Event.find(event_id)
+    if event.presales_left <=0
+      flash[:error]="Non sono più disponibili prevendite per l'evento"
+      redirect_to events_path
+    end
     url = URI.parse('https://api-m.sandbox.paypal.com/v1/oauth2/token')
     headers = {
   'Content-Type' => 'application/x-www-form-urlencoded',
@@ -76,8 +79,8 @@ payload = {
         payment_method_selected: 'PAYPAL',
         landing_page: 'LOGIN',
         user_action: 'PAY_NOW',
-        return_url:  "https://long-hornets-attend.loca.lt/events/"+event_id+"/presales/capture_order",
-        cancel_url: "https://long-hornets-attend.loca.lt/events/"+event_id+"/presales/cancel_order"
+        return_url:  "https://tasty-queens-help.loca.lt/events/"+event_id+"/presales/capture_order",
+        cancel_url: "https://tasty-queens-help.loca.lt/events/"+event_id+"/presales/cancel_order"
 
       }
     }
@@ -139,8 +142,10 @@ status = data["status"]
 
 if status == "COMPLETED"
   @presale=Presale.new(user_id: current_user.id, event_id: params[:event_id])
+  no_presales=@event.presales_left
   if @presale.save
   flash[:success]="Il pagamento è stato completato con successo!"
+  @event.update(presales_left: no_presales--)
   session[:approve_url] = nil
   redirect_to events_path
   

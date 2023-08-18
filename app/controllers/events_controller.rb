@@ -3,9 +3,18 @@ class EventsController < ApplicationController
   def index
     if params[:status]!=nil
       @events=Event.where(status:"draft")
+    elsif params[:commit]=="organised"
+      @events=Event.where(status: "published", organizer_id: params[:organizer_id])
+    elsif params[:commit]=="presale"
+      @events=[]
+      presales=Presale.where(user_id: params[:user_id])
+      presales.each do |presale|
+        @events.push(Event.find(presale.event_id)) unless @events.include?(Event.find(presale.event_id))
+      end
     else
       @events = Event.where(status: "published")
     end
+   
 
   end
 
