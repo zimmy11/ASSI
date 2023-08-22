@@ -40,15 +40,26 @@ body{
 </div>
 <div class="event-container">
  <div class="dropdown">
-  <button type="button" class="btn dropdown-toggle" href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" >
-    Filtra
-  </button>
 
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" id="About_us">
-    <li><a class="dropdown-item" href="#">Prezzo</a></li>
-    <li><a class="dropdown-item" href="#">Valutazione</a></li>
-    <li><a class="dropdown-item" href="#">Distanza</a></li>
+<div class="search-bar">
+  <%= form_tag(events_path, method: :get) do %>
+    <%= text_field_tag(:search, params[:search], placeholder: "Dove vuoi andare?") %>
+    <%= submit_tag("Cerca") %>
+  <% end %>
+</div>
+
+<%if params[:status]==nil%>
+<div class="dropdown">
+  <button type="button" class="btn dropdown-toggle" href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+    Ordina per
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <li><a class="dropdown-item" href="<%= events_path(sort_by: 'price') %>">Prezzo</a></li>
+    <li><a class="dropdown-item" href="<%= events_path(sort_by: 'avgvalue') %>">Valutazione</a></li>
+     <li><a class="dropdown-item" href="<%= events_path(sort_by: 'date') %>">Data</a></li>
   </ul>
+</div>
+<%end%>
 </div>  
 <div class="events" id="Events"> 
    <% @events.each do |event| %>

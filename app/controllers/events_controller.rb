@@ -3,19 +3,23 @@ class EventsController < ApplicationController
   def index
     if params[:status]!=nil
       @events=Event.where(status:"draft")
-    elsif params[:commit]=="organised"
-      @events=Event.where(status: "published", organizer_id: params[:organizer_id])
-    elsif params[:commit]=="presale"
-      @events=[]
-      presales=Presale.where(user_id: params[:user_id])
-      presales.each do |presale|
-        @events.push(Event.find(presale.event_id)) unless @events.include?(Event.find(presale.event_id))
-      end
     else
       @events = Event.where(status: "published")
+      if params[:search].present?
+        @events = @events.where("location LIKE ?", "%#{params[:search]}%")
+      end
     end
-   
-
+    if params[:sort_by] == "price"
+      @events = @events.order(price: :asc)
+    elsif params[:sort_by] == "avgvalue"
+      @events = @events.order(avgvalue: :desc)
+    elsif params[:sort_by] == "date"
+       @events = @events.order(date: :asc)
+    else
+      # Ordine predefinito (per esempio, per avgvalue più alto)
+      @events = @events.order(avgvalue: :desc)
+    end
+    @events = @events.where("date > ?", Date.today)
   end
 
   def show
