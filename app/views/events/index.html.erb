@@ -54,9 +54,35 @@ body{
     Ordina per
   </button>
   <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-    <li><a class="dropdown-item" href="<%= events_path(sort_by: 'price') %>">Prezzo</a></li>
-    <li><a class="dropdown-item" href="<%= events_path(sort_by: 'avgvalue') %>">Valutazione</a></li>
-     <li><a class="dropdown-item" href="<%= events_path(sort_by: 'date') %>">Data</a></li>
+  <li><a class="dropdown-item" href="<%= events_path(sort_by: 'price', minPrice: params[:minPrice], maxPrice: params[:maxPrice], minDate: params[:minDate], maxDate: params[:maxDate]) %>">Prezzo</a></li>
+  <li><a class="dropdown-item" href="<%= events_path(sort_by: 'avgvalue', minPrice: params[:minPrice], maxPrice: params[:maxPrice], minDate: params[:minDate], maxDate: params[:maxDate]) %>">Valutazione</a></li>
+  <li><a class="dropdown-item" href="<%= events_path(sort_by: 'date', minPrice: params[:minPrice], maxPrice: params[:maxPrice], minDate: params[:minDate], maxDate: params[:maxDate]) %>">Data</a></li>
+</ul>
+
+</div>
+<div class="dropdown">
+  <button type="button" class="btn dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="false">
+    Filtra
+  </button>
+</div>
+<div id="filterCollapse" class="collapse">
+  <form action="<%= events_path %>" method="get" class="filter-form">
+    <label for="minPrice">Prezzo Minimo:</label>
+    <input type="number" name="minPrice" value="<%= params[:minPrice] %>" />
+    
+    <label for="maxPrice">Prezzo Massimo:</label>
+    <input type="number" name="maxPrice" value="<%= params[:maxPrice] %>" />
+    
+    <label for="minDate">Data Minima:</label>
+    <input type="date" name="minDate" value="<%= params[:minDate] %>" />
+    
+    <label for="maxDate">Data Massima:</label>
+    <input type="date" name="maxDate" value="<%= params[:maxDate] %>" />
+    
+    <button type="submit">Applica Filtri</button>
+  </form>
+</div>
+
   </ul>
 </div>
 <%end%>

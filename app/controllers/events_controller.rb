@@ -17,6 +17,18 @@ class EventsController < ApplicationController
         @events = @events.where("location LIKE ?", "%#{params[:search]}%")
       end
     end
+    if params[:minPrice].present?
+      @events = @events.where('price >= ?', params[:minPrice])
+    end
+    if params[:maxPrice].present?
+      @events = @events.where('price <= ?', params[:maxPrice])
+    end
+    if params[:minDate].present?
+      @events = @events.where('date >= ?', params[:minDate])
+    end
+    if params[:maxDate].present?
+      @events = @events.where('date <= ?', params[:maxDate])
+    end
     if params[:sort_by] == "price"
       @events = @events.order(price: :asc)
     elsif params[:sort_by] == "avgvalue"
