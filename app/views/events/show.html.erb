@@ -5,64 +5,38 @@ body{
   display:flex;
   flex-direction:column;
   align-items:center;
-  height:100%;
-  width:100%;
-  gap:10%;
-  background-image: linear-gradient(to bottom, rgb(156, 131, 185),  rgb(220, 188, 255));
+  height:100vh;
+  width:100vw;
+  
 }
-
-header{
-  width:100%;
-}
-.myCard:hover{
-  transform:scale(1);
-}
-.myCard{
-  width:350px;
-  height:320px;
-   background-color: transparent
-}
-.card-body{
-  width:100%;
-}
-.card-footer{
-  width:100%;
-  padding-left:5px;
-}
-
-.top-text{
-  width:100%;
+a{
+  text-decoration:none;
 }
 
 </style>
 <% if session[:approve_url].present? %>
   <p>Sto reindirizzando a <%= session[:approve_url] %>...</p>
   <script>
-    window.location.href = '<%= session[:approve_url] %>'; // Reindirizza l'utente all'URL di approvazione
+    window.location.href = '<%= session[:approve_url] %>'; // Reindirizza l'utente all'URL di approvazione per pagamento
   </script>
-  <style>
-  body{
-    background-color:white!important;
-  }
-  </style>
-<% else %>  
-<header>
-    <div class="title-container">
-    <h3>EventMaster</h3>
-    </div>
-</header>
-    
 
-  <div class="container">
+<% else %>  
+
+<header class="show-header">
+		
+<%= image_tag("logo.png",class: "img-responsive")%>
+</header> 
+ 
+  <div class="show-container">
    <div class="events-show" >
-      <div class="myCard"> 
+      <div class="show-myCard"> 
         <div class="card-inner">
             <div class="card-front" id="<%= @event.id %>">
                   <div class="top-text"><div class="title"><%= @event.title %></div>
                   <div class="location"> <%= @event.location %>,Italia</div>
                   <div class="price">Prezzo: <%=@event.price %>&euro;</div>
                   <div class="date">
-                  <% if @event.status =="draft"%>
+                  <% if @event.date ==nil%>
                    Da Inserire
                   <%else%> 
                   <%= @event.date %>
@@ -95,11 +69,13 @@ header{
                 <p class="organizer"> <%if User.find(@event.organizer_id).username!=nil %>
                 <%= link_to User.find(@event.organizer_id).username, user_path(User.find(@event.organizer_id)) %>
                 <%end%>presenta</p>
-                <p class="description">DESCRIZIONE</p>
+                <p class="description"><%=@event.description%></p>
                 
                 <% if can?(:manage,:all)%>
                  <% if @event.status == "published"%>
+                   <% if Presale.all.where(event_id: @event.id).any?%>
                 <p class="buyers"><%= link_to "Lista Acquirenti", users_path(id: @event.id)%></p>
+                <%end%>
                 <%end%>
                 <%end%>
                 <% if @event.status=="published"%>
@@ -121,9 +97,9 @@ Back
 <%end%>
 <div class="buttons-group mt-3" style="width:100%">
 
-<% if @event.organizer_id==current_user.id%>
+<% if @event.organizer_id==current_user.id ||  (can?(:manage, :all) && @event.status == "published")%>
 <%= link_to "Elimina",event_path(id: @event.id),method: :delete, class: "btn btn-danger"%> <!-- metodo base per riferirsi alla destroy altrimenti si hanno problemi -->
-<%= link_to "Modifica",edit_event_path, class: "btn btn-success" %>
+<%= link_to "Modifica",edit_event_path,data: { turbo: false }, class: "btn btn-success" %>
 <%end%>
 
 <% if @event.status=="published"%>
@@ -143,32 +119,32 @@ Back
 <%end%>
 </div>
 
-<nav class="navbar fixed-bottom navbar-light d-flex justify-content-center align-items-center" style="border-top:solid 1px grey">
+<nav class="navbar navbar-inferiore fixed-bottom navbar-light d-flex justify-content-center align-items-center">
 
   <!-- Icona "Home" -->
-  <%= link_to events_path do %>
+  <ul><li><%= link_to events_path do %>
     <i class="fas fa-home fa-2x" ></i>
-<% end %>
+<% end %></li>
 
   <!-- Icona "Aggiungi" -->
   <% if can?(:create, Event)%>
-  <% if !Ban.where(user_id: current_user.id).exists?%>
+  <li>
   <%= link_to new_event_path do %>
-  <a href="<%= new_event_path %>">
     <i class="fas fa-plus fa-2x"></i>
-  <% end %>
-<% end %>
+<% end %></li>
 <%end%>
 <!-- Icona "Salva" -->
-<%= link_to user_saves_path(user_id: current_user.id) do %>
+<li>
+<%= link_to user_saves_path(user_id: current_user.id),data: { turbo: false } do %> 
     <i class="fas fa-heart fa-2x"></i>
-  </a>
-  <%end%>
+  
+  <%end%></li>
  <!-- Icona "Utente" -->
+ <li>
 <%= link_to user_path(current_user) do %>
     <i class="fas fa-user fa-2x" ></i>
-<% end %> 
-
+<% end %> </li>
+</ul>
 </nav>
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

@@ -11,10 +11,20 @@ class Event < ApplicationRecord
     validates_uniqueness_of :location,scope:[:status, :date], if: :published?
     validate :organizer
     validate :Presales_init
-    validate :print_errors
     validate :AvgValue
     validate :date_cannot_be_in_the_past
+    validate :max_length
+    validate :print_errors
+
     enum status: { draft: 'draft', published: 'published' }
+
+    def max_length
+        if self.description.present? &&  self.description.length > 200
+            puts self.description.length
+            errors.add("Descrizione", "deve essere lunga al massimo 200 caratteri")
+        end
+    end
+        
 
     def published?
         status == 'published'
@@ -32,7 +42,7 @@ class Event < ApplicationRecord
 
     def date_cannot_be_in_the_past
         if date.present? && date <= Date.today
-          errors.add(:date, "deve essere maggiore della data odierna")
+          errors.add("Data", "deve essere maggiore della data odierna")
         end
     end
 

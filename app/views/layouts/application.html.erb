@@ -22,7 +22,7 @@
 
   </head>
 
-  <body>
+  <body class="<%= @is_event_background ? 'event-show-body' : '' %>">
  <%if flash[:success]%>
 <div class="alert alert-success alert-dismissible d-flex align-items-center" role="alert">
 <i class="fa-sharp fa-solid fa-circle-check fa-xl" style="color: #20d813;margin-right: 10px;"></i>

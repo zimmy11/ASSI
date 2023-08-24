@@ -86,11 +86,83 @@ function Ripristina(){
           
           
         }
-       
-      $(document).on("click",".valuta",Ripristina);
+
+      const form = document.getElementById("event-form");
+
+      function SendForm(event){ //manda richiesta ajax per la pubblicazione di una bozza
+        event.preventDefault();
+        event_id = document.querySelector(".show-myCard").id;
+        console.log(event_id)
+        const eventData = {}; // Oggetto per i parametri dell'evento
+        const title = form.querySelector("#title").value;
+        const date = form.querySelector("#date").value;
+        const price = form.querySelector("#price").value;
+        const limit = form.querySelector("#limit").value;
+        const description = form.querySelector("#description").value;
+        const location = form.querySelector("#location").value;
+
+        eventData["title"] = title;
+        eventData["price"] = price;
+        eventData["date"] = date;
+        eventData["limit"] = limit;
+        eventData["description"] = description;
+        eventData["location"] = location;
+
+        console.log(eventData);
+        url = "/events"
+        const csrfToken = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-Token': csrfToken
+          }
+        });
+        $.ajax({
+          url: url,
+          method: "POST", // Puoi specificare il metodo HTTP qui (GET, POST, ecc.)
+          dataType: "html", // Indica che il tipo di dati della risposta è JSON
+          data: { event: eventData, commit: "Pubblica Bozza",id: event_id},
+          success: function (data) {
+            // Qui puoi gestire la risposta ricevuta dal server (data)
+            console.log("Risposta del server:", data);
+            div = data.querySelector(".alert-danger");
+            if(div){
+            window.location.href = "/events/"+event_id+ "/edit/" ; 
+            }
+            else{
+              window.location.href = "/events" ; 
+
+            }
+                   },
+          error: function (error) {
+            // Gestione degli errori
+            console.log("Status:", error.status );
+            console.log("Risposta:",error.responseText);
+            console.log("Intestazioni della risposta:", error.getAllResponseHeaders());
+
+          }
+        });    
+      }
+
       
+      const pubblica = $(".publish_button");
+      console.log(pubblica);
+
+      if (pubblica[0] != null){
+        console.log(pubblica[0]);
+        pubblica[0].addEventListener("click", SendForm);   
+      }
+    
+      const modale = new bootstrap.Modal(document.getElementById('saves_modal'));
+      console.log(modale);
+      if (modale!=null){
+          modale.show();
+          console.log("Sono nella funzione per aprire la modale");
+        
+      }
+      $(document).on("click",".valuta",Ripristina);
       $(document).on("click",".modal-footer .btn-primary",checkForm);
-     
+
+
                 
         
 

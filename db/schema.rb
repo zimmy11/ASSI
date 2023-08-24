@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_26_161525) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_23_103223) do
   create_table "bans", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -42,6 +42,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_26_161525) do
     t.float "avgvalue"
     t.integer "organizer_id"
     t.string "status"
+    t.string "description"
     t.index ["organizer_id"], name: "index_events_on_organizer_id"
   end
 
@@ -82,7 +83,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_26_161525) do
   add_foreign_key "evaluations", "events"
   add_foreign_key "evaluations", "users"
   add_foreign_key "events", "users", column: "organizer_id"
-  add_foreign_key "presales", "events"
   add_foreign_key "presales", "users"
   add_foreign_key "saves", "events"
   add_foreign_key "saves", "users"

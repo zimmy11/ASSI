@@ -1,63 +1,91 @@
-<h1>Events#edit</h1>
-<h1>Modifica evento</h1>
-<style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
-    label {
-      display: block;
-      margin-bottom: 10px;
-    }
-    input[type="text"],
-    input[type="date"],
-    input[type="number"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    textarea {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      resize: vertical;
-    }
-    .btn {
-      background-color: #333;
-      color: #fff;
-      padding: 10px 20px;
-      text-decoration: none;
-      border-radius: 4px;
-      display: inline-block;
-      margin-top: 10px;
-    }
-  </style>
-  <script>
- function goBack() {
-        history.back();
-      } 
-</script>
-<%= form_for @event,url: {action: "update"} do |form| %>
-  <label for="title">Titolo dell'evento:</label>
-  <%= form.text_field :title, id: "title",value:@event.title, required: true %>
+<head>
+  <style>       
+   body{
+    height:100vh;
 
-  <label for="date">Data:</label>
-  <%= form.date_field :date, id: "date", value:@event.date,required: true %>
-
-  <label for="price">Prezzo:</label>
-  <%= form.number_field :price, id: "price", min: 0, step: 0.01,value:@event.price, required: true %>
-
-  <label for="location">Luogo:</label>
-  <%= form.text_field :location, id: "location",value:@event.location, required: true %>
-<label for="limit">Limite partecipanti:</label>
-  <%= form.number_field :limit, id: "limit", min: 1 ,value:@event.limit %>
+  }
+  .show-myCard{
+    background-color: rgb(0,0,0,0.5);
+     width: calc(800px + 22 * ((100vw - 500px) / (500*7)));
+    height: calc(600px + 90 * ((100vw - 500px) / (500*2)));
+     transform: translateY(-50px);
+     }
+   
+    
+    .show-container{
+      height: 100vh;
+    }
   
- 
-    <%= form.submit 'Salva' %>
-    <a  href="#"  class="save error" onclick="goBack()">Annulla</a><!-- il button_to da problemi-->
+  </style>
+</head>
+<body>
+ <!-- scrivi funzione js per estrarre quando premi pubblica i valori dal form -->
+<header class="show-header">
+		
+<%= image_tag("logo.png",class: "img-responsive")%>
+</header> 
+   <div class="form-container show-container">
+      <div class="show-myCard" id=<%="#{@event.id}"%>>
+       <%= form_with model: @event, url: event_path(@event), method: :patch, id: "event-form" do |form| %>
+        <label for="title" >Titolo dell'evento:</label>
 
+        <%= form.text_field :title, id: "title", name: "event[title]", title: "Title", class: "form-control", placeholder: "Inserisci il titolo" %>
+       <label for="date">Data:</label>
+       <%= form.date_field :date, id: "date", name: "event[date]", title: "Date", class: "form-control", placeholder: "Seleziona la data" %>
+
+        <label for="price">Prezzo:</label>
+        <%= form.number_field :price, id: "price", min: 0, step: 0.01, name: "event[price]", title: "Price", class: "form-control", placeholder: "Inserisci il prezzo" %>
+
+        <label for="location">Luogo:</label>
+        <%= form.text_field :location, id: "location", name: "event[location]", title: "Location", class: "form-control", placeholder: "Inserisci la location" %>
+
+         <label for="description">Descrizione dell'evento:</label>
+        <%= form.text_area :description,id: "description",name: "event[description]",title:"Description", rows: 1, class: "form-control", placeholder: "Inserisci la descrizione" %>
  
-<% end %>
+        <label for="limit">Limite partecipanti:</label>
+        <%= form.number_field :limit, id: "limit", min: 1, name: "event[limit]", title: "Participant Limit", class: "form-control", placeholder: "Inserisci il limite partecipanti (opzionale)" %>
+        <div class="submit-group">
+          <div class="publish-container" >
+              <div> <%= form.submit "Salva", class: "save draft" %></div>
+             <%if @event.status == "draft" %><div><%= link_to "Pubblica",href="#", class: "save success publish_button",style:"display:flex"%></div><%end%>
+          </div>
+          <div style="display:flex">
+           <a  href="#"  class="save error" onclick="goBack()">Annulla</a>
+          </div>
+        </div>
+      <% end %>
+  </div>
+</div>
+
+
+
+<nav class="navbar navbar-inferiore fixed-bottom navbar-light d-flex justify-content-center align-items-center">
+
+  <!-- Icona "Home" -->
+  <ul><li><%= link_to events_path do %>
+    <i class="fas fa-home fa-2x" ></i>
+<% end %></li>
+
+  <!-- Icona "Aggiungi" -->
+  <% if can?(:create, Event)%>
+  <li>
+  <%= link_to new_event_path do %>
+    <i class="fas fa-plus fa-2x"></i>
+<% end %></li>
+<%end%>
+<!-- Icona "Salva" -->
+<li>
+<%= link_to user_saves_path(user_id: current_user.id),data: { turbo: false } do %> <!-- ho messo data per disabilitare le proprietà di turbolink e ricaricare la pagina -->
+    <i class="fas fa-heart fa-2x"></i>
+  
+  <%end%></li>
+ <!-- Icona "Utente" -->
+ <li>
+<%= link_to user_path(current_user) do %>
+    <i class="fas fa-user fa-2x" ></i>
+<% end %> </li>
+</ul>
+</nav>
+</body>
+
+

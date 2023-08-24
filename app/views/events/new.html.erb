@@ -1,75 +1,90 @@
 
 <!-- Voglio che ogni bozza abbia un titolo quindi bisogna fare un check nella new.htlm.erb per controllare se il titolo è stato inserito quando viene salvata la bozza-->
 
-<h1>Events#new</h1>
 <head>
-  <title>Pubblica il tuo evento</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
-    label {
-      display: block;
-      margin-bottom: 10px;
-    }
-    input[type="text"],
-    input[type="date"],
-    input[type="number"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    textarea {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      resize: vertical;
-    }
-    .btn {
-      background-color: #333;
-      color: #fff;
-      padding: 10px 20px;
-      text-decoration: none;
-      border-radius: 4px;
-      display: inline-block;
-      margin-top: 10px;
-    }
+   body{
+    height:100vh;
+
+  }
+  .show-myCard{
+    background-color: rgb(0,0,0,0.5);
+     width: calc(800px + 22 * ((100vw - 500px) / (500*7)));
+    height: calc(600px + 90 * ((100vw - 500px) / (500*2)));
+     transform: translateY(-50px);
+     }
+   
+  
   </style>
 </head>
 <body>
-  <h1>Pubblica il tuo evento</h1>
-  <div class="error-message" style="display: none;"><%= flash[:error] %></div>
-  <%= form_with model: @event, url: create_event_path(@event), method: :post, id: "event-form" do |form| %>
-    <label for="title">Titolo dell'evento:</label>
-    <%= form.text_field :title, id: "title", name: "event[title]", title: "Title", placeholder: "Enter the event title" %>
 
-    <label for="date">Data:</label>
-    <%= form.date_field :date, id: "date", name: "event[date]", title: "Date", placeholder: "Select the event date" %>
+<header class="show-header">
+		
+<%= image_tag("logo.png",class: "img-responsive")%>
+</header> 
+  <div class="form-container show-container">
+      <div class="show-myCard">
+       <%= form_with model: @event, url: create_event_path(@event), method: :post, id: "event-form" do |form| %>
+        <label for="title" >Titolo dell'evento:</label>
 
-    <label for="price">Prezzo:</label>
-    <%= form.number_field :price, id: "price", min: 0, step: 0.01, name: "event[price]", title: "Price", placeholder: "Enter the event price" %>
+        <%= form.text_field :title, id: "title", name: "event[title]", title: "Title", class: "form-control", placeholder: "Inserisci il titolo" %>
 
-    <label for="location">Luogo:</label>
-    <%= form.text_field :location, id: "location", name: "event[location]", title: "Location", placeholder: "Enter the event location" %>
+       <label for="date">Data:</label>
+       <%= form.date_field :date, id: "date", name: "event[date]", title: "Date", class: "form-control", placeholder: "Seleziona la data" %>
 
-    <label for="limit">Limite partecipanti:</label>
-    <%= form.number_field :limit, id: "limit", min: 1, name: "event[limit]", title: "Participant Limit", placeholder: "Enter the participant limit" %>
+        <label for="price">Prezzo:</label>
+        <%= form.number_field :price, id: "price", min: 0, step: 0.01, name: "event[price]", title: "Price", class: "form-control", placeholder: "Inserisci il prezzo" %>
 
-    <%= form.submit "Salva bozza", class: "save draft" %>
-    <%= form.submit "Pubblica", class: "save success", id: "publish-button" %>
-    <a  href="#"  class="save error" onclick="goBack()">Annulla</a>
-  <% end %>
+        <label for="location">Luogo:</label>
+        <%= form.text_field :location, id: "location", name: "event[location]", title: "Location",  class: "form-control",placeholder: "Inserisci la location" %>
+        
+        <label for="description">Descrizione dell'evento:</label>
+        <%= form.text_area :description,id: "description",name: "event[description]",title:"Description", rows: 1, class: "form-control", placeholder: "Inserisci la descrizione" %>
+ 
+        <label for="limit">Limite partecipanti:</label>
+        <%= form.number_field :limit, id: "limit", min: 1, name: "event[limit]", title: "Participant Limit", class: "form-control", placeholder: "Inserisci il limite partecipanti (opzionale)" %>
+        <div class="submit-group">
+          <div class="publish-container">
+              <div> <%= form.submit "Bozza", class: "save draft" %></div>
+             <div><%= form.submit "Pubblica", class: "save success", id: "publish-button" %></div>
+          </div>
+          <div style="display:flex">
+           <a  href="#"  class="save error" onclick="goBack()">Annulla</a>
+          </div>
+        </div>
+      <% end %>
+  </div>
+</div>
 
-  <script>
-   function goBack() {
-        history.back();
-      }
-    
-  </script>
+
+<nav class="navbar navbar-inferiore fixed-bottom navbar-light d-flex justify-content-center align-items-center">
+
+  <!-- Icona "Home" -->
+  <ul><li><%= link_to events_path do %>
+    <i class="fas fa-home fa-2x" ></i>
+<% end %></li>
+
+  <!-- Icona "Aggiungi" -->
+  <% if can?(:create, Event)%>
+  <li>
+  <%= link_to new_event_path do %>
+    <i class="fas fa-plus fa-2x"></i>
+<% end %></li>
+<%end%>
+<!-- Icona "Salva" -->
+<li>
+<%= link_to user_saves_path(user_id: current_user.id),data: { turbo: false } do %> <!-- ho messo data per disabilitare le proprietà di turbolink e ricaricare la pagina -->
+    <i class="fas fa-heart fa-2x"></i>
+  
+  <%end%></li>
+ <!-- Icona "Utente" -->
+ <li>
+<%= link_to user_path(current_user) do %>
+    <i class="fas fa-user fa-2x" ></i>
+<% end %> </li>
+</ul>
+</nav>
 </body>
 
 

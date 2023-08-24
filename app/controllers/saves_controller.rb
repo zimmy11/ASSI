@@ -1,6 +1,7 @@
 class SavesController < ApplicationController
   before_action :authenticate_user!
   def index
+    @is_event_background=true
     @saves=Save.where(user_id: current_user.id)
   end
 
@@ -37,7 +38,6 @@ class SavesController < ApplicationController
 
     else
       flash[:error] = @save.errors.full_messages.join(', ')
-     
       redirect_back(fallback_location: root_path)
     end
   end

@@ -61,21 +61,24 @@ body{
           <div class="location">
            <%= event.location %>,Italia</div>
           <div class="price">Prezzo: <%=event.price %>&euro;</div>  
-          <div class="date">
-          <% if event.status =="draft"%>
-          Da Inserire
-          <%else%> <%= event.date %>
-          <%end%></div></div>
+           <div class="date">
+              <% if event.date == nil%>
+                 Da Inserire
+              <%else%> 
+              <%= event.date %>
+              <%end%>
+              </div>
+          </div>
           <div class="circle"><%= image_tag("event.jpg")%></div>
           <%if event.status == "published"%>
           <div class="star">
               <% if event.saved_by?(current_user) %>
               <%= link_to delete_saves_path(user_id: current_user.id, event_id: event.id), method: :delete do %>
-             <i class="fa-solid fa-heart" style="color: #9c83b9;"></i> 
+             <i class="fa-solid fa-heart fa-xl" style="color: #9c83b9;"></i> 
              <%end%>
              <% else %>
               <%= link_to user_saves_path(user_id: current_user.id, event_id: event.id), method: :post do %>
-              <i class="fa-regular fa-heart" style="color: #9c83b9;"></i>
+              <i class="fa-regular fa-heart fa-xl" style="color: #9c83b9;"></i>
              <% end %>
              <% end %>
           </div>
@@ -120,7 +123,7 @@ body{
 <%end%>
 <!-- Icona "Salva" -->
 <li>
-<%= link_to user_saves_path(user_id: current_user.id) do %>
+<%= link_to user_saves_path(user_id: current_user.id),data: { turbo: false } do %> <!-- ho messo data per disabilitare le proprietà di turbolink e ricaricare la pagina -->
     <i class="fas fa-heart fa-2x"></i>
   
   <%end%></li>
