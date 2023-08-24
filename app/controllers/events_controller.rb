@@ -13,9 +13,21 @@ class EventsController < ApplicationController
       end
     else
       @events = Event.where(status: "published")
+      if params[:search].present?
+        @events = @events.where("location LIKE ?", "%#{params[:search]}%")
+      end
     end
-   
-
+    if params[:sort_by] == "price"
+      @events = @events.order(price: :asc)
+    elsif params[:sort_by] == "avgvalue"
+      @events = @events.order(avgvalue: :desc)
+    elsif params[:sort_by] == "date"
+       @events = @events.order(date: :asc)
+    else
+      # Ordine predefinito (per esempio, per avgvalue più alto)
+      @events = @events.order(avgvalue: :desc)
+    end
+    @events = @events.where("date > ?", Date.today)
   end
 
   def show

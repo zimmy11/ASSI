@@ -60,6 +60,31 @@ class Event < ApplicationRecord
         Save.exists?(user_id: user.id,event_id: id)
     end
 
+    def self.filter(filter_criteria)
+        # Logica di filtraggio basata sui criteri passati come parametro.
+        # Esempio di implementazione:
+        filtered_events = all
+
+        if filter_criteria[:location].present?
+            # Filtro per la località solo se è stata specificata nei criteri di ricerca
+            filtered_events = filtered_events.where(location: filter_criteria[:location])
+          end
+    
+        if filter_criteria[:avgvalue_min].present?
+            filtered_events = filtered_events.where('avgvalue >=', filter_criteria[:avgvalue_min])
+        end
+    
+        if filter_criteria[:price_min].present?
+            filtered_events = filtered_events.where('price >= ?', filter_criteria[:price_min])
+        end
+    
+        if filter_criteria[:price_max].present?
+            filtered_events = filtered_events.where('price <= ?', filter_criteria[:price_max])
+        end
+    
+        filtered_events
+      end
+
     def organizer
         organizer = User.find_by(id: organizer_id, role: "admin") || User.find_by(id: organizer_id, role: "organizer")
         if organizer.nil?
