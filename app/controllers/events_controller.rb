@@ -79,16 +79,30 @@ class EventsController < ApplicationController
       if @event.valid?
         if @event.save
           flash[:success] = 'L\'evento è stato creato con successo!'
-          redirect_to events_path
+          respond_to do |format|
+          format.json { render json: { message: "Evento creato correttamente", redirect_url: event_path(id: @event.id)}, status: :created}
+          end
         else
           flash[:error] = @event.errors.full_messages.join(", ")
-          render json: { error:"Errore nel salvataggio" }, status: :bad_request
-          redirect_to edit_event_path(id: params[:id])
+          respond_to do |format|
+          format.json do
+            render json: { error: "Errore nella creazione", redirect_url: edit_event_path(id: @event.id) }, status: :unprocessable_entity
+
+          end
+          end
         end
+      
       else
         flash[:error] = @event.errors.full_messages.join(", ")
-        redirect_to edit_event_path(id: params[:id])
+        respond_to do |format|
+          format.json do
+            render json: { error: "Errore nella creazione", redirect_url: edit_event_path(id: params[:id]) }, status: :unprocessable_entity
+
+          end
+        end
+        
       end
+      
     end
 
  

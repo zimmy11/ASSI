@@ -119,25 +119,24 @@ function Ripristina(){
         $.ajax({
           url: url,
           method: "POST", // Puoi specificare il metodo HTTP qui (GET, POST, ecc.)
-          dataType: "html", // Indica che il tipo di dati della risposta è JSON
+          dataType: "json", // Indica che il tipo di dati della risposta è JSON
           data: { event: eventData, commit: "Pubblica Bozza",id: event_id},
           success: function (data) {
             // Qui puoi gestire la risposta ricevuta dal server (data)
-            console.log("Risposta del server:", data);
-            div = data.querySelector(".alert-danger");
-            if(div){
-            window.location.href = "/events/"+event_id+ "/edit/" ; 
-            }
-            else{
-              window.location.href = "/events" ; 
-
-            }
+            console.log(data);
+            console.log(data['redirect_url']);
+            window.location.href= data['redirect_url'];
+ 
                    },
           error: function (error) {
             // Gestione degli errori
             console.log("Status:", error.status );
             console.log("Risposta:",error.responseText);
             console.log("Intestazioni della risposta:", error.getAllResponseHeaders());
+            var rispostaJSON = JSON.parse(error.responseText);
+
+             window.location.href= rispostaJSON.redirect_url;
+
 
           }
         });    

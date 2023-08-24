@@ -8,7 +8,6 @@ class Event < ApplicationRecord
     validates :price,:date,:location,:organizer_id,presence:true, if: :published? #prezzo,titolo,data,location attributi not null
     validates :title,presence: :true
     validates_uniqueness_of :title,scope: [:status] #non voglio due bozze con lo stesso titolo o due eventi con lo stesso titolo
-    validates_uniqueness_of :location,scope:[:status, :date], if: :published?
     validate :organizer
     validate :Presales_init
     validate :AvgValue
