@@ -1,8 +1,54 @@
-<h2>Sign up</h2>
+<head>
+  <style>
+   body{
+    height:100vh;
+
+  }
+  .show-myCard{
+    background-color: rgb(0,0,0);
+     width: calc(800px + 22 * ((100vw - 500px) / (500*7)));
+    height: calc(600px + 110 * ((100vw - 500px) / (500*2)));
+     transform: translateY(-50px);
+     }
+   .nInput{
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: calc(10px + 20 * (100vw - 500px) / 4500);
+   }
+     .nButton-style {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ff9900;
+    color: white;
+    border: none;
+    border-radius: calc(4px + 20 * (100vw - 500px) / 5500);
+    border: none;
+    cursor: pointer;
+    font-family: "Playfair Display";
+    color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s ease-in-out;
+    width: calc(100px + 30 * (100vw - 500px) / 4000);
+  }
+  
+  .nButton-style:hover {
+    background-color: #e68a00;
+  }
+  
+  </style>
+</head>
+<body>
+<header class="show-header">
+<%= image_tag("logo.png",class: "img-responsive")%>
+</header> 
+<div class="form-container show-container">
+      <div class="show-myCard">
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "users/shared/error_messages", resource: resource %>
-
   <div class="field">
   <%= f.label :role %><br />
   <%= f.radio_button :role, "user", { class: "form-check-input" } %>
@@ -15,32 +61,37 @@
   
 <div class="field">
   <%= f.label :username %><br />
-  <%= f.text_field :username, autocomplete: "username",required:true%>
+  <%= f.text_field :username, class: "nInput" , autofocus: true, autocomplete: "username",required:true%>
 </div>
-
   
 
   <div class="field">
     <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    <%= f.email_field :email,  class: "nInput", autofocus: true, autocomplete: "email" %>
   </div>
 
   <div class="field">
-    <%= f.label :password %>
+    <%= f.label :password%>
     <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <em style="color: white;">(<%= @minimum_password_length %> characters minimum)</em>
     <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
+    <%= f.password_field :password,  class: "nInput" , autocomplete: "new-password" %>
   </div>
 
   <div class="field">
     <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+    <%= f.password_field :password_confirmation,  class: "nInput", autocomplete: "new-password" %>
   </div>
 
+
   <div class="actions">
-    <%= f.submit "Sign up" %>
+      <%= f.submit "Sign up", class: "nButton-style" %>
+    <br> 
+    <br>
+ <%= render "users/shared/links" %>
   </div>
 <% end %>
 
-<%= render "users/shared/links" %>
+</div>
+</div>
+</body>

@@ -149,6 +149,9 @@ GEM
     ffi (1.15.5)
     globalid (1.1.0)
       activesupport (>= 5.0)
+    httparty (0.21.0)
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     importmap-rails (1.2.1)
@@ -184,6 +187,7 @@ GEM
     minitest (5.18.1)
     msgpack (1.7.1)
     multi_test (1.1.0)
+    multi_xml (0.6.0)
     net-imap (0.3.6)
       date
       net-protocol
@@ -335,6 +339,7 @@ DEPENDENCIES
   debug
   devise
   faker
+  httparty (~> 0.21.0)
   importmap-rails
   jbuilder
   jquery-rails

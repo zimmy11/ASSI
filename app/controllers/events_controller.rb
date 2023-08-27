@@ -1,6 +1,8 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!
   def index
+    @user_city = get_user_city(request.remote_ip)
+
     if params[:status]=="draft"
       @events=Event.where(status:"draft",organizer_id: current_user.id)
     elsif params[:commit]=="organised"
@@ -121,7 +123,27 @@ class EventsController < ApplicationController
   end
   
 
+  def get_user_city(ip_address)
+    url = 'https://ip-geo-location.p.rapidapi.com/ip/check'
+    options = {
+      params: {
+        format: 'json',
+        filter: 'city',
+        language: 'en'
+      },
+      headers: {
+        'X-RapidAPI-Key': '9917380005mshdb6755bf2e2e54ap158693jsndca67ed43af4',
+        'X-RapidAPI-Host': 'ip-geo-location.p.rapidapi.com'
+      }
+    }
 
+    response = HTTParty.get(url, options)
+    data = JSON.parse(response.body)
+
+    city = data['city']
+
+    city
+  end
 
   def edit
     @is_event_background=true

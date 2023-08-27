@@ -8,6 +8,25 @@ class UsersController < ApplicationController
 
   end
 
+  def geolocation
+    url = URI.parse('https://ip-geo-location.p.rapidapi.com/ip/check')
+    headers = {
+      'X-RapidAPI-Key' => '9917380005mshdb6755bf2e2e54ap158693jsndca67ed43af4',
+      'X-RapidAPI-Host' => 'ip-geo-location.p.rapidapi.com'
+   }
+parameters = {
+  'format' => 'json',
+	'filter' => 'city'
+}
+# Esegui la richiesta POST per ottenere l'access token
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+request = Net::HTTP::Post.new(url.path+"?"+ URI.encode_www_form(parameters), headers)
+response = http.request(request)
+puts response.body
+
+end
+
   def show
     @user = User.find(params[:id])
   end

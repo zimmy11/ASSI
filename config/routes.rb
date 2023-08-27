@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   get "users/:user_id/create_order",to: "users#create_order",as: "premium"
   get "users/:user_id/capture_order",to: "users#capture_order"
   get "users/:user_id/cancel_order",to: "users#cancel_order"
+  get "users/:user_id/geolocation", to: "users#geolocation"
 
   post "/events/:event_id/evaluations/:star_radio", to: "evaluations#create"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -83,6 +83,11 @@ body{
   </form>
 </div>
 
+<% if params[:search].present? %>
+  <h1 style="color: white;">Eventi nella città di <%= params[:search] %></h1>
+
+<% end %>
+
   </ul>
 </div>
 <%end%>

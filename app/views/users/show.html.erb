@@ -9,21 +9,54 @@
     window.location.href = '<%= session[:approve_url] %>'; // Reindirizza l'utente all'URL di approvazione
   </script>
 <%else%>
+<head>
+  <style>
+   body{
+    height:100vh;
+
+  }
+  .show-myCard{
+    
+    background-color: rgb(0,0,0);
+     width: calc(800px + 22 * ((100vw - 500px) / (500*7)));
+    height: calc(400px + 110 * ((100vw - 500px) / (500*2)));
+     transform: translateY(-50px);
+     display: flex;
+justify-content: center;
+align-items: center;
+     }
+  .custom-label {
+    color: rgb(156, 131, 185);
+    font-family: "Exo 2", sans-serif;
+    font-size:100;
+  }
+  </style>
+</head>
+<body>
 <header class="show-header">
-		
 <%= image_tag("logo.png",class: "img-responsive")%>
 </header> 
-<p><strong>Username:</strong> <%= @user.username %></p>
-<p><strong>Ruolo:</strong> <%= @user.role %></p>
-<p><strong>Email:</strong> <%= @user.email %></p>
-
-<p><%= link_to "Modifica o Elimina account", edit_user_registration_path %> </p>
-<p> <%= link_to 'Logout', destroy_user_session_path, method: :delete %> </p>
+<div class="form-container show-container">
+      <div class="show-myCard">
+<label for="username" class="custom-label" >Username:</label>
+<span id="username"><%= @user.username %></span>
 <br>
- <a  href="#" onclick="goBack()">Back </a><br>
+<label for="ruolo" class="custom-label">Ruolo:</label>
+<span id="ruolo"><%= @user.role %></span>
+<br>
+<label for="email" class="custom-label">Email:</label>
+<span id="email"><%= @user.email %></span>
+<br>
+
+<% if  params[:id].to_i== current_user.id%>
+<p><%= link_to "Gestisci account", edit_user_registration_path %> </p>
+<p> <%= link_to 'Logout', destroy_user_session_path, method: :delete %> </p>
+<%end%>
+ </div>
 <!--<% if params[:id].to_i == current_user.id%>
 <p><%= link_to "Eventi Salvati", user_saves_path(current_user),data: { turbo: false }%></p>
 <%end%><br>-->
+
 <% if Presale.where(user_id: params[:id]).any?%>
 <%= link_to "Eventi Acquistati", events_path(user_id: current_user.id,commit: "presale") %><br>
 <%end%>
@@ -39,7 +72,6 @@
 <%= link_to "Acquista versione premium", premium_path(user_id: current_user.id)%>
 <%end%>
 <%end%>
-<br>
 <% if can?(:ban,User) %>
  <% if  params[:id].to_i!= current_user.id%>
  <% if User.find(params[:id]).role == "organizer"%>
@@ -58,6 +90,11 @@
 <%= link_to "Eventi Organizzati", events_path(commit: "organized",organizer_id: params[:id] )%>
 <%end%>
 <%end%>
+<br>
+ <a  href="#" onclick="goBack()">Back </a><br>
+ </div>
+ </div>
+ </body>
 <nav class="navbar fixed-bottom navbar-light d-flex justify-content-center align-items-center">
 
   <!-- Icona "Home" -->
