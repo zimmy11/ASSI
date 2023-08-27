@@ -1,13 +1,14 @@
 class Event < ApplicationRecord
     has_many :saves,dependent: :destroy,class_name: "Save"
-    has_many :presales
+    has_many :presales,dependent: :destroy
     has_many :evaluations,dependent: :destroy
     belongs_to :user,foreign_key: :organizer_id
     has_many :clients, :through => :presales,:source => :user
     has_many :evaluators, :through => :evaluations,:source => :user
-    validates :price,:date,:location,:organizer_id,presence:true, if: :published? #prezzo,titolo,data,location attributi not null
+    validates :price,:date,:location,presence:true, if: :published? #prezzo,titolo,data,location attributi not null
     validates :title,presence: :true
-    validates_uniqueness_of :title,scope: [:status] #non voglio due bozze con lo stesso titolo o due eventi con lo stesso titolo
+    validates_uniqueness_of :title,scope: :status,if: :published?
+    validates :organizer_id,presence:true
     validate :organizer
     validate :Presales_init
     validate :AvgValue
@@ -27,6 +28,10 @@ class Event < ApplicationRecord
 
     def published?
         status == 'published'
+      end
+
+      def draft?
+        status == 'draft'
       end
 
     def Presales_init

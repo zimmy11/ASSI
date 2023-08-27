@@ -79,8 +79,8 @@ payload = {
         payment_method_selected: 'PAYPAL',
         landing_page: 'LOGIN',
         user_action: 'PAY_NOW',
-        return_url:  "https://tasty-queens-help.loca.lt/events/"+event_id+"/presales/capture_order",
-        cancel_url: "https://tasty-queens-help.loca.lt/events/"+event_id+"/presales/cancel_order"
+        return_url:  "https://rude-bushes-add.loca.lt/events/"+event_id+"/presales/capture_order",
+        cancel_url: "https://rude-bushes-add.loca.lt/events/"+event_id+"/presales/cancel_order"
 
       }
     }
@@ -106,7 +106,7 @@ if JSON.parse(response.body)["status"]=="PAYER_ACTION_REQUIRED"
   redirect_to event_path(id:event_id)
 else
   flash[:error]="Errore nel pagamento"
-  session[:approve_url] = nil
+  session.delete(:approve_url)
   redirect_to event_path(id:event_id)
 end
 end
@@ -142,27 +142,25 @@ status = data["status"]
 
 if status == "COMPLETED"
   @presale=Presale.new(user_id: current_user.id, event_id: params[:event_id])
-  no_presales=@event.presales_left
   if @presale.save
   flash[:success]="Il pagamento è stato completato con successo!"
-  @event.update(presales_left: no_presales--)
-  session[:approve_url] = nil
+  session[:approve_url]=nil
   redirect_to events_path
   
   else
   flash[:error]="Errore nel pagamento"
-  session[:approve_url] = nil
+  session[:approve_url]=nil
   redirect_to event_path(id: params[:event_id])
   end
 else
   flash[:error]="Errore nel pagamento"
-  session[:approve_url] = nil
+  session[:approve_url]=nil
   redirect_to events_path
 end
 end
 def cancel_order
   flash[:error]="Hai rifiutato il pagamento"
-  session[:approve_url] = nil
+  session[:approve_url]=nil
   redirect_to event_path(id: params[:event_id])
 end
 

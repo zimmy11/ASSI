@@ -63,7 +63,7 @@ body{
 </div>  
 <div class="events" id="Events"> 
    <% @events.each do |event| %>
-    <%= link_to event_path(event,commit: params[:commit]) do %>
+    <%= link_to event_path(event,commit: params[:commit]),data: { turbo: false } do %>
    <div class="myCard" >
           <div class="top-text">
           <div class="title">

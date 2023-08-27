@@ -1,8 +1,9 @@
 # features/step_definitions/event_steps.rb
 
-# Passaggi di supporto per il Background
 Given('Sono nella pagina di sign up') do
     visit(new_user_registration_path) # Assume che la route per la pagina di login sia new_user_session_path
+    expect(current_path).to eq(new_user_registration_path)
+
 end   
 Given('inserisco nel form username {string}') do |username|
     # Sostituisci "username" e "password" con le credenziali valide per il test
@@ -31,18 +32,16 @@ end
   
   Then('dovrei essere reindirizzato alla homepage') do
     
-    expect(page).to have_content("EventMaster") # Sostituisci con la route per la pagina del dashboard
+    expect(current_path).to satisfy { |path| path == '/' || path == '/events' }
   end
   
   When('clicco sul pulsante +') do 
-    puts page.html
     link = find('a[href="/events/new"]')
     link.click
-end
+  end
 
   Then('dovrei essere reindirizzato alla pagina di creazione dell\'evento') do
      # Assumi che la route per la pagina di creazione di un nuovo evento sia new_event_path
-    puts page.html
     expect(current_path).to eq(new_event_path)
   end
   
@@ -63,6 +62,9 @@ end
   And('inserisco il prezzo {int}') do |price|
     fill_in 'event[price]', with: price
   end
+  And('inserisco la descrizione {string}') do |description|
+    fill_in 'event[description]', with: description
+  end
   
   And('premo su {string}') do |button|
     click_button button
@@ -71,6 +73,7 @@ end
   Then("l'evento dovrebbe essere pubblicato") do
     @event = Event.last
     expect(@event.status).to eq("published")
+    expect(current_path).to eq(events_path)
   end
   
   And("il limite di partecipanti all'evento non dovrebbe essere null") do
@@ -87,4 +90,31 @@ end
   Then('la pagina dovrebbe avere tra gli errori {string}') do |error|
     expect(page).to have_content(error)
   end
+  When('clicco sull\' icona utente') do
+  link = find('a[href="/users/5"]')
+  link.click
+  end
+
+Then('dovrei essere reindirizzato alla pagina di Profilo') do
+  expect(current_path).to eq("/users/5")
+end 
+
+Then('dovrei essere reindirizzato alla pagina degli Eventi Salvati') do
+  expect(current_path).to eq("/users/5/saves")
+
+end
+
+When('clicco sul pulsante Home') do
+  link = find('a[href="/events"]')
+  link.click
+end
+
+When('clicco sull\' icona Salva') do
+  puts page.html
+  link = find('a[href="/users/5/saves"]')
+  link.click
+end
+  
+  
+  
   

@@ -13,7 +13,7 @@ Feature: Aggiungere un evento
 
   Scenario: pubblica un evento
     When ho riempito il form nuovo evento con titolo "My Event" 
-    And  inserisco la data "2023-08-31" 
+    And  inserisco la data "2024-08-31" 
     And inserisco la location "City Hall" 
     And inserisco il prezzo 15
     And premo su "Pubblica"
@@ -27,17 +27,22 @@ Feature: Aggiungere un evento
     And  inserisco la data "" 
     And inserisco la location "" 
     And premo su "Pubblica"
-    Then la pagina dovrebbe avere tra gli errori "Price can't be blank, Title can't be blank, Date can't be blank, Location can't be blank"
-    
+    Then la pagina dovrebbe avere tra gli errori "Price can't be blank"
+    Then la pagina dovrebbe avere tra gli errori "Title can't be blank"
+    Then la pagina dovrebbe avere tra gli errori "Date can't be blank"
+    Then la pagina dovrebbe avere tra gli errori "Location can't be blank"
+    Then dovrei essere reindirizzato alla pagina di creazione dell'evento
+
   Scenario: pubblicazione di un evento senza titolo
     When ho riempito il form nuovo evento con titolo "" 
-    And  inserisco la data "2023-08-31" 
+    And  inserisco la data "2024-08-31" 
     And inserisco la location "City Hall" 
     And inserisco il prezzo 15
     And premo su "Pubblica"
     Then la pagina dovrebbe avere tra gli errori "Title can't be blank"
 
-      
+     Then dovrei essere reindirizzato alla pagina di creazione dell'evento
+    
   Scenario: pubblicazione di un evento senza data
     When ho riempito il form nuovo evento con titolo "My Event" 
     And  inserisco la data "" 
@@ -45,18 +50,66 @@ Feature: Aggiungere un evento
     And inserisco il prezzo 15
     And premo su "Pubblica"
     Then la pagina dovrebbe avere tra gli errori "Date can't be blank"
+   Then dovrei essere reindirizzato alla pagina di creazione dell'evento
 
     Scenario: pubblicazione di un evento senza prezzo
     When ho riempito il form nuovo evento con titolo "My Event" 
-    And  inserisco la data "2023-08-31" 
+    And  inserisco la data "2024-08-31" 
     And inserisco la location "City Hall" 
     And premo su "Pubblica"
     Then la pagina dovrebbe avere tra gli errori "Price can't be blank"
+   Then dovrei essere reindirizzato alla pagina di creazione dell'evento
 
     Scenario: pubblicazione di un evento senza location
     When ho riempito il form nuovo evento con titolo "My Event" 
-    And  inserisco la data "2023-08-31" 
+    And  inserisco la data "2024-08-31" 
     And inserisco la location ""
     And inserisco il prezzo 15
     And premo su "Pubblica"
     Then la pagina dovrebbe avere tra gli errori "Location can't be blank"
+   Then dovrei essere reindirizzato alla pagina di creazione dell'evento
+
+    Scenario: pubblicazione di un evento con descrizione troppo lunga
+    When ho riempito il form nuovo evento con titolo "My Event" 
+    And  inserisco la data "2024-08-31" 
+    And inserisco la location "City Hall"
+    And inserisco il prezzo 15
+    And inserisco la descrizione "Elegante serata di gala con musica dal vivo,prelibatezze culinarie e un'atmosfera affascinante.Celebrazione eccezionale: un mix straordinario di artisti, cibo delizioso e intrattenimento coinvolgente per tutti."
+    And premo su "Pubblica"
+    Then la pagina dovrebbe avere tra gli errori "Descrizione deve essere lunga al massimo 200 caratteri"
+       Then dovrei essere reindirizzato alla pagina di creazione dell'evento
+
+    Scenario: pubblicazione di due eventi con lo stesso titolo
+    When ho riempito il form nuovo evento con titolo "My Event" 
+    And  inserisco la data "2024-08-31" 
+    And inserisco la location "City Hall" 
+    And inserisco il prezzo 15
+    And premo su "Pubblica"
+    Then l'evento dovrebbe essere pubblicato
+   When clicco sul pulsante +
+    When ho riempito il form nuovo evento con titolo "My Event" 
+    And  inserisco la data "2024-08-31" 
+    And inserisco la location "Roma" 
+    And inserisco il prezzo 15
+    And premo su "Pubblica"
+    Then la pagina dovrebbe avere tra gli errori "Title has already been taken"
+
+    Scenario: pubblicazione di due eventi con stessa data e location
+    When ho riempito il form nuovo evento con titolo "My Event" 
+    And  inserisco la data "2024-08-31" 
+    And inserisco la location "City Hall" 
+    And inserisco il prezzo 15
+    And premo su "Pubblica"
+    Then l'evento dovrebbe essere pubblicato
+   When clicco sul pulsante +
+    When ho riempito il form nuovo evento con titolo "Your Event" 
+    And  inserisco la data "2024-08-31" 
+    And inserisco la location "City Hall" 
+    And inserisco il prezzo 15
+    And premo su "Pubblica"
+    Then l'evento dovrebbe essere pubblicato
+
+    
+
+  
+  

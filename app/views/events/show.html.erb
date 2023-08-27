@@ -14,8 +14,8 @@ a{
 }
 
 </style>
-<% if session[:approve_url].present? %>
-  <p>Sto reindirizzando a <%= session[:approve_url] %>...</p>
+<% if session[:approve_url]!=nil %>
+  <p style="color:white">Sto reindirizzando a <%= session[:approve_url] %>...</p>
   <script>
     window.location.href = '<%= session[:approve_url] %>'; // Reindirizza l'utente all'URL di approvazione per pagamento
   </script>
@@ -85,7 +85,7 @@ a{
          </div>
       </div>
   </div>
-  <%= link_to events_path,class:"back" do%>
+  <%= link_to events_path(commit: params[:commit],user_id: params[:organizer_id]),class:"back" do%>
 
   <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024">
   <path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0
@@ -104,7 +104,7 @@ Back
 
 <% if @event.status=="published"%>
 <% if !Evaluation.exists?(event_id: @event.id, user_id: current_user.id)%>
-<%if params[:commit]!=nil && Date.today>@event.date%>
+<%if params[:commit]!=nil  && Date.today>@event.date%>
 <a class= "btn btn-warning valuta" data-bs-toggle="modal" data-bs-target='#staticBackdrop'>Valuta</a>
 <%end%>
 <%end%>

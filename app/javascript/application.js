@@ -19,7 +19,7 @@ function Ripristina(){
         }
 
 
-      function checkForm(event){
+function checkForm(event){
           const stars = document.querySelectorAll('.rating input[type="radio"]');
           var length=0;
           var value;
@@ -61,22 +61,25 @@ function Ripristina(){
             });
             // se tutto è ok ed ho selezionato almeno un pulsante allora vengo reindirizzato alla homepage
             //dopo aver salvato la valutazione nel db
+            event_id = document.querySelector(".show-myCard").id;
             $.ajax({
               url: url,
               method: "POST", // Puoi specificare il metodo HTTP qui (GET, POST, ecc.)
-              dataType: "html", // Indica che il tipo di dati della risposta è JSON
-              
+              dataType: "json", // Indica che il tipo di dati della risposta è JSON
               success: function (data) {
                 // Qui puoi gestire la risposta ricevuta dal server (data)
                 console.log("Risposta del server:", data);
                 // Puoi aggiornare la pagina, mostrare un messaggio di successo, ecc.
-                window.location.href="/events";
+                window.location.href= data['redirect_url'];
+
               },
               error: function (error) {
                 // Gestione degli errori
                 console.log("Status:", error.status );
                 console.log("Risposta:",error.responseText);
                 console.log("Intestazioni della risposta:", error.getAllResponseHeaders());
+                console.log(error["redirect_url"])
+                window.location.href= error["redirect_url"];
 
               }
             });    
@@ -150,7 +153,7 @@ function Ripristina(){
         console.log(pubblica[0]);
         pubblica[0].addEventListener("click", SendForm);   
       }
-    
+      if(document.getElementById('saves_modal')!=null){
       const modale = new bootstrap.Modal(document.getElementById('saves_modal'));
       console.log(modale);
       if (modale!=null){
@@ -158,8 +161,12 @@ function Ripristina(){
           console.log("Sono nella funzione per aprire la modale");
         
       }
+    }
+      const valuta = document.getElementsByClassName("valuta");
+      console.log("Questo è "+valuta)  
+      if(valuta!=null){
       $(document).on("click",".valuta",Ripristina);
-      $(document).on("click",".modal-footer .btn-primary",checkForm);
+      $(document).on("click",".modal-footer .btn-primary",checkForm);}
 
 
                 

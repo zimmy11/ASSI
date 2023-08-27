@@ -27,7 +27,7 @@
    <div class="form-container show-container">
       <div class="show-myCard" id=<%="#{@event.id}"%>>
        <%= form_with model: @event, url: event_path(@event), method: :patch, id: "event-form" do |form| %>
-        <label for="title" >Titolo dell'evento:</label>
+        <label for="title" >Titolo:</label>
 
         <%= form.text_field :title, id: "title", name: "event[title]", title: "Title", class: "form-control", placeholder: "Inserisci il titolo" %>
        <label for="date">Data:</label>
@@ -39,7 +39,7 @@
         <label for="location">Luogo:</label>
         <%= form.text_field :location, id: "location", name: "event[location]", title: "Location", class: "form-control", placeholder: "Inserisci la location" %>
 
-         <label for="description">Descrizione dell'evento:</label>
+         <label for="description">Descrizione:</label>
         <%= form.text_area :description,id: "description",name: "event[description]",title:"Description", rows: 1, class: "form-control", placeholder: "Inserisci la descrizione" %>
  
         <label for="limit">Limite partecipanti:</label>

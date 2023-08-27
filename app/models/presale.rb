@@ -7,7 +7,7 @@ class Presale < ApplicationRecord
     validate  :updatePresales
     validate :print_errors
     def updatePresales
-        event=Event.find_by(id: event_id)
+        event=Event.find_by(id: self.event_id)
         puts event
         if event.nil?
             errors.add(:base, "Evento non trovato")

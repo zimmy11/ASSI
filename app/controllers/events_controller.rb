@@ -3,14 +3,15 @@ class EventsController < ApplicationController
   def index
     if params[:status]=="draft"
       @events=Event.where(status:"draft",organizer_id: current_user.id)
-    elsif params[:commit]=="organised"
+      return
+    elsif params[:commit]=="organized"
       @events=Event.where(status: "published", organizer_id: params[:organizer_id])
+      return
     elsif params[:commit]=="presale"
-      @events=[]
-      presales=Presale.where(user_id: params[:user_id])
-      presales.each do |presale|
-        @events.push(Event.find(presale.event_id)) unless @events.include?(Event.find(presale.event_id))
-      end
+      
+      @events = Event.joins(:presales).where(presales: { user_id: params[:user_id] }).distinct
+      return
+
     else
       @events = Event.where(status: "published")
       if params[:search].present?
@@ -48,8 +49,14 @@ class EventsController < ApplicationController
     
     # Voglio che quando clicco su "Salva bozza" la verifica di presenza sia solo su "date" e "title"
     @event = Event.new(event_params.merge(organizer_id: current_user.id))
-  
-    if params[:commit] == 'Bozza'
+    flash[:title]=params[:event][:title]
+    flash[:date]=params[:event][:date]
+    flash[:price]=params[:event][:price]
+    flash[:location]=params[:event][:location]
+    flash[:description]=params[:event][:description]
+    flash[:limit]=params[:event][:limit]
+
+    if params[:commit] == 'Bozza' #sto salvando come bozza
       @event.status = 'draft'
       if @event.save
         redirect_to @event, notice: 'Bozza salvata con successo.'
@@ -57,7 +64,7 @@ class EventsController < ApplicationController
         flash[:error]=@event.errors.full_messages.join(",")
         redirect_to new_event_path
       end
-    elsif params[:commit] == 'Pubblica'
+    elsif params[:commit] == 'Pubblica'#sto pubblicando di un evento
       @event.status = 'published'
       if params[:organizer]
         @event.organizer_id = params[:organizer]
@@ -74,7 +81,7 @@ class EventsController < ApplicationController
         flash[:error] = @event.errors.full_messages.join(", ")
         redirect_to new_event_path
       end
-    elsif params[:commit] == 'Pubblica Bozza'
+    elsif params[:commit] == 'Pubblica Bozza'# sto pubblicando una bozza
       @event.status = 'published'
       if @event.valid?
         if @event.save
@@ -120,6 +127,12 @@ class EventsController < ApplicationController
 
   def update
     @event = Event.find(params[:id])
+    flash[:title]=params[:event][:title]
+    flash[:date]=params[:event][:date]
+    flash[:price]=params[:event][:price]
+    flash[:location]=params[:event][:location]
+    flash[:description]=params[:event][:description]
+    flash[:limit]=params[:event][:limit]
     if @event.update(event_params)
       flash[:success] = 'L\'evento è stato aggiornato con successo!'
       redirect_to event_path

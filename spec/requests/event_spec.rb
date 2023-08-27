@@ -5,10 +5,27 @@ RSpec.describe "Events", type: :request do
   describe "POST /create" do
     before(:each) do
       # Crea un utente autenticato prima di ogni test
-      @user = User.create(username: "Prova",email: "test@example.com", password: "password",role:"admin")
+      @user = User.create(username: "Prova",email: "test@example.com", password: "password",role:"organizer")
       sign_in @user
-    end 
-    context "with valid parameters" do
+    end
+    context "indirizzamenti controller" do
+      it "redirects to the homepage" do
+        get "/events"
+        expect(response).to render_template("events/index").and have_rendered("layouts/application")
+      end
+      it "redirects to the SavePage" do
+        user_id = @user.id
+        get "/users/#{user_id}/saves"
+        expect(response).to render_template("saves/index").and have_rendered("layouts/application")
+      end
+      it "redirects to the UserPage" do
+        user_id = @user.id
+        get "/users/#{user_id}"
+        expect(response).to render_template("users/show").and have_rendered("layouts/application")
+      end
+
+    end
+    context "comportamento con inserimento dati" do
       it "redirects to the homepage after creating a new event" do
         event_params = { title: "My Event", price: 50, date:  "2024-09-21", location: "Event Location" }
         post "/events", params: { event: event_params, commit: "Pubblica"}
@@ -17,8 +34,7 @@ RSpec.describe "Events", type: :request do
         expect(assigns(:event).status).to eq('published')
         expect(assigns(:event).organizer_id).to eq(@user.id)
       end
-    end  
-    context "with invalid parameters" do
+    
 
       it "rimane sulla pagina di creazione di un evento se non vengono inseriti degli attributi" do
         event_params = { title: "", location: "" }
@@ -38,7 +54,8 @@ RSpec.describe "Events", type: :request do
         expect(response).to redirect_to(new_event_path)
       end
       it "rimane sulla pagina di creazione di un evento se viene inserita una descrizione maggiore di 200 caratteri" do
-        event_params = { title: "My Event", price: 50,date: "2024-09-21", location: "Event Location",description: "Elegante serata di gala con musica dal vivo, prelibatezze culinarie e un'atmosfera affascinante.Celebrazione eccezionale: un mix straordinario di artisti, cibo delizioso e intrattenimento coinvolgente per tutti." }
+        event_params = { title: "My Event", price: 50,date: "2024-09-21", location: "Event Location",description: "Elegante serata di gala con musica dal vivo, 
+          prelibatezze culinarie e un'atmosfera affascinante.Celebrazione eccezionale: un mix straordinario di artisti, cibo delizioso e intrattenimento coinvolgente per tutti." }
         post "/events", params: { event: event_params, commit: "Pubblica"}
         expect(flash[:error]).to eq("Descrizione deve essere lunga al massimo 200 caratteri")
         expect(response).to redirect_to(new_event_path)
@@ -70,6 +87,50 @@ RSpec.describe "Events", type: :request do
       expect(flash[:error]).to eq("Price can't be blank")
       expect(response).to redirect_to(new_event_path)
     end
+
+    it "rimane sulla pagina di creazione di un evento se 2 eventi hanno lo stesso titolo" do
+      event_params = { title: "My Event",  date: "2024-09-21", location: "Event Location", price: 50 }
+      post "/events", params: { event: event_params, commit: "Pubblica"}
+      expect(response).to redirect_to(events_url)
+      expect(flash[:success]).to eq("L\'evento è stato creato con successo!")
+      expect(assigns(:event).status).to eq('published')
+      get "/events/new"
+      event_params = { title: "My Event",  date: "2024-09-21", location: "Event Location", price: 50 }
+      post "/events", params: { event: event_params, commit: "Pubblica"}
+      expect(response).to redirect_to(new_event_path)
+      expect(flash[:error]).to eq("Title has already been taken")
+     
+    end
+    it "va sulla homepage se 2 eventi hanno lo stessa data e location" do
+      event_params = { title: "My Event",  date: "2024-09-21", location: "Event Location", price: 50 }
+      post "/events", params: { event: event_params, commit: "Pubblica"}
+      expect(response).to redirect_to(events_url)
+      expect(flash[:success]).to eq("L\'evento è stato creato con successo!")
+      expect(assigns(:event).status).to eq('published')
+      get "/events/new"
+      event_params = { title: "Your Event",  date: "2024-09-21", location: "Event Location", price: 50 }
+      post "/events", params: { event: event_params, commit: "Pubblica"}
+      expect(response).to redirect_to(events_path)
+      expect(flash[:success]).to eq("L\'evento è stato creato con successo!")
+     end
+    it "rimane sulla pagina di creazione di un evento se l'evento è organizzato da un utente semplice" do
+      user= User.create(id: 6, username: "prova", role: "user", email: "alfonso@gmail.com",password: "56&Yyy16gtf")
+      sign_in user
+      event_params = { title: "My Event",  date: "2024-09-21", location: "Event Location", price: 50 }
+      post "/events", params: { event: event_params, commit: "Pubblica"}
+      expect(response).to redirect_to(new_event_path)
+    end
+  
+    it "should save event organized by admin" do
+      user= User.create(id: 6, username: "prova", role: "admin", email: "alfonso@gmail.com",password: "56&Yyy16gtf")
+      sign_in user     
+      event_params = { title: "My Event",  date: "2024-09-21", location: "Event Location", price: 50 }
+      post "/events", params: { event: event_params, commit: "Pubblica"}
+      expect(response).to redirect_to(events_url)
+      expect(flash[:success]).to eq("L\'evento è stato creato con successo!")
+      expect(assigns(:event).status).to eq('published') 
+     end 
+
   end
    
   

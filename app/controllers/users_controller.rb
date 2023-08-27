@@ -4,11 +4,11 @@ class UsersController < ApplicationController
   def index
     @event = Event.find(params[:id])
     @users = User.joins(:presales).where(presales: { event_id: @event.id }).uniq
-    @buyers_count = User.joins(:presales).where(presales: { event_id: @event.id }).count
-
+    @presales= Presale.where(event_id: @event.id)
   end
 
   def show
+    @is_event_background=true
     @user = User.find(params[:id])
   end
   

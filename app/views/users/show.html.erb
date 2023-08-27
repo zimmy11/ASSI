@@ -3,7 +3,7 @@
         history.back();
       } 
 </script>
-<% if session[:approve_url].present? %>
+<% if session[:approve_url]!=nil %>
   <p>Sto reindirizzando a <%= session[:approve_url] %>...</p>
   <script>
     window.location.href = '<%= session[:approve_url] %>'; // Reindirizza l'utente all'URL di approvazione
@@ -21,14 +21,11 @@
 <p> <%= link_to 'Logout', destroy_user_session_path, method: :delete %> </p>
 <br>
  <a  href="#" onclick="goBack()">Back </a><br>
-<!--<% if params[:id].to_i == current_user.id%>
-<p><%= link_to "Eventi Salvati", user_saves_path(current_user),data: { turbo: false }%></p>
-<%end%><br>-->
 <% if Presale.where(user_id: params[:id]).any?%>
-<%= link_to "Eventi Acquistati", events_path(user_id: current_user.id,commit: "presale") %><br>
+<%= link_to "Eventi Acquistati", events_path(user_id: params[:id],commit: "presale") %><br>
 <%end%>
   <% if can?(:create, Event)%>
-<% if params[:id].to_i == current_user.id || can?(:manage, :all)%>
+<% if params[:id].to_i == current_user.id%>
 <% if Event.where(organizer_id: params[:id], status: "draft").any?%>
 <p><%= link_to "Bozze", events_path(status: "draft")%></p>
 <%end%>
@@ -53,10 +50,8 @@
   <%end%>
 <%end%>
 <br>
-<% if can?(:manage,Event)%>
-<% if Event.where(organizer_id: params[:id]).any?%>
+<% if Event.where(status: "published",organizer_id: params[:id]).any?%>
 <%= link_to "Eventi Organizzati", events_path(commit: "organized",organizer_id: params[:id] )%>
-<%end%>
 <%end%>
 <nav class="navbar fixed-bottom navbar-light d-flex justify-content-center align-items-center">
 

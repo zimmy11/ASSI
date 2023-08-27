@@ -18,7 +18,7 @@
         <th scope="row"></th>
         <td><%= link_to user.username, user_path(id: user.id,)  %></td>
         <td><%=user.email %></td>
-        <td><%= @buyers_count%></td>
+        <td><%= @presales.where(user_id: user.id).count%></td>
         <td></td>
     </tr>
       <% end %>
