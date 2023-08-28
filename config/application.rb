@@ -21,7 +21,7 @@ module EventMaster
     Rails.application.config.hosts << "www.sandbox.paypal.com"
     Rails.application.config.hosts << "rude-bushes-add.loca.lt"
     Rails.application.config.hosts << "example.com"
-
+  
     config.before_configuration do
       ENV['PAYPAL_CLIENT_ID'] = 'AWOXkW5IPxQan15qlqldxe7GnB22UlQugme-zGg0BlBroLYKLyZtmR5-jF-UptGAxc0DkUlfc3LKJTnb'
       ENV['PAYPAL_SECRET_ID'] = 'EGKwmR1gZWWMHWhfHPE8ttpjxH61CY6DQiUrYwlG41VJYWI_X2nA6fYXpfzXa9gxqyFyadNm11XItjPZ'

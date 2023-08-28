@@ -162,11 +162,48 @@ function checkForm(event){
         
       }
     }
+    function trovaCoordinate() {
+      if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(savePosition);
+      } else {
+     console.log("Geolocalizzazione non supportata dal browser.");
+      }
+      }
+      function savePosition(position) {
+      console.log( "Latitudine: " + position.coords.latitude +
+       "Longitudine: " + position.coords.longitude);
+       var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+      const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+       $.ajaxSetup({
+        headers: {
+          'X-CSRF-Token': csrfToken
+        }
+      });
+      $.ajax({
+        url: '/users/save_coordinates', // Cambia questo URL con il percorso corretto per la tua azione
+        method: 'POST',
+        dataType: "json",
+        data: {
+          latitude: latitude,
+          longitude: longitude
+        },
+        success: function(response) {
+          console.log('Coordinate salvate con successo!');
+          window.location.href=response["redirect_url"]
+        },
+        error: function(error) {
+          console.error('Errore durante il salvataggio delle coordinate:', error);
+        }
+      });
+      }
       const valuta = document.getElementsByClassName("valuta");
       console.log("Questo è "+valuta)  
       if(valuta!=null){
       $(document).on("click",".valuta",Ripristina);
       $(document).on("click",".modal-footer .btn-primary",checkForm);}
+      $(document).on("click",".geolocation",trovaCoordinate)
 
 
                 

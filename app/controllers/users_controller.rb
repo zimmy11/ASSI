@@ -1,11 +1,32 @@
 require 'net/http'
 class UsersController < ApplicationController
   before_action :authenticate_user!
+
+ 
   def index
     @event = Event.find(params[:id])
     @users = User.joins(:presales).where(presales: { event_id: @event.id }).uniq
     @presales= Presale.where(event_id: @event.id)
   end
+
+  def geolocation
+    url = URI.parse('https://ip-geo-location.p.rapidapi.com/ip/check')
+    headers = {
+      'X-RapidAPI-Key' => '9917380005mshdb6755bf2e2e54ap158693jsndca67ed43af4',
+      'X-RapidAPI-Host' => 'ip-geo-location.p.rapidapi.com'
+   }
+parameters = {
+  'format' => 'json',
+	'filter' => 'city'
+}
+# Esegui la richiesta POST per ottenere l'access token
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+request = Net::HTTP::Post.new(url.path+"?"+ URI.encode_www_form(parameters), headers)
+response = http.request(request)
+puts response.body
+
+end
 
   def show
     @is_event_background=true
@@ -105,20 +126,20 @@ request.body = payload.to_json
 response = http.request(request)
 puts response.body
 links=JSON.parse(response.body)['links']
-approve_url=nil
+approve_premium_url=nil
 links.each do |link|
   if link['rel'] == 'payer-action'
-    approve_url = link['href']
+    approve_premium_url = link['href']
     break
   end
 end
-puts approve_url
+puts approve_premium_url
 if JSON.parse(response.body)["status"]=="PAYER_ACTION_REQUIRED"
-  session[:approve_url] = approve_url
+  session[:approve_premium_url] = approve_premium_url
   redirect_to user_path(id: current_user.id)
 else
   flash[:error]="Errore nel pagamento"
-  session[:approve_url] = nil
+  session[:approve__premium_url] = nil
   redirect_to  user_path(id: current_user.id)
 end
 end
@@ -146,17 +167,17 @@ if status == "COMPLETED"
   @user.update(role: "organizer")
   if @user.valid?
   flash[:success]="Il pagamento è stato completato con successo!"
-  session[:approve_url] = nil
+  session[:approve_premium_url] = nil
   redirect_to user_path(id: current_user.id)
   
   else
   flash[:error]="Errore nel pagamento"
-  session[:approve_url] = nil
+  session[:approve_premium_url] = nil
   redirect_to user_path(id: current_user.id)
   end
 else
   flash[:error]="Errore nel pagamento"
-  session[:approve_url] = nil
+  session[:approve_premium_url] = nil
   redirect_to user_path(id: current_user.id)
 end
     
@@ -164,10 +185,23 @@ end
 
 def cancel_order
   flash[:error]="Hai rifiutato il pagamento"
-  session[:approve_url] = nil
+  session[:approve_premium_url] = nil
   redirect_to user_path(id: current_user.id)
 end  
 
   def destroy
+  end
+
+  def save_coordinates
+     @user=User.find(current_user.id)
+    if @user.update(latitude:params[:latitude]) &&  @user.update(longitude: params[:longitude])
+     respond_to do |format|
+      format.json { render json: { message: "Dati salvati correttamente", redirect_url: events_path}, status: :created}
+      end
+    else
+      respond_to do |format|
+        format.json { render json: { message: "Dati errati"}, status: :unprocessable_entity}
+    end
+  end
   end
 end

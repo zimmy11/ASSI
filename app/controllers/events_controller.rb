@@ -1,6 +1,11 @@
+require 'net/http'
+
 class EventsController < ApplicationController
   before_action :authenticate_user!
+
   def index
+    session[:approve_premium_url]=nil 
+    session[:approve_url]=nil 
     if params[:status]=="draft"
       @events=Event.where(status:"draft",organizer_id: current_user.id)
       return
@@ -18,12 +23,58 @@ class EventsController < ApplicationController
         @events = @events.where("location LIKE ?", "%#{params[:search]}%")
       end
     end
+    if params[:minPrice].present?
+      @events = @events.where('price >= ?', params[:minPrice])
+    end
+    if params[:maxPrice].present?
+      @events = @events.where('price <= ?', params[:maxPrice])
+    end
+    if params[:minDate].present?
+      @events = @events.where('date >= ?', params[:minDate])
+    end
+    if params[:maxDate].present?
+      @events = @events.where('date <= ?', params[:maxDate])
+    end
     if params[:sort_by] == "price"
       @events = @events.order(price: :asc)
     elsif params[:sort_by] == "avgvalue"
       @events = @events.order(avgvalue: :desc)
     elsif params[:sort_by] == "date"
        @events = @events.order(date: :asc)
+    elsif params[:sort_by] == "distance"
+      #uso l'Api di google maps
+      if current_user.latitude==nil || current_user.longitude==nil
+        flash[:error]="Attiva geolocalizzazione"
+        redirect_to event_path
+      end
+      current_latitude = current_user.latitude
+      current_longitude = current_user.longitude
+      @events.each do |event|
+        city_name = event.location  # Nome della città di cui vuoi ottenere le coordinate
+        api_key = 'AIzaSyDhE8iSfvpzBIi_oOpbnbWNNolFN5W3EtI'  # Sostituisci con la tua chiave API
+        url = "https://maps.googleapis.com/maps/api/geocode/json"
+        params = {
+          address: city_name,
+          key: api_key
+        }
+        
+        response = HTTParty.get(url, query: params)
+        data = JSON.parse(response.body)
+        
+        if data['status'] == 'OK'
+          location = data['results'][0]['geometry']['location']
+          latitude = location['lat']
+          longitude = location['lng']
+          puts "Coordinate di #{city_name}: Latitudine #{latitude}, Longitudine #{longitude}"
+          distance =  (6371*(Math::PI)*Math.sqrt((current_latitude-latitude)*(current_latitude-latitude) + Math.cos(current_latitude/57.29578)*Math.cos(latitude/57.29578)*(current_longitude-longitude)*(current_longitude-longitude))/180); #funzione di heaviside per calcolare la distanza
+          puts "la distanza è #{distance}"
+          event.update(distance: distance)
+        else
+          flash[:error]= "Errore nella richiesta di geocoding"
+        end
+        
+      end
+      @events = @events.order(distance: :asc)
     else
       # Ordine predefinito (per esempio, per avgvalue più alto)
       @events = @events.order(avgvalue: :desc)
@@ -32,7 +83,7 @@ class EventsController < ApplicationController
   end
 
   def show
-    @is_event_background=true
+    @is_event_background=true  #aggiungo sfondo background
     @event=Event.find(params[:id])
     respond_to do |format|
       format.html { render :show}
@@ -41,7 +92,7 @@ class EventsController < ApplicationController
   end
 
   def new
-    @is_event_background=true
+    @is_event_background=true  #aggiungo sfondo background
     @event=Event.new
   end
 
@@ -116,10 +167,8 @@ class EventsController < ApplicationController
   end
   
 
-
-
   def edit
-    @is_event_background=true
+    @is_event_background=true   #aggiungo sfondo background
 
     @event=Event.find(params[:id])
     authorize! :edit, @event, :message => "BEWARE: you are not authorized to edit movies."

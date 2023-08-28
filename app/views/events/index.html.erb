@@ -54,23 +54,56 @@ body{
     Ordina per
   </button>
   <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-    <li><a class="dropdown-item" href="<%= events_path(sort_by: 'price') %>">Prezzo</a></li>
-    <li><a class="dropdown-item" href="<%= events_path(sort_by: 'avgvalue') %>">Valutazione</a></li>
-     <li><a class="dropdown-item" href="<%= events_path(sort_by: 'date') %>">Data</a></li>
+  <li><a class="dropdown-item" href="<%= events_path(sort_by: 'price', minPrice: params[:minPrice], maxPrice: params[:maxPrice], minDate: params[:minDate], maxDate: params[:maxDate]) %>">Prezzo</a></li>
+  <li><a class="dropdown-item" href="<%= events_path(sort_by: 'avgvalue', minPrice: params[:minPrice], maxPrice: params[:maxPrice], minDate: params[:minDate], maxDate: params[:maxDate]) %>">Valutazione</a></li>
+  <li><a class="dropdown-item" href="<%= events_path(sort_by: 'date', minPrice: params[:minPrice], maxPrice: params[:maxPrice], minDate: params[:minDate], maxDate: params[:maxDate]) %>">Data</a></li>
+  <li><a class="dropdown-item" href="<%= events_path(sort_by: 'distance', minPrice: params[:minPrice], maxPrice: params[:maxPrice], minDate: params[:minDate], maxDate: params[:maxDate]) %>">Distanza</a></li>
+
+</ul>
+
+</div>
+<div class="dropdown">
+  <button type="button" class="btn dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="false">
+    Filtra
+  </button>
+  <button type="button" class="btn btn secondary geolocation">Attiva Geolocalizzazione</button>
+</div>
+<div id="filterCollapse" class="collapse">
+  <form action="<%= events_path %>" method="get" class="filter-form">
+    <label for="minPrice">Prezzo Minimo:</label>
+    <input type="number" name="minPrice" value="<%= params[:minPrice] %>" />
+    
+    <label for="maxPrice">Prezzo Massimo:</label>
+    <input type="number" name="maxPrice" value="<%= params[:maxPrice] %>" />
+    
+    <label for="minDate">Data Minima:</label>
+    <input type="date" name="minDate" value="<%= params[:minDate] %>" />
+    
+    <label for="maxDate">Data Massima:</label>
+    <input type="date" name="maxDate" value="<%= params[:maxDate] %>" />
+    
+    <button type="submit">Applica Filtri</button>
+  </form>
+</div>
+
+<% if params[:search].present? %>
+  <h1 style="color: white;">Eventi nella città di <%= params[:search] %></h1>
+
+<% end %>
+
   </ul>
 </div>
 <%end%>
-</div>  
 <div class="events" id="Events"> 
    <% @events.each do |event| %>
-    <%= link_to event_path(event,commit: params[:commit]),data: { turbo: false } do %>
+    <%= link_to event_path(event,commit: params[:commit],user_id:params[:user_id]),data: { turbo: false } do %>
    <div class="myCard" >
           <div class="top-text">
           <div class="title">
           <%= event.title %>
           </div>
           <div class="location">
-           <%= event.location %>,Italia</div>
+           <%= event.location %>,Italia,<%= @user_city%></div>
           <div class="price">Prezzo: <%=event.price %>&euro;</div>  
            <div class="date">
               <% if event.date == nil%>
@@ -105,18 +138,7 @@ body{
     <% end %>
   </div>
   </div>
-  <% if params[:status] == "draft"%>
- <% link_to events_path, class:"back" do%>
-
-  <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024">
-  <path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0
-   188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 
-   5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021
-    28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 
-    874.690416 484.217237 874.690416 495.52477z"></path></svg>
-  Back
-  <%end%>
-<%end%>
+</div>
 </div>
 <nav class="navbar navbar-inferiore fixed-bottom navbar-light d-flex justify-content-center align-items-center">
 
