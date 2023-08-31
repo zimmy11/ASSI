@@ -1,4 +1,15 @@
-<p>Hello <%= @resource.email %>!</p>
+<style>
+ body{
+    height:100vh;
+    background-image: url('<%= asset_path('event.jpg') %>');
+    background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  }
+
+
+</style><p>Hello <%= @resource.email %>!</p>
 
 <p>Your account has been locked due to an excessive number of unsuccessful sign in attempts.</p>
 

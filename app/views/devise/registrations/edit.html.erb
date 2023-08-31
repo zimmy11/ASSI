@@ -1,3 +1,15 @@
+<style>
+ body{
+    height:100vh;
+    background-image: url('<%= asset_path('event.jpg') %>');
+    background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  }
+
+
+</style>
 <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
