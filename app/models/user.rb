@@ -23,6 +23,9 @@ class User < ApplicationRecord
           puts message
     end
   end
+  def banned?
+    Ban.where(user_id: id).exists?
+  end
        
 
 end

@@ -5,16 +5,7 @@
   <style>
    body{
     height:100vh;
-
-  }
-  .show-myCard{
-    background-color: rgb(0,0,0,0.5);
-     width: calc(800px + 22 * ((100vw - 500px) / (500*7)));
-    height: calc(600px + 110 * ((100vw - 500px) / (500*2)));
-     transform: translateY(-50px);
-     }
-   
-  
+  }  
   </style>
 </head>
 <body>
@@ -24,7 +15,7 @@
 <%= image_tag("logo.png",class: "img-responsive")%>
 </header> 
   <div class="form-container show-container">
-      <div class="show-myCard">
+      <div class="show-myCard new-myCard">
        <%= form_with model: @event, url: create_event_path(@event), method: :post, id: "event-form" do |form| %>
         <label for="title" >Titolo: </label>
 

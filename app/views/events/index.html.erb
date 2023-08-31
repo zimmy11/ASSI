@@ -13,7 +13,7 @@ body{
         <ul>
             <li><i class="fa-solid fa-martini-glass-citrus"></i>
             <a href="#Events">Eventi</a></li>
-            <li><i class="fa-solid fa-users"></i><a href="#About_us">About us</a></li>
+            <li><i class="fa-solid fa-users"></i><a href="#AboutUs">AboutUs</a></li>
         </ul>
     </nav>
 		              
@@ -25,8 +25,8 @@ body{
          <h1>EventMaster</h1>
    </div>
 </section>
-<div class="container-about-us">
-   <div class="img-aboutus"><p class="perpendicular-text">EventMaster</p></div>
+<div class="container-about-us" id="AboutUs">
+   <div class="img-aboutus"></div>
    <div class="AboutUs" >
     <div class="about-text">
            <div><h3>About Us</h3>
@@ -127,7 +127,21 @@ body{
              <% end %>
           </div>
           <%end%>
-    <div class="card-body"><%= image_tag("event.jpg",class: "card-img custom-image")%></div>   
+    <div class="card-body">
+    <% if event.title == "Piper Roma"%>
+    <%= image_tag("Piper.jpg",class: "card-img custom-image")%>
+    <% elsif event.title == "Nice Disco"%>
+    <%= image_tag("Nice.jpg",class: "card-img custom-image")%> 
+    <% elsif event.title == "FestivalRimini2024"%>
+    <%= image_tag("Rimini.jpg",class: "card-img custom-image")%>
+     <% elsif event.title == "Cocoricò"%>
+    <%= image_tag("Cocorico",class: "card-img custom-image")%>
+     <% elsif event.title == "Space Elettronic"%>
+    <%= image_tag("Space-Elettronic.png",class: "card-img custom-image")%>
+    <%else%>
+    <%= image_tag("event.jpg",class: "card-img custom-image")%>
+    <%end%>
+    </div>   
     <div class="card-footer">
     <%= event.avgvalue %>/5
     <i class="fa-solid fa-star" style="color: rgb(255,215,0);"></i></div> 

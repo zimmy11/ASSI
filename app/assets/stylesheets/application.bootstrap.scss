@@ -17,7 +17,7 @@ header {
 header img{  
   width:calc(300px + 20 * ((100vw - 500px) / (500*7)));
   height:calc(80px + 20 * ((100vw - 500px) / (500*7)));
-  
+  margin-bottom: 1rem;
 }
 
 
@@ -39,7 +39,7 @@ header nav.navbar {
   flex-direction: row;
 }
 .navbar-superiore ul{
-  gap:  calc(100px + 20 * ((100vw - 500px) / (500*9)));
+  gap:  calc(20px + 20 * ((100vw - 500px) / (500*9)));
   margin-right:  calc(20px + 20 * ((100vw - 500px) / (500*9)))
 
 }
@@ -50,7 +50,7 @@ header .navbar-superiore a {
   text-decoration: none;
   color: #fff;
   transition: color 0.3s;
-  font-size: calc(35px + 20 * ((100vw - 500px) / (500*9)));
+  font-size: calc(25px + 20 * ((100vw - 500px) / (500*9)));
   
 }
 .navbar li{
@@ -94,12 +94,13 @@ section p{
   font-family: "Playfair Display";
   font-weight: bold;
   text-align: center;
-  font-size: 25px;
+  font-size: calc(25px + 20 * ((100vw - 500px) / (500*9)));
 }
 section h1{
   font-family: "Exo 2";
   font-weight: bold;
-  font-size: 120px;
+  font-size: calc(110px + 20 * ((100vw - 500px) / (500*9)));
+  
 }
 .animation-text{
   transition: transform 0.5s ease;
@@ -120,7 +121,7 @@ section:hover .animation-text{
 .AboutUs{
   background-color: #3D3B42;
   border:0;
-  padding:0px 0px 57px 30px;
+  padding:0px 0px calc(calc(53px + 20 * ((100vw - 500px) / (500*9)))) calc(28px + 20 * ((100vw - 500px) / (500*9)));
 
 }
 .img-aboutus{
@@ -130,13 +131,7 @@ section:hover .animation-text{
   background-position: center;
   overflow:hidden;
 }
-.perpendicular-text {
-  transform: translate(47%, 0%) rotate(-90deg); /* Trasforma il testo in perpendicolare */
-  font-size: 50px; /* Dimensione del testo */
-  z-index: 2;
-  font-family: "Exo 2";
-  color:white;
-}
+
 
 .about-text {
   text-align: center;
@@ -153,7 +148,7 @@ section:hover .animation-text{
   font-size: calc(45px + 12 * ((100vw - 500px) / (500*9)));
   font-family: "Exo 2";
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: calc(20px + 5 * ((100vw - 500px) / (500*9)));;
   padding-bottom: calc(17px + 5 * ((100vw - 500px) / (500*9)));
   text-align: left;
 }
@@ -170,7 +165,7 @@ section:hover .animation-text{
 .tt-title-under {
     text-shadow: 0px 0px 2px rgba(255, 255, 255, 0.2);
     color: #3D3B42;
-    font-size: 157px;
+    font-size: calc(150px + 20 * ((100vw - 500px) / (500*9)));
     font-weight:bold;
     line-height: 147px;
     position: absolute;
@@ -187,14 +182,15 @@ section:hover .animation-text{
 
 }
 .events{
-    padding-top:20px;
+    padding-top:calc(20px + 20 * ((100vw - 500px) / (500*9)));
     display: flex;
     flex-direction: column; 
+    margin-top: calc(20px + 20 * ((100vw - 500px) / (500*9)));
     align-items: center;
-    height: 640px;
+    height: calc(640px + 20 * ((100vw - 500px) / (500*7)));
     overflow:scroll;
-    padding-bottom: 30px;
-    }  
+    padding-bottom: calc(50px + 20 * (100vw - 500px) / 4500);
+     }  
 
 .events::-webkit-scrollbar {
     width: 0px;
@@ -215,9 +211,8 @@ section:hover .animation-text{
   .events-show{
    
     position:relative;
-    display:flex;
-    align-items: center;
-    justify-content: center;
+    display:grid;
+    margin-bottom: calc(30px + 20 * (100vw - 500px) / 4500);
      
   }
  
@@ -243,13 +238,12 @@ section:hover .animation-text{
     cursor: not-allowed
   }
   .save {
-    padding:  calc(6px + 20 * ((100vw - 500px) / (500*11)))  calc(10px + 20 * ((100vw - 500px) / (500*11)));
-    font-size: calc(12px + 20 * ((100vw - 500px) / (500*11)));
+    padding:  calc(5px + 20 * ((100vw - 500px) / (500*11)))  calc(10px + 20 * ((100vw - 500px) / (500*11)));
+    font-size: calc(10px + 20 * ((100vw - 500px) / (500*11)));
     border: none;
     border-radius: calc(4px + 20 * ((100vw - 500px) / (500*11)));
     border: none;;
     cursor: pointer;
-    font-family: "Playfair Display";
     text-decoration: none;
     color: #fff;
     transition: background-color 0.3s, color 0.3s; 
@@ -318,13 +312,14 @@ section:hover .animation-text{
     transition: transform 0.3s ease;
     margin-bottom: calc(20px + 20 * ((10vw - 500px) / (500*9)));;
   }
+
   .myCard{
     width: calc(600px + 20 * ((100vw - 500px) / (500*9)));
     height: calc(450px + 20 * ((100vw - 500px) / (500*9)));
   
   }
   .myCard:hover{
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
  
   .top-text{
@@ -364,7 +359,7 @@ section:hover .animation-text{
   .date{
     text-align: right;
     font-family: "Lobster",sans-serif;
-    color:#e60813;
+    color:black;
   }
   .circle {
     width: calc(60px + 20 * ((100vw - 500px) / (500*7)));;
@@ -423,7 +418,9 @@ section:hover .animation-text{
   .show-container{
     width:100%;
     height:100%;
-   
+    display: flex;
+    align-items: center;
+    justify-content: center;   
     
   }
   .event-show-body{
@@ -436,7 +433,8 @@ section:hover .animation-text{
   .show-myCard{
     width: calc(600px + 20 * ((100vw - 500px) / (500*9)));
     height: calc(450px + 20 * ((100vw - 500px) / (500*9)));
-    background-color: transparent
+    background-color: transparent;
+    margin-bottom: 0;
   }
   .show-myCard .card-body{
     width:100%;
@@ -521,11 +519,13 @@ section:hover .animation-text{
     font-size: calc(12px + 20 * ((100vw - 500px) / (500*9)));
     font-family: "Geologica", sans-serif;
     font-weight: 300;   
-    color: rgb(0,0,0);
     position:absolute;
     bottom:calc(10px + 20 * ((100vw - 500px) / (500*11)));;
     left:calc(15px + 20 * ((100vw - 500px) / (500*9)));;
 
+  }
+  .buyers a{
+    color:black;
   }
   //css buttons-group event.show.htlm.erb
   // css bottone premium (acquista)
@@ -568,9 +568,8 @@ section:hover .animation-text{
    }
    #saves_modal p{
     font-size: calc(30px + 20 * ((100vw - 500px) / (500*11)));
-    font-weight: bold;
-    font-family: "Exo 2";
-    color: red;
+    font-family: "Geoloogica","sans-serif";
+    color: rgb(156, 131, 185);
 
    }
   
@@ -589,8 +588,9 @@ section:hover .animation-text{
     align-items: center;
     justify-content: center;
     border-radius:10px;
+    font-family: "Geologica","sans-serif";
     cursor:pointer;
-    width:86px;
+    width:calc(86px + 20 * ((100vw - 500px) / (500*7)));
     text-shadow: 2px 2px 3px rgb(19, 17, 19);
 
   }
@@ -602,24 +602,25 @@ section:hover .animation-text{
 
   //pulsante back events.show.htlm
   .back {
-    width: 100px;
+    width:  calc(90px + 20 * ((100vw - 500px) / (500*9)));
     letter-spacing: 1px;
     transition: all 0.2s linear;
     border: none;
     background: #fff;
     color:black;
     text-shadow: none!important;
-    height:3em;
+    height:3.1em;
+    font-family: "Geologica", sans-serif;;
     display:flex;
     align-items: center;
     justify-content: center;
-    border-radius:10px;
+    border-radius:calc(10px + 20 * ((100vw - 500px) / (500*10)));;
     cursor:pointer;
-    width:86px;
     position:absolute;
-    top:calc(130px + 20 * ((100vw - 500px) / (500*9)));
+    top: calc(100px + 20 * (100vw - 500px) / 4500);
+    margin-top: calc(40px + 20 * (100vw - 500px) / 5500);
     left:0;
-
+    font-size: calc(14px + 20 * (100vw - 500px) / 4500);
 
    }
    .back:hover{
@@ -628,10 +629,10 @@ section:hover .animation-text{
     
    
    .back  > svg {
-    margin-right: 5px;
-    margin-left: 5px;
-    font-size: 20px;
+    margin-right: calc(5px + 20 * (100vw - 500px) / 4500);  
+    font-size: calc(20px + 20 * (100vw - 500px) / 4500);
     transition: all 0.4s ease-in;
+    font-family: "Geologica", sans-serif;;
    }
    
    .back:hover > svg {
@@ -736,13 +737,21 @@ section:hover .animation-text{
 .show-myCard form{
   height:100%;
 }
+.new-myCard{
+  width: calc(720px + 100 * ((100vw - 500px) / (500*4)));
+  height: calc(450px + 150 * (100vw - 500px) / 1000);
+  background-color: rgb(0,0,0,0.5);
+  --translation: calc(0px - calc(100px + 50 * ((100vw - 500px) / (500*7))));
+  transform: translateY(var(--translation));
+}
 .submit-group{
   display:grid;
   grid-template-columns: repeat(2, 1fr);
-  gap:calc(430px + 20 * ((100vw - 500px) / (500*9)));
+  gap:calc(450px + 20 * ((100vw - 500px) / (500*9)));
 }
 .submit-group a, .submit-group input{
-   width:calc(95px + 20 * ((100vw - 500px) / (500*9)));
+   width:calc(75px + 50 * (100vw - 500px) / 4500);
+   font-family: "Geologica";
 }
 .publish-container{
   display:grid;
@@ -755,10 +764,11 @@ justify-content: center;
 
 .show-myCard form label{
   font-family: "Playfair Display" ;
-  font-size:calc(15px + 20 * ((100vw - 500px) / (500*9)));
+  font-size:calc(12px + 20 * ((100vw - 500px) / (500*9)));
   color:rgb(156, 131, 185);
-  padding:  calc(5px + 10 * ((100vw - 500px) / (500*9))) 0px calc(5px + 10 * ((100vw - 500px) / (500*9))) 0px
+  padding: calc(4px) 0px calc(8px) 0px;
 }
+
 .show-myCard form input, .show-myCard form textarea{
   font-family: "Geologica"
 }
@@ -767,10 +777,296 @@ justify-content: center;
 .show-myCard input[type="date"],
 .show-myCard  input[type="number"] , .show-myCard textarea{
       width: 100%;
-      padding: 10px;
+      padding: calc(6px + 20 * ((100vw - 500px) / (500*9)));
       border-radius: 5px;
-      margin-bottom:15px;
-      font-size: calc(10px + 20 * ((100vw - 500px) / (500*9)));
+      margin-bottom:calc(6px);
+      font-size: calc(9px + 20 * ((100vw - 500px) / (500*9)));
+    }
+  #limit{
+    margin-bottom:15px;
+
+  }
+  .save-events{
+    justify-content:center;
+  }
+  .edit-submit-group{
+    gap:calc(530px + 20 * (100vw - 500px) / 4500)
+  }
+  .close-button{
+    position:absolute;
+    top: 5px;
+    right: 18px;
+  }
+  .close-button i{
+    font-size:18px;
+  }
+    
+    @media screen and (max-width: 756px) {
+      /* Stili da applicare quando la larghezza dello schermo è 756px o meno */
+      /* Ad esempio: */
+      header{
+        padding: calc(10px + 20 * (100vw - 500px) / 5500)
+      }
+      header img{
+        margin-bottom: 0.5rem;
+        width: calc(225px + 20 * (100vw - 500px) / 3500);
+        height: calc(60px + 20 * (100vw - 500px) / 3500);
+      }
+      
+      .navbar-superiore ul{
+        gap: calc(15px + 20 * (100vw - 500px) / 4500);
+        margin-bottom: 0.5rem;
+      }
+      .navbar-superiore ul{
+        display:flex;
+        flex-direction: column;
+      }
+      .navbar-superiore li i{
+        font-size: calc(18px + 10 * (100vw - 500px) / 4500);
+      }
+      header .navbar-superiore a{
+        font-size: calc(18px + 10 * (100vw - 500px) / 4500);
+      }
+      .container-about-us{
+        grid-template-columns: auto; /* Sovrascrivi grid-template-columns */
+        grid-template-rows: 1fr 1fr;
+      }
+      section p{
+        font-size: calc(20px + 40 * (100vw - 500px) / 3000);
+      }
+      section h1{
+        font-size: calc(75px + 40 * (100vw - 500px) / 3000);
+      }
+      .about-text h3{
+        font-size: calc(40px + 12 * (100vw - 500px) / 4500);
+        padding-bottom: calc(10px + 5 * (100vw - 500px) / 4500);
+      }
+     .tt-title-under{
+      font-size: calc(120px + 20 * (100vw - 500px) / 4500);
+     }
+     .about-text p{
+      font-size: calc(16px + 10 * (100vw - 500px) / 4500);
+
+     }
+     .AboutUs{
+      padding:0px 0px calc(calc(45px + 20 * ((100vw - 500px) / (500*9)))) calc(20px + 20 * ((100vw - 500px) / (500*9)));
+
+     }
+       .myCard {
+      padding: calc(15px + 20 * ((10vw - 500px) / (500*9)));;
+      width: calc(470px + 20 * (100vw - 500px) / 4500);
+      height: calc(350px + 20 * (100vw - 500px) / 4500);
+    }
+    header.show-header{
+       padding: calc(15px + 20 * (100vw - 500px) / 5500);
+    }
+    .back{
+      top: calc(70px + 20 * (100vw - 500px) / 4500);
+      margin-top: calc(30px + 20 * (100vw - 500px) / 5500);
+      height:2.7rem;
+      width:calc(81px + 20 * (100vw - 500px) / 4500);
+        }
+      .show-myCard{
+        width: calc(490px + 20 * (100vw - 500px) / 4500);
+        height: calc(370px + 20 * (100vw - 500px) / 4500);
+        padding: calc(15px + 20 * (100vw - 500px) / 4500);
+      }
+      .new-myCard{
+        width: calc(550px + 100 * ((100vw - 500px) / (500*4)));
+        height:calc(550px + 110 * (100vw - 500px) / 1000);
+        --translation: calc(0px - calc(80px + 50 * ((100vw - 500px) / (500*7))));
+
+      }
+      .submit-group{
+        gap:calc(300px + 20 * (100vw - 500px) / 4500);
+      }
+      .submit-group a,.submit-group input{
+         width:calc(70px + 50 * (100vw - 500px) / 4500);
+         padding:calc(7px + 20 * (100vw - 500px) / 5500)
+      }
+      .edit-submit-group{
+        gap:calc(370px + 20 * (100vw - 500px) / 4500)
+      }
+      .show-myCard form label{
+        padding:6px 0px 10px 0px;
+        font-size: calc(14px + 20 * (100vw - 500px) / 4500);
+      }
+      .show-myCard input[type=text], .show-myCard input[type=date], .show-myCard input[type=number], .show-myCard textarea {
+          font-size: calc(12px + 20 * (100vw - 500px) / 4500);
+          padding:calc(8px + 20 * (100vw - 500px) / 4500)
+      }
+     
+    } 
+    @media screen and (max-width: 576px) {
+      .new-myCard{
+        width: calc(480px + 100 * ((100vw - 500px) / (500*4)));
+        --translation: calc(0px - calc(80px + 50 * ((100vw - 500px) / (500*7))));
+
+      }
+      .submit-group{
+        gap:calc(215px + 20 * (100vw - 500px) / 4500)
+      }
+      .submit-group a,.submit-group input{
+         width:calc(75px + 50 * (100vw - 500px) / 4500);
+         font-size:calc(12px + 20 * (100vw - 500px) / 5500);
+      }
+      .show-myCard form label{
+        padding:6px 0px 10px 0px;
+        font-size: calc(14px + 20 * (100vw - 500px) / 4500);
+      }
+      .show-myCard input[type=text], .show-myCard input[type=date], .show-myCard input[type=number], .show-myCard textarea {
+          font-size: calc(12px + 20 * (100vw - 500px) / 4500);
+          padding:calc(8px + 20 * (100vw - 500px) / 4500)
+      }
+      .edit-submit-group{
+        gap: calc(290px + 20 * (100vw - 500px) / 4500)
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .navbar-superiore ul{
+        gap: calc(10px + 20 * (100vw - 300px) / 4500);
+
+      }
+      .navbar-superiore li i {
+        font-size: calc(15px + 10 * (100vw - 300px) / 4500);
+      }
+      header .navbar-superiore a{
+        font-size: calc(15px + 10 * (100vw - 300px) / 4500);
+      }
+      header{
+        padding: calc(5px + 20 * (100vw - 500px) / 4500);;
+      }
+      section p{
+        font-size: calc(15px + 40 * (100vw - 500px) / 3000);
+      }
+      section h1{
+        font-size: calc(60px + 40 * (100vw - 500px) / 3000);
+      }
+      .container-about-us{
+        grid-template-columns: auto; /* Sovrascrivi grid-template-columns */
+        grid-template-rows: 1fr 1fr;
+      }
+      .about-text h3{
+        font-size: calc(35px + 12 * (100vw - 500px) / 4500);
+        padding-bottom: calc(5px + 5 * (100vw - 500px) / 4500);
+        margin-bottom: calc(15px + 5 * ((100vw - 500px) / (500*9)));;
+
+      }
+     .tt-title-under{
+      font-size: calc(100px + 20 * (100vw - 500px) / 4500);
+     }
+     .about-text p{
+      font-size: calc(15px + 10 * (100vw - 500px) / 4500);
+
+     }
+     .myCard {
+      padding: calc(15px + 20 * ((10vw - 500px) / (500*9)));;
+      width: calc(370px + 20 * (100vw - 500px) / 4500);
+      height: calc(278px + 20 * (100vw - 500px) / 4500);
+    }
+    .title {
+      font-size: calc(22px + 20 * ((100vw - 500px) / (500*9)));
+    }
+    .location, .price {
+      font-size: calc(13px + 20 * ((100vw - 500px) / (500*9)));
+    }  
+    .date,.card-footer{
+      font-size: calc(16px + 20 * ((100vw - 500px) / (500*9)));
+    }
+    .star{
+      font-size: calc(18px + 10 * (100vw - 500px) / 5500);
+      top:6%;
+      right:8%;
+     }
+     .circle{
+      width: calc(50px + 20 * (100vw - 500px) / 3500);
+      height: calc(50px + 20 * (100vw - 500px) / 3500);
+     }
+     .navbar-inferiore ul{
+      gap: calc(30px + 20 * (100vw - 500px) / 4500);
+     }
+     header.show-header{
+      padding: calc(10px + 20 * (100vw - 500px) / 5500);
+   }
+     .back{
+      margin-top: calc(20px + 20 * (100vw - 500px) / 5500);
+      height: 2.5rem;
+      width: calc(78px + 20 * (100vw - 500px) / 4500);
+      font-size: calc(13px + 20 * (100vw - 500px) / 4500);
+  }
+  .show-myCard{
+    width: calc(370px + 20 * (100vw - 500px) / 4500);
+    height: calc(278px + 20 * (100vw - 500px) / 4500);
+    margin-bottom:  calc(10px + 20 * (100vw - 500px) / 4500);;
+  }
+  .organizer{
+    font-size: calc(20px + 20 * (100vw - 500px) / 4500);
+  }
+  .description{
+    font-size: calc(11px + 10 * (100vw - 500px) / 4500);
+  }
+  .buyers {
+    font-size: calc(10px + 20 * (100vw - 500px) / 4500);
+  }
+   .presales{
+    font-size: calc(10px + 20 * (100vw - 500px) / 4500);}
+    .buttons-group a{
+      font-size: calc(15px + 40 * (100vw - 500px) / 3000);
+      height: 2.8em;
+      width: calc(82px + 40 * (100vw - 500px) / 3000);
+
+    }
+    .buttons-group svg{
+      width: calc(12px + 40 * (100vw - 500px) / 3000);
+      
+    }
+    .new-myCard{
+
+      width: calc(370px + 100 * ((100vw - 500px) / (500*4)));
+      height: calc(540px + 100 * ((100vw - 500px) / (500*4)));
+      --translation: calc(0px - calc(120px + 50 * ((100vw - 500px) / (500*7))));
+
+      }
+      .submit-group{
+        gap:calc(120px + 20 * (100vw - 500px) / 4500)
+      }
+      .submit-group a,.submit-group input{
+         width:calc(70px + 50 * (100vw - 500px) / 4500);
+         font-size:calc(11px + 20 * (100vw - 500px) / 5500);
+      }
+      .edit-submit-group{
+        gap:calc(190px + 20 * (100vw - 500px) / 4500);
+      }
     }
     
+    
 
+    
+    @media screen and (max-width: 376px) {
+      .navbar-superiore ul{
+        gap: calc(5px + 20 * (100vw - 300px) / 4500);
+
+      }
+      .navbar-superiore li i{
+        font-size: calc(12px + 10 * (100vw - 300px) / 4500);
+      }
+      header .navbar-superiore a{
+        font-size: calc(12px + 10 * (100vw - 300px) / 4500);
+      }
+      header{
+        padding: 0;
+      }
+      header img{
+        width: calc(150px + 20 * (100vw - 300px) / 3500);
+        height: calc(40px + 20 * (100vw - 300px) / 3500);
+      }
+      section p{
+        font-size: calc(13px + 40 * (100vw - 500px) / 3000);
+      }
+      section h1{
+        font-size: calc(45px + 40 * (100vw - 500px) / 3000);
+      }
+      
+
+    }

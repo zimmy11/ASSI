@@ -110,7 +110,6 @@ When('clicco sul pulsante Home') do
 end
 
 When('clicco sull\' icona Salva') do
-  puts page.html
   link = find('a[href="/users/5/saves"]')
   link.click
 end

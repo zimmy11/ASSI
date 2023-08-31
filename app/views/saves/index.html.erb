@@ -29,7 +29,7 @@
       
       
 <% else %>
-<div class="events"> 
+<div class="events save-events"> 
    <% @saves.each do |save| %>
     <%= link_to event_path(id: save.event_id), class: "event-link" do %>
    <div class="myCard" >
@@ -38,7 +38,7 @@
           <div class="price">Prezzo: <%=save.event.price %>&euro;</div>
           <div class="date"> <%= save.event.date %></div></div>
           <div class="circle"><%= image_tag("event.jpg")%></div>
-          <div class="star" style="position:absolute;top:5%;right:5%">
+          <div class="star">
           <% if save.event.saved_by?(current_user) %>
             <%= link_to delete_saves_path(user_id: current_user.id, event_id: save.event_id), method: :delete do %>
           <i class="fa-solid fa-heart fa-xl" style="color: #9c83b9;"></i> 

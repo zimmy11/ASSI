@@ -7,7 +7,9 @@ Feature: Aggiungere un evento
    And  inserisco nel form password "745&&ma1"
    And  inserisco nel form conferma password "745&&ma1"
    When clicco su Sign Up
-   Then dovrei essere reindirizzato alla homepage
+   Then dovrei essere reindirizzato alla pagina di Profilo
+  When clicco sul pulsante Home
+    Then dovrei essere reindirizzato alla homepage
 
    Scenario: Reindirizzamento dalla homepage
    When clicco sul pulsante +
