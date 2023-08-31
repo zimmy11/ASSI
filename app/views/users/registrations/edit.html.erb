@@ -36,6 +36,12 @@
   .nButton-style:hover {
     background-color: #e68a00;
   }
+
+  .centro{
+        display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 </style>
 
 <header class="show-header">
@@ -87,7 +93,7 @@
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
 <br>
-<div class="actions">
+<div class="actions centro">
   <%= f.submit "Update", class: "nButton-style" %>
 </div>
 <% end %>

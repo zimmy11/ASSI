@@ -1,4 +1,24 @@
 <style>
+          .nButton-style {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ff9900;
+    color: white;
+    border: black;
+    border-radius: calc(4px + 20 * (100vw - 500px) / 5500);
+    border: none;
+    cursor: pointer;
+    font-family: "Playfair Display";
+    color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s ease-in-out;
+    width: calc(100px + 30 * (100vw - 500px) / 4000);
+  }
+  
+  .nButton-style:hover {
+    background-color: #e68a00;
+  }
 body{
    margin: 0;
   padding: 0;
@@ -52,7 +72,8 @@ body{
 <div class="search-bar centro padding">
   <%= form_tag(events_path, method: :get) do %>
     <%= text_field_tag(:search, params[:search], placeholder: "Dove vuoi andare?") %>
-    <%= submit_tag("Cerca") %>
+   <%= submit_tag("Cerca", class: "nButton-style", style: "display: block; margin: 0 auto;") %>
+
   <% end %>
 </div>
 </div>
@@ -84,7 +105,7 @@ body{
   <form action="<%= events_path %>" method="get" class="filter-form">
   <div class="centro" style="margin-top: 10px;">
     <label style="color:white" for="minPrice">Prezzo Minimo:</label>
-   <input style="margin-right:10px" type="number" name="minPrice" value="<%= params[:minPrice] %>" style="width: 6em;" />
+   <input type="number" name="minPrice" value="<%= params[:minPrice] %>" style="width: 6em;" />
 
     
     <label style="color:white" for="maxPrice">Prezzo Massimo:</label>
@@ -100,7 +121,7 @@ body{
   </div>
   <br>
   <div class="centro">
-    <button type="submit" style=" margin-bottom: 10px; ">Applica Filtri</button>
+    <button class="nButton-style" type="submit" style=" margin-bottom: 10px; ">Applica Filtri</button>
   </div>
   </form>
 </div>
