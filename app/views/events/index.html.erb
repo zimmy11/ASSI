@@ -3,7 +3,16 @@ body{
    margin: 0;
   padding: 0;
 }
+.centro{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.padding{
+  padding-right: 20px;
+  padding-left: 20px;
+}
 </style>
 
 <header>
@@ -40,8 +49,7 @@ body{
 </div>
 <div class="event-container">
  <div class="dropdown">
-
-<div class="search-bar">
+<div class="search-bar centro padding">
   <%= form_tag(events_path, method: :get) do %>
     <%= text_field_tag(:search, params[:search], placeholder: "Dove vuoi andare?") %>
     <%= submit_tag("Cerca") %>
@@ -49,7 +57,7 @@ body{
 </div>
 
 <%if params[:status]==nil%>
-<div class="dropdown">
+<div class="dropdown" >
   <button type="button" class="btn dropdown-toggle" href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
     Ordina per
   </button>
@@ -62,27 +70,34 @@ body{
 </ul>
 
 </div>
-<div class="dropdown">
-  <button type="button" class="btn dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="false">
+<div class="dropdown"> 
+  <button style="background-color:rgb(156, 131, 185); color: white; border: 1px solid black;"type="button" class="btn dropdown-toggle padding" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="false">
     Filtra
   </button>
-  <button type="button" class="btn btn secondary geolocation">Attiva Geolocalizzazione</button>
+  <button style="color:white" type="button" class="btn btn secondary geolocation">Attiva Geolocalizzazione</button>
 </div>
 <div id="filterCollapse" class="collapse">
   <form action="<%= events_path %>" method="get" class="filter-form">
-    <label for="minPrice">Prezzo Minimo:</label>
-    <input type="number" name="minPrice" value="<%= params[:minPrice] %>" />
+  <div class="centro" style="margin-top: 10px;">
+    <label style="color:white" for="minPrice">Prezzo Minimo:</label>
+   <input style="margin-right:10px" type="number" name="minPrice" value="<%= params[:minPrice] %>" style="width: 6em;" />
+
     
-    <label for="maxPrice">Prezzo Massimo:</label>
-    <input type="number" name="maxPrice" value="<%= params[:maxPrice] %>" />
+    <label style="color:white" for="maxPrice">Prezzo Massimo:</label>
+    <input type="number" name="maxPrice" value="<%= params[:maxPrice] %>"  style="width: 6em;"/>
+  </div>
+  <br>
+  <div class="centro">
+    <label style="color:white" for="minDate">Data Minima:</label>
+    <input style="margin-right:10px"type="date" name="minDate" value="<%= params[:minDate] %>" />
     
-    <label for="minDate">Data Minima:</label>
-    <input type="date" name="minDate" value="<%= params[:minDate] %>" />
-    
-    <label for="maxDate">Data Massima:</label>
+    <label style="color:white" for="maxDate">Data Massima:</label>
     <input type="date" name="maxDate" value="<%= params[:maxDate] %>" />
-    
-    <button type="submit">Applica Filtri</button>
+  </div>
+  <br>
+  <div class="centro">
+    <button type="submit" style=" margin-bottom: 10px; ">Applica Filtri</button>
+  </div>
   </form>
 </div>
 
