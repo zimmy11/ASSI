@@ -10,6 +10,42 @@
     }
     
   </style>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
+      var eventStatus = '<%= @event.status %>';
+
+      if (eventStatus === 'draft') {
+        var style = document.createElement('style');
+        style.innerHTML = `
+         .edit-submit-group {
+              gap: calc(450px + 20 * (100vw - 500px) / 4500);
+            }
+          @media (max-width: 768px) {
+            /* Regole CSS da applicare solo se lo stato dell'evento è "draft" */
+            .edit-submit-group {
+              gap: calc(300px + 20 * (100vw - 500px) / 4500);
+            }
+          }
+           @media (max-width: 576px) {
+              .edit-submit-group {
+              gap: calc(220px + 20 * (100vw - 500px) / 4500);
+            }
+            }
+           @media (max-width: 500px) {
+              .edit-submit-group {
+              gap: calc(120px + 20 * (100vw - 500px) / 4500);
+            }
+            } 
+
+        `;
+        document.head.appendChild(style);
+      }
+    });
+  </script>
+
+
+
+
 </head>
 <body>
  <!-- scrivi funzione js per estrarre quando premi pubblica i valori dal form -->
