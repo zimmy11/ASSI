@@ -1,8 +1,11 @@
 <head>
   <style>
    body{
-    height:100vh;
+    height:110vh;
 
+  }
+   .error-text{
+    color: #ff9900;
   }
   .show-myCard{
     background-color: rgb(0,0,0);
@@ -45,19 +48,29 @@
 <%= image_tag("logo.png",class: "img-responsive")%>
 </header> 
 <div class="form-container show-container">
-      <div class="show-myCard">
-
+      <div class="show-myCard" style="height:auto">
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "users/shared/error_messages", resource: resource %>
-  <div class="field">
-  <%= f.label :role %><br />
-  <%= f.radio_button :role, "user", { class: "form-check-input" } %>
-  <%= f.label :user, class: "form-check-label" %>
-  <%= f.radio_button :role, "organizer", { class: "form-check-input" } %>
-  <%= f.label :organizer, class: "form-check-label" %>
-   <%= f.radio_button :role, "admin", { class: "form-check-input" } %>
-  <%= f.label :admin, class: "form-check-label" %>
+
+  <%= render "users/shared/error_messages", resource: resource, class: "error-text" %>
+
+  <%= f.label :role %>
+<div class="field" style="display: flex; flex-direction: row; gap: 20px;">
+  <div class="form-check" style="display: flex; align-items: center;">
+    <%= f.radio_button :role, "user", class: "form-check-input", id: "user_role" %>
+    <%= f.label :user, class: "form-check-label", for: "user_role" %>
+  </div>
+  
+  <div class="form-check" style="display: flex; align-items: center;">
+    <%= f.radio_button :role, "organizer", class: "form-check-input", id: "organizer_role" %>
+    <%= f.label :organizer, class: "form-check-label", for: "organizer_role" %>
+  </div>
+  
+  <div class="form-check" style="display: flex; align-items: center;">
+    <%= f.radio_button :role, "admin", class: "form-check-input", id: "admin_role" %>
+    <%= f.label :admin, class: "form-check-label", for: "admin_role" %>
+  </div>
 </div>
+
   
 <div class="field">
   <%= f.label :username %><br />

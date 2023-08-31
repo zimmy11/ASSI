@@ -1,8 +1,13 @@
 
 <style>
+
  body{
     height:100vh;
 
+  }
+
+  .error-text{
+    color: #ff9900;
   }
   .show-myCard{
     display: flex;
@@ -50,6 +55,12 @@
 <div class="form-container show-container">
 <div class="show-myCard">
 <h1 style="color: white; font-family: Playfair Display">Log in</h1>
+
+<% if flash[:alert] %>
+  <div class="modal-header error-text ">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">
