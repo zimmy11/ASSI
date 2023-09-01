@@ -18,6 +18,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height:48px;
   background-color: #ff9900;
   color: white;
   border: none;
@@ -100,10 +101,10 @@ align-items: center;
 
 <div class="button-container">
   <% if params[:id].to_i == current_user.id %>
-    <p><%= link_to "Gestisci account", edit_user_registration_path, class: "custom-link" %></p>
-    <p><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "custom-link", id: "logout-button" %></p>
+    <%= link_to "Gestisci account", edit_user_registration_path, class: "custom-link" %>
+    <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "custom-link", id: "logout-button" %>
     <% if Event.where(organizer_id: params[:id], status: "draft").any? %>
-      <p><%= link_to "Bozze", events_path(status: "draft"), class: "custom-link" %></p>
+      <%= link_to "Bozze", events_path(status: "draft"), class: "custom-link" %>
     <% end %>
     <% if can?(:create_order, User) && !can?(:manage, :all) %>
       <p id="acquista-premium-link">

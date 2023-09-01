@@ -12,7 +12,7 @@ class Event < ApplicationRecord
     validate :organizer
     validate :Presales_init
     validate :AvgValue
-    #validate :date_cannot_be_in_the_past
+    validate :date_cannot_be_in_the_past
     validate :max_length
     validate :print_errors
 
