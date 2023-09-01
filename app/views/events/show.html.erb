@@ -92,7 +92,7 @@ a{
                 <%end%>
                 <%end%>
                 <% if @event.status=="published"%>
-                <p class="presales">Prevendite Rimaste: <%= @event.presales_left %></p>
+                <p class="presales">Prevendite Rimaste: <%= (@event.presales_left)-(Presale.where(event_id:@event.id).count) %></p>
                 <%end%>
              </div>
          </div>

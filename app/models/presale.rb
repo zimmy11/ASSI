@@ -13,7 +13,8 @@ class Presale < ApplicationRecord
             errors.add(:base, "Evento non trovato")
             return
         end
-        event.presales_left-=1
+        presales_left=event.presales_left-1
+        event.update(presales_left: presales_left)
         if event.presales_left<0
             errors.add("Non è possibile acquistare altre prevendite")
             puts errors.full_messages

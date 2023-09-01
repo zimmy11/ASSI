@@ -29,7 +29,6 @@ Given('inserisco nel form username {string}') do |username|
     find('input[type="submit"][value="Sign up"]').click
 
 end
-  
   Then('dovrei essere reindirizzato alla homepage') do
     
     expect(current_path).to satisfy { |path| path == '/' || path == '/events' }

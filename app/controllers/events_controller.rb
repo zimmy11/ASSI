@@ -45,7 +45,8 @@ class EventsController < ApplicationController
       #uso l'Api di google maps
       if current_user.latitude==nil || current_user.longitude==nil
         flash[:error]="Attiva geolocalizzazione"
-        redirect_to event_path
+        redirect_to events_path
+        return
       end
       current_latitude = current_user.latitude
       current_longitude = current_user.longitude

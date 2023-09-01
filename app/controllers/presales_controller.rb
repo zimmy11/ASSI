@@ -79,8 +79,8 @@ payload = {
         payment_method_selected: 'PAYPAL',
         landing_page: 'LOGIN',
         user_action: 'PAY_NOW',
-        return_url:  "https://rude-bushes-add.loca.lt/events/"+event_id+"/presales/capture_order",
-        cancel_url: "https://rude-bushes-add.loca.lt/events/"+event_id+"/presales/cancel_order"
+        return_url:  "https://loved-pangolin-hip.ngrok-free.app/events/"+event_id+"/presales/capture_order",
+        cancel_url: "https://loved-pangolin-hip.ngrok-free.app/events/"+event_id+"/presales/cancel_order"
 
       }
     }
@@ -142,21 +142,29 @@ status = data["status"]
 
 if status == "COMPLETED"
   @presale=Presale.new(user_id: current_user.id, event_id: params[:event_id])
-  if @presale.save
-  flash[:success]="Il pagamento è stato completato con successo!"
   session[:approve_url]=nil
-  redirect_to events_path
-  
+  if @event.presales_left == 0
+    flash[:error] = "Non esistono più prevendite per questo evento"
+    redirect_to event_path(id: params[:event_id])
   else
-  flash[:error]="Errore nel pagamento"
-  session[:approve_url]=nil
-  redirect_to event_path(id: params[:event_id])
-  end
+    if @presale.save
+      presale_left=@event.presales_left - 1
+      @event.update(presales_left: presale_left)
+      flash[:success]="Il pagamento è stato completato con successo!"
+      redirect_to events_path      
+    else
+    flash[:error]="Errore nel pagamento"
+    session[:approve_url]=nil
+    redirect_to event_path(id: params[:event_id])
+    end
+  end  
 else
   flash[:error]="Errore nel pagamento"
   session[:approve_url]=nil
-  redirect_to events_path
+  redirect_to event_path(id: params[:event_id])
 end
+  session[:approve_url]=nil
+
 end
 def cancel_order
   flash[:error]="Hai rifiutato il pagamento"

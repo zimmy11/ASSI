@@ -10,7 +10,6 @@ Feature: Aggiungere un evento
    Then dovrei essere reindirizzato alla pagina di Profilo
    When clicco sul pulsante +
    Then dovrei essere reindirizzato alla pagina di creazione dell'evento
-
   Scenario: pubblica un evento
     When ho riempito il form nuovo evento con titolo "My Event" 
     And  inserisco la data "2024-08-31" 

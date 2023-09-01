@@ -19,7 +19,7 @@ module EventMaster
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
     Rails.application.config.hosts << "www.sandbox.paypal.com"
-    Rails.application.config.hosts << "rude-bushes-add.loca.lt"
+    Rails.application.config.hosts << "loved-pangolin-hip.ngrok-free.app"
     Rails.application.config.hosts << "example.com"
   
     config.before_configuration do

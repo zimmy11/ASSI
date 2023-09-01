@@ -113,8 +113,8 @@ payload = {
         payment_method_selected: 'PAYPAL',
         landing_page: 'LOGIN',
         user_action: 'PAY_NOW',
-        return_url:  "https://tasty-queens-help.loca.lt/users/"+(current_user.id).to_s+"/capture_order",
-        cancel_url: "https://tasty-queens-help.loca.lt/users/"+(current_user.id).to_s+"/cancel_order"
+        return_url:  "https://loved-pangolin-hip.ngrok-free.app/users/"+(current_user.id).to_s+"/capture_order",
+        cancel_url: "https://loved-pangolin-hip.ngrok-free.app/users/"+(current_user.id).to_s+"/cancel_order"
 
       }
     }
@@ -179,7 +179,8 @@ else
   session[:approve_premium_url] = nil
   redirect_to user_path(id: current_user.id)
 end
-    
+session[:approve_premium_url] = nil
+   
 end
 
 def cancel_order
