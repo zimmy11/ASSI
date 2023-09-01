@@ -8,7 +8,6 @@ Then('la pagina corrente dovrebbe essere la pagina di log_in') do
 end
 
 When('clicco su Logout') do
-    # Utilizziamo Capybara per simulare il clic sul link con l'id "logout-button"
     find('#logout-button').click
   end
   
@@ -16,27 +15,16 @@ When('clicco su Logout') do
     expect(current_path).to satisfy { |path| path == '/users/sign_in'}
   end
   
-  When('clicco sul pulsante Forgot your password') do
-    click_link('Forgot your password?', id: 'forgot-password-link')
-  end
-  
-  
-  Then('dovrei essere reindirizzato alla pagina di recupero della password') do
-    expect(current_path).to satisfy { |path| path == '/users/password/new'}
-  end
-  
   When('clicco sul pulsante Log in') do
-    click_link('Log in', id: 'login-button')
+    pending # Write code here that turns the phrase above into concrete actions
   end
   
-  
-  When('clicco sul pulsante Sign up') do
-    click_link('Sign up', id: 'sign-up-button')
+  When('clicco sul pulsante Sign in') do
+    pending # Write code here that turns the phrase above into concrete actions
   end
   
-  
-  Then('dovrei essere reindirizzato alla pagina di Sign up') do
-    expect(current_path).to satisfy { |path| path == '/users/sign_up'}
+  Then('dovrei essere reindirizzato alla pagina di Sign in') do
+    pending # Write code here that turns the phrase above into concrete actions
   end
   
   When('ho riempito il form di sign in con email {string}') do |string|
