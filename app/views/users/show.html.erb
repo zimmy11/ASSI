@@ -106,7 +106,10 @@ align-items: center;
       <p><%= link_to "Bozze", events_path(status: "draft"), class: "custom-link" %></p>
     <% end %>
     <% if can?(:create_order, User) && !can?(:manage, :all) %>
-      <p><%= link_to "Acquista versione premium", premium_path(user_id: current_user.id), class: "custom-link" %></p>
+      <p id="acquista-premium-link">
+  <%= link_to "Acquista versione premium", premium_path(user_id: current_user.id), class: "custom-link" %>
+</p>
+
     <% end %>
   <% end %>
   <% if Presale.where(user_id: params[:id]).any? %>
@@ -147,7 +150,7 @@ align-items: center;
   <% if can?(:create, Event)%>
   <li>
   <%= link_to new_event_path do %>
-    <i class="fas fa-plus fa-2x"></i>
+    <i class="fas fa-plus fa-2x" id="crea-evento-button"></i>
 <% end %></li>
 <%end%>
 <!-- Icona "Salva" -->
