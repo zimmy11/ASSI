@@ -1,5 +1,10 @@
 <head>
 <style>
+.centro{
+      display: flex;
+    justify-content: center;
+    align-items: center;
+    }
  body{
     height:100vh;
     background-image: url('<%= asset_path('event.jpg') %>');
@@ -106,7 +111,9 @@
       <%= f.submit "Sign up", class: "nButton-style" %>
     <br> 
     <br>
+    <div class="centro">
  <%= render "users/shared/links" %>
+    </div>
   </div>
 <% end %>
 
