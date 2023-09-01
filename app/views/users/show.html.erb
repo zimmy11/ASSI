@@ -7,7 +7,14 @@
 <%else%>
 <head>
   <style>
+.button-container {
+  display: flex;
+  justify-content: center; /* Per centrare orizzontalmente */
+  align-items: center; /* Per centrare verticalmente */
+}
+
   .custom-link {
+  margin-right: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,12 +29,13 @@
   transition: background-color 0.3s, color 0.3s;
   transition: background-color 0.3s ease-in-out;
   width: calc(100px + 30 * (100vw - 500px) / 4000);
-  text-decoration: none; /* Rimuovi la sottolineatura predefinita */
+  text-decoration: none;
+  text-align: center;
 }
 
 .custom-link:hover {
   background-color: #e68a00;
-  text-decoration: none; /* Rimuovi la sottolineatura anche durante il passaggio del mouse */
+  text-decoration: none; / Rimuovi la sottolineatura anche durante il passaggio del mouse */
 }
           .nButton-style {
     display: flex;
@@ -90,44 +98,37 @@ align-items: center;
 <span class="custom-text" id="email"><%= @user.email %></span>
 <br>
 
-<% if  params[:id].to_i== current_user.id%>
-<p><%= link_to "Gestisci account", edit_user_registration_path %> </p>
-<p> <%= link_to 'Logout', destroy_user_session_path, method: :delete %> </p>
-<br>
-<%end%>
+<div class="button-container">
+  <% if params[:id].to_i == current_user.id %>
+    <p><%= link_to "Gestisci account", edit_user_registration_path, class: "custom-link" %></p>
+    <p><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "custom-link", id: "logout-button" %></p>
+    <% if Event.where(organizer_id: params[:id], status: "draft").any? %>
+      <p><%= link_to "Bozze", events_path(status: "draft"), class: "custom-link" %></p>
+    <% end %>
+    <% if can?(:create_order, User) && !can?(:manage, :all) %>
+      <p><%= link_to "Acquista versione premium", premium_path(user_id: current_user.id), class: "custom-link" %></p>
+    <% end %>
+  <% end %>
+  <% if Presale.where(user_id: params[:id]).any? %>
+    <%= link_to "Eventi Acquistati", events_path(user_id: params[:id], commit: "presale"), class: "custom-link" %>
+  <% end %>
+  <% if can?(:ban, User) %>
+    <% if params[:id].to_i != current_user.id %>
+      <% if User.find(params[:id]).role == "organizer" %>
+        <%= link_to "Revoca privilegi", edit_user_path(commit: "Revoca", id: params[:id].to_i), class: "custom-link" %>
+      <% end %>
+      <% if Ban.where(user_id: params[:id]).exists? %>
+        <%= link_to "Sbanna Utente", user_ban_path(user_id: params[:id], id: Ban.find_by(user_id: params[:id]).id), method: :delete, class: "custom-link" %>
+      <% else %>
+        <%= link_to "Banna Utente", new_user_ban_path(user_id: params[:id]), method: :get, class: "custom-link" %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% if Event.where(status: "published", organizer_id: params[:id]).any? %>
+    <%= link_to "Eventi Organizzati", events_path(commit: "organized", organizer_id: params[:id]), class: "custom-link" %>
+  <% end %>
+</div>
 
-<% if Presale.where(user_id: params[:id]).any?%>
-  <%= link_to "Eventi Acquistati", events_path(user_id: params[:id], commit: "presale"),  class: "custom-link"  %>
-
-<%end%>
-  <% if can?(:create, Event)%>
-<% if params[:id].to_i == current_user.id%>
-<% if Event.where(organizer_id: params[:id], status: "draft").any?%>
-<p><%= link_to "Bozze", events_path(status: "draft")%></p>
-<%end%>
-<%end%>
-<%end%>
-<%if params[:id].to_i == current_user.id%>
-<% if can?(:create_order,User) && !can?(:manage,:all)%>  <!-- possono vedere il bottone per acquistare la versione premium solo gli utenti semplici che possiedono il profilo -->
-<%= link_to "Acquista versione premium", premium_path(user_id: current_user.id)%>
-<%end%>
-<%end%>
-<% if can?(:ban,User) %>
- <% if  params[:id].to_i!= current_user.id%>
- <% if User.find(params[:id]).role == "organizer"%>
-   <%= link_to "Revoca privilegi",edit_user_path(commit: "Revoca",id: params[:id].to_i)%>
-   <%end%>
-    <% if Ban.where(user_id: params[:id]).exists?%>
-    <%= link_to "Sbanna Utente",user_ban_path(user_id: params[:id],id: Ban.find_by(user_id: params[:id]).id),method: :delete %>
-    <%else%>
-    <%= link_to "Banna Utente",new_user_ban_path(user_id: params[:id]),method: :get %>
-    <%end%>
-  <%end%>
-<%end%>
-<br>
-<% if Event.where(status: "published",organizer_id: params[:id]).any?%>
-<%= link_to "Eventi Organizzati", events_path(commit: "organized",organizer_id: params[:id])%>
-<%end%>
 
 
  </div>
