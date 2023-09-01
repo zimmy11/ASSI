@@ -23,10 +23,12 @@ Feature: Fare Log in
     Then la pagina corrente dovrebbe essere la pagina di log_in
 
   Scenario: Tentativo Log in con dati invalidi
-    When riempio il form di log in con email ""
-    And inserisco nel form la password ""
+    When riempio il form di log in con email "zimmatore.1947442@studenti.uniroma1.it"
+    And inserisco nel form la password "000000"
     And clicco su log in
     Then la pagina corrente dovrebbe essere la pagina di log_in
+    Then dovrei vedere il messaggio "invalid username or password"
+
 
   Scenario: Reindirizzamento alla pagina del profilo dopo Log in valido
     When inserisco nel form l'email "zimmatore.1947442@studenti.uniroma1.it"

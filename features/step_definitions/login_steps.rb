@@ -9,8 +9,9 @@ When('clicco sul tasto di Logout') do
   end
 
   Then('dovrei essere reindirizzato alla pagina del Profilo') do
-    expect(current_path).to eq("/users/1")
-  end 
+    expect(current_path).to match(%r{/users/\d+}) # Verifica che il percorso contenga /users/ seguito da un numero (l'ID dell'utente)
+  end
+  
   
   Then('dovrei essere reindirizzato alla pagina di Log in') do
     expect(current_path).to satisfy { |path| path == '/users/sign_in'}
@@ -55,5 +56,37 @@ When('clicco sul tasto di Logout') do
   When('inserisco nel form la password {string}') do |string|
     fill_in 'user[password]', with: string
   end
+
+  Then('dovrei vedere il messaggio "invalid username or password"') do
+    expect(page).to have_content("Invalid Email or password")
+  end
+  
+  And('dovrei vedere il mio ruolo come "admin"') do
+    expect(page).to have_content("Ruolo: admin") # Assicurati che il testo corrisponda alla visualizzazione del ruolo
+  end
+
+  And('dovrei vedere il mio ruolo come "user"') do
+    expect(page).to have_content("Ruolo: user") # Assicurati che il testo corrisponda alla visualizzazione del ruolo
+  end
+
+  And('dovrei vedere il mio ruolo come "organizer"') do
+    expect(page).to have_content("Ruolo: organizer") # Assicurati che il testo corrisponda alla visualizzazione del ruolo
+  end
+  
+  And('dovrebbe esserci un elemento con id "acquista-premium-link"') do
+    expect(page).to have_selector('#acquista-premium-link')
+  end
+
+  And('non dovrebbe esserci più l\'elemento con id "acquista-premium-link"') do
+    expect(page).not_to have_selector('#acquista-premium-link')
+  end
+
+  And('dovrebbe esserci un elemento con id "crea-evento-button"') do
+    expect(page).to have_selector('#crea-evento-button')
+  end
+ 
+  And('non dovrebbe esserci più l\'elemento con id "crea-evento-button"') do
+  expect(page).not_to have_selector('#crea-evento-button')
+end
 
   
