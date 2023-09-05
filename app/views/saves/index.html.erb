@@ -1,4 +1,16 @@
-
+<style>
+.myCard{
+    margin-bottom: calc(30px + 20 * (10vw - 500px) / 4500);
+}
+.save-events{
+    min-height: calc(800px + 20 * (100vw - 500px) / 3500);
+    padding-top:calc(20px + 20 * ((100vw - 500px) / (500*9)));
+    display: flex;
+    flex-direction: column; 
+    margin-top: calc(20px + 20 * ((100vw - 500px) / (500*9)));
+    align-items: center;
+    padding-bottom: calc(50px + 20 * (100vw - 500px) / 4500);}
+</style>
 <header class="show-header">
 		
 <%= image_tag("logo.png",class: "img-responsive")%>
@@ -29,7 +41,7 @@
       
       
 <% else %>
-<div class="events save-events"> 
+<div class="save-events"> 
    <% @saves.each do |save| %>
     <%= link_to event_path(id: save.event_id), class: "event-link" do %>
    <div class="myCard" >
