@@ -1,2 +1,2 @@
-# ASSI
-NN 1st
+# Progetto ASSI
+EventMaster
