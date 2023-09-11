@@ -1,2 +1,2 @@
-# ASSI
-prova
+# Progetto ASSI
+EventMaster
